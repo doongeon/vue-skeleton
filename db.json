@@ -1,0 +1,110 @@
+{
+  "accounts": [
+    {
+      "id": "1",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "1",
+      "amount": 12000,
+      "memo": "점심 돈까스",
+      "date": "2025-04-06T12:30:00",
+      "createdAt": "2025-04-06T00:00:00",
+      "updatedAt": "2025-04-06T00:00:00"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "typeId": "undefined",
+      "categoryId": "2",
+      "createdAt": "2025-04-07T08:00:34.633Z",
+      "updatedAt": "2025-04-07T08:00:38.399Z"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "1",
+      "amount": 1000,
+      "memo": "test",
+      "date": "2025-04-07T08:00:35.455Z",
+      "createdAt": "2025-04-07T08:00:35.455Z",
+      "updatedAt": "2025-04-07T08:00:35.455Z"
+    }
+  ],
+  "accountType": [
+    {
+      "id": "1",
+      "name": "expense"
+    },
+    {
+      "id": "2",
+      "name": "income"
+    }
+  ],
+  "accountCategory": [
+    {
+      "id": "1",
+      "name": "식비",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "2",
+      "name": "교통",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "3",
+      "name": "문화/여가",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "4",
+      "name": "술/유흥",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "5",
+      "name": "쇼핑",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "6",
+      "name": "여행/숙박",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "7",
+      "name": "월급",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "8",
+      "name": "용돈",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "9",
+      "name": "보너스",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "10",
+      "name": "매매",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "11",
+      "name": "이자",
+      "accountTypeId": "2"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "userName": "kim",
+      "email": "abc@abc.com",
+      "balance": 10000,
+      "updatedAt": "2025-04-06T13:00:00"
+    }
+  ]
+}
