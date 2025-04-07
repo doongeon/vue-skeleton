@@ -1,25 +1,34 @@
 <script setup></script>
 
 <template>
-  <div>profile</div>
+  <div>Profile</div>
 
   <div class="layout">
-    <div class="account">
-      <p>계정관리</p>
+    <div class="container">
+      <p class="title">계정 관리</p>
       <div class="article">
-        <p>비밀번호 변경</p>
-        <p>계정 탈퇴</p>
-        <p>로그아웃</p>
+        <button>비밀번호 변경</button><br />
+        <button>계정 탈퇴</button><br />
+        <button>로그아웃</button>
       </div>
     </div>
-    <div>
-      <!-- 태그관리 -->
+    <div class="container">
+      <p class="title">태그 관리</p>
+      <div class="article">
+        <p>태그 리스트</p>
+      </div>
     </div>
-    <div>
-      <!-- 고정지출관리 -->
+    <div class="container">
+      <p class="title">고정지출 관리</p>
+      <div class="article">
+        <p>매달 자동입력되는 지출 기록</p>
+      </div>
     </div>
-    <div>
-      <!-- 데이터 내보내기 -->
+    <div class="container">
+      <p class="title">데이터 내보내기</p>
+      <div class="article">
+        <button>데이터 내보내기</button>
+      </div>
     </div>
   </div>
 </template>
@@ -27,15 +36,29 @@
 <style scoped>
 .layout {
   display: grid;
-}
-
-.layout .account {
-  border: 1px solid yellow;
-  padding: 2rem;
-}
-
-.layout .account .article {
-  border: 1px solid orange;
+  grid-template-columns: 1fr 1fr;
   padding: 1rem;
+}
+
+.layout .container {
+  border: 1px solid;
+  background-color: rgb(255, 188, 0);
+  padding: 2rem;
+  margin: 1rem;
+}
+
+.layout .container .title {
+  padding: 0rem;
+}
+
+.layout .container .article {
+  border: 1px solid;
+  background-color: rgb(96, 88, 76);
+  padding: 1rem;
+}
+
+.layout .container .article button {
+  border: 1px solid;
+  margin: 1rem;
 }
 </style>
