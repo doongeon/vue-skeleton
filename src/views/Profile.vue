@@ -57,6 +57,7 @@
   gap: 4rem;
   background-color: rgb(255, 188, 0);
   border-radius: 0.5rem;
+  margin: 1rem;
 }
 
 .layout .container {
