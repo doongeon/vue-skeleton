@@ -48,6 +48,14 @@ const toggleForm = () => {
   z-index: 200;
 }
 
+.wrapper .icon:hover {
+  background-color: rgb(210, 160, 20);
+}
+
+.wrapper .icon:active {
+  transform: translateY(0.1rem);
+}
+
 .wrapper .format {
   border: none;
   padding: 1rem;
@@ -78,5 +86,13 @@ const toggleForm = () => {
   padding: 0.5rem;
   height: 5rem;
   resize: none; /* 메모영역 영역크기 변경막기 */
+}
+
+.wrapper .format button:hover {
+  background-color: rgb(200, 200, 200);
+}
+
+.wrapper .format button:active {
+  transform: translateY(0.1rem);
 }
 </style>
