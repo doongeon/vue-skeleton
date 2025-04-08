@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="history-wrapper">
+  <div class="container history-wrapper">
     <!-- 테이블 헤더 -->
     <div class="row header">
       <span>날짜</span>

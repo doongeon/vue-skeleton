@@ -5,7 +5,6 @@ import QuickAdd from './views/QuickAdd.vue'
 
 <template>
   <div>
-    <Header />
     <Router-View />
     <QuickAdd />
   </div>

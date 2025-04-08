@@ -3,7 +3,5 @@
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div>home view</div>
 </template>
