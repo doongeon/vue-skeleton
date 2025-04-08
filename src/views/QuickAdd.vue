@@ -77,5 +77,6 @@ const toggleForm = () => {
 .wrapper .format .memo {
   padding: 0.5rem;
   height: 5rem;
+  resize: none; /* 메모영역 영역크기 변경막기 */
 }
 </style>
