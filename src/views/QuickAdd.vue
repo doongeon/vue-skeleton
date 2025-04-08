@@ -16,7 +16,12 @@ const toggleForm = () => {
   <div class="wrapper">
     <button class="icon" @click="toggleForm">빠른 추가</button>
     <div v-if="isFormVisible" class="format">
-      <input type="text" placeholder="내용입력" />
+      <div>새로운 거래 추가</div>
+      <div>날짜: <input type="text" placeholder="내용입력" /></div>
+      <div>구별: <input type="text" placeholder="내용입력" /></div>
+      <div>카테고리: <input type="text" placeholder="내용입력" /></div>
+      <div>금액: <input type="text" placeholder="내용입력" /></div>
+      <button>거래내역 추가</button>
     </div>
   </div>
 </template>
@@ -44,6 +49,7 @@ const toggleForm = () => {
   border: none;
   padding: 1rem;
   background-color: rgba(50, 50, 50, 0.75);
+  color: white;
   border-radius: 0.5rem;
   position: absolute;
   bottom: 0;
@@ -51,5 +57,12 @@ const toggleForm = () => {
   width: fit-content;
   z-index: 100;
   padding-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wrapper .format input {
+  padding: 0.5rem;
 }
 </style>
