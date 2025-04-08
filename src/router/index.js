@@ -5,6 +5,8 @@ import TransactionHistory from '@/components/TransactionHistory.vue'
 import AddTransaction from '@/views/AddTransaction.vue'
 import TransactionHistory from '@/components/TransactionHistory.vue'
 import EditTransaction from '@/views/EditTransaction.vue'
+import TransactionHistory from '@/views/TransactionHistory.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +16,6 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
-
     {
       path: '/header',
       name: 'header',
