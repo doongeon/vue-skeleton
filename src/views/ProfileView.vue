@@ -17,7 +17,7 @@ onMounted(async () => {
       <p>이메일 {{ users.email }}</p>
     </div>
     <div class="container">
-      <p class="title">계정 관리</p>
+      <p class="containerTitle">계정 관리</p>
       <div class="article">
         <button>비밀번호 변경</button>
         <button>계정 탈퇴</button>
@@ -25,19 +25,19 @@ onMounted(async () => {
       </div>
     </div>
     <div class="container">
-      <p class="title">태그 관리</p>
+      <p class="containerTitle">태그 관리</p>
       <div class="article">
         <p>태그 리스트</p>
       </div>
     </div>
     <div class="container">
-      <p class="title">고정지출 관리</p>
+      <p class="containerTitle">고정지출 관리</p>
       <div class="article">
         <p>매달 자동입력되는 지출 기록</p>
       </div>
     </div>
     <div class="container">
-      <p class="title">데이터 내보내기</p>
+      <p class="containerTitle">데이터 내보내기</p>
       <div class="article">
         <button>데이터 내보내기</button>
       </div>
@@ -78,7 +78,7 @@ onMounted(async () => {
   border-radius: 0.5rem;
 }
 
-.layout .container .title {
+.layout .container .containerTitle {
   padding: 0rem;
   font-size: 1.5rem;
   margin-top: 0;
