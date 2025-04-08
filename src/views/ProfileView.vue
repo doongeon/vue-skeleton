@@ -81,6 +81,8 @@ onMounted(async () => {
 .layout .container .title {
   padding: 0rem;
   font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
 .layout .container .article {
@@ -104,7 +106,7 @@ onMounted(async () => {
   box-sizing: border-box; /* ✅ padding 포함 너비 계산 */
   background-color: white;
   color: black;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
 }
 </style>
