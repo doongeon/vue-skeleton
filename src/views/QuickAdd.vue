@@ -17,10 +17,13 @@ const toggleForm = () => {
     <button class="icon" @click="toggleForm">빠른 추가</button>
     <div v-if="isFormVisible" class="format">
       <div>새로운 거래 추가</div>
-      <div>날짜: <input type="text" placeholder="내용입력" /></div>
-      <div>구별: <input type="text" placeholder="내용입력" /></div>
-      <div>카테고리: <input type="text" placeholder="내용입력" /></div>
-      <div>금액: <input type="text" placeholder="내용입력" /></div>
+      <div class="form-row">날짜<input type="text" placeholder="내용입력" /></div>
+      <div class="form-row">구별<input type="text" placeholder="내용입력" /></div>
+      <div class="form-row">카테고리<input type="text" placeholder="내용입력" /></div>
+      <div class="form-row">금액<input type="text" placeholder="내용입력" /></div>
+      <div class="form-row">
+        메모<textarea placeholder="내용입력" class="memo" name="" id=""></textarea>
+      </div>
       <button>거래내역 추가</button>
     </div>
   </div>
@@ -62,7 +65,17 @@ const toggleForm = () => {
   gap: 1rem;
 }
 
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
 .wrapper .format input {
   padding: 0.5rem;
+}
+
+.wrapper .format .memo {
+  padding: 0.5rem;
+  height: 5rem;
 }
 </style>
