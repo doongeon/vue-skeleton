@@ -1,5 +1,5 @@
 <script setup>
-import TransactionHistory from '@/components/TransactionHistory.vue'
+import TransactionHistory from '@/views/TransactionHistory.vue'
 </script>
 
 <template>
