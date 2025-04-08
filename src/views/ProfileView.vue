@@ -13,8 +13,8 @@ onMounted(async () => {
 <template>
   <div class="layout">
     <div class="profile" v-if="users">
-      <p>이름 : {{ users.userName }}</p>
-      <p>이메일 : {{ users.email }}</p>
+      <p>이름 {{ users.userName }}</p>
+      <p>이메일 {{ users.email }}</p>
     </div>
     <div class="container">
       <p class="title">계정 관리</p>
@@ -62,7 +62,7 @@ onMounted(async () => {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  gap: 4rem;
+  gap: 3rem;
   background-color: rgb(255, 188, 0);
   border-radius: 0.5rem;
   margin: 1rem;
@@ -108,5 +108,13 @@ onMounted(async () => {
   color: black;
   border-radius: 0.5rem;
   font-size: 1rem;
+}
+
+.layout .container .article button:hover {
+  background-color: rgb(200, 200, 200);
+}
+
+.layout .container .article button:active {
+  transform: translateY(0.1rem);
 }
 </style>
