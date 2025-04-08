@@ -1,16 +1,10 @@
 <script setup>
-import Sidebar from './views/Sidebar.vue'
+import Header from './views/Header.vue'
 </script>
 
 <template>
-  <div class="layout">
-    <Sidebar />
+  <div>
+    <Header />
     <Router-View />
   </div>
 </template>
-
-<style>
-.layout {
-  display: flex;
-}
-</style>
