@@ -1,12 +1,12 @@
 <script setup>
 import Header from './views/Header.vue'
-import ProfileView from './views/ProfileView.vue'
+import QuickAdd from './views/QuickAdd.vue'
 </script>
 
 <template>
   <div>
     <Header />
     <Router-View />
-    <ProfileView />
+    <QuickAdd />
   </div>
 </template>
