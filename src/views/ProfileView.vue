@@ -1,12 +1,20 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+
+const users = ref([])
+
+onMounted(async () => {
+  const response = await axios.get('http://localhost:3000/users/1')
+  users.value = response.data
+})
+</script>
 
 <template>
-  <div>Profile</div>
-
   <div class="layout">
-    <div class="profile">
-      <p>이름 : 김이박</p>
-      <p>이메일 : abc@abc.com</p>
+    <div class="profile" v-if="users">
+      <p>이름 : {{ users.userName }}</p>
+      <p>이메일 : {{ users.email }}</p>
     </div>
     <div class="container">
       <p class="title">계정 관리</p>
