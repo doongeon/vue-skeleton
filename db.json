@@ -1,0 +1,399 @@
+{
+  "transactions": [
+    {
+      "id": "1",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "7",
+      "amount": 1000,
+      "memo": "test 돈까쓰",
+      "date": "2025-04-06T12:30:00",
+      "createdAt": "2025-04-06T00:00:00",
+      "updatedAt": "2025-04-08T00:03:13.840Z"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "2",
+      "amount": 1000,
+      "memo": "버스비",
+      "date": "2025-04-07T09:00:00",
+      "createdAt": "2025-04-07T09:00:00",
+      "updatedAt": "2025-04-07T09:03:00"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "1",
+      "amount": 9500,
+      "memo": "저녁 김치찌개",
+      "date": "2025-04-07T19:00:00",
+      "createdAt": "2025-04-07T19:00:00",
+      "updatedAt": "2025-04-07T19:00:00"
+    },
+    {
+      "id": "4",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "7",
+      "amount": 2000000,
+      "memo": "월급",
+      "date": "2025-04-01T09:00:00",
+      "createdAt": "2025-04-01T09:00:00",
+      "updatedAt": "2025-04-01T09:00:00"
+    },
+    {
+      "id": "5",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "5",
+      "amount": 34000,
+      "memo": "셔츠 구매",
+      "date": "2025-04-05T15:20:00",
+      "createdAt": "2025-04-05T15:20:00",
+      "updatedAt": "2025-04-05T15:20:00"
+    },
+    {
+      "id": "6",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "8",
+      "amount": 50000,
+      "memo": "용돈",
+      "date": "2025-04-02T10:00:00",
+      "createdAt": "2025-04-02T10:00:00",
+      "updatedAt": "2025-04-02T10:00:00"
+    },
+    {
+      "id": "7",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "4",
+      "amount": 45000,
+      "memo": "회식",
+      "date": "2025-04-03T21:00:00",
+      "createdAt": "2025-04-03T21:00:00",
+      "updatedAt": "2025-04-03T21:00:00"
+    },
+    {
+      "id": "8",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "3",
+      "amount": 15000,
+      "memo": "넷플릭스",
+      "date": "2025-04-04T22:00:00",
+      "createdAt": "2025-04-04T22:00:00",
+      "updatedAt": "2025-04-04T22:00:00"
+    },
+    {
+      "id": "9",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "2",
+      "amount": 3000,
+      "memo": "지하철",
+      "date": "2025-04-04T08:30:00",
+      "createdAt": "2025-04-04T08:30:00",
+      "updatedAt": "2025-04-04T08:30:00"
+    },
+    {
+      "id": "10",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "6",
+      "amount": 120000,
+      "memo": "호텔 숙박",
+      "date": "2025-04-05T17:00:00",
+      "createdAt": "2025-04-05T17:00:00",
+      "updatedAt": "2025-04-05T17:00:00"
+    },
+    {
+      "id": "11",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "9",
+      "amount": 300000,
+      "memo": "성과급",
+      "date": "2025-04-03T13:00:00",
+      "createdAt": "2025-04-03T13:00:00",
+      "updatedAt": "2025-04-03T13:00:00"
+    },
+    {
+      "id": "12",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "1",
+      "amount": 8000,
+      "memo": "아침 샌드위치",
+      "date": "2025-04-06T08:00:00",
+      "createdAt": "2025-04-06T08:00:00",
+      "updatedAt": "2025-04-06T08:00:00"
+    },
+    {
+      "id": "13",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "2",
+      "amount": 2000,
+      "memo": "택시",
+      "date": "2025-04-07T01:00:00",
+      "createdAt": "2025-04-07T01:00:00",
+      "updatedAt": "2025-04-07T01:00:00"
+    },
+    {
+      "id": "14",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "10",
+      "amount": 150000,
+      "memo": "중고거래",
+      "date": "2025-04-02T11:00:00",
+      "createdAt": "2025-04-02T11:00:00",
+      "updatedAt": "2025-04-02T11:00:00"
+    },
+    {
+      "id": "15",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "11",
+      "amount": 7000,
+      "memo": "이자 수익",
+      "date": "2025-04-05T09:00:00",
+      "createdAt": "2025-04-05T09:00:00",
+      "updatedAt": "2025-04-05T09:00:00"
+    },
+    {
+      "id": "16",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "5",
+      "amount": 62000,
+      "memo": "운동화 구매",
+      "date": "2025-04-03T16:00:00",
+      "createdAt": "2025-04-03T16:00:00",
+      "updatedAt": "2025-04-03T16:00:00"
+    },
+    {
+      "id": "17",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "3",
+      "amount": 9000,
+      "memo": "영화관람",
+      "date": "2025-04-06T20:00:00",
+      "createdAt": "2025-04-06T20:00:00",
+      "updatedAt": "2025-04-06T20:00:00"
+    },
+    {
+      "id": "18",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "8",
+      "amount": 100000,
+      "memo": "부모님 용돈",
+      "date": "2025-04-01T14:00:00",
+      "createdAt": "2025-04-01T14:00:00",
+      "updatedAt": "2025-04-01T14:00:00"
+    },
+    {
+      "id": "20",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "1",
+      "amount": 11000,
+      "memo": "점심 라멘",
+      "date": "2025-04-07T12:00:00",
+      "createdAt": "2025-04-07T12:00:00",
+      "updatedAt": "2025-04-07T12:00:00"
+    },
+    {
+      "id": "21",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "5",
+      "amount": 34000,
+      "memo": "유니클로 바지 구매",
+      "date": "2025-04-05T15:20:00",
+      "createdAt": "2025-04-05T15:20:00",
+      "updatedAt": "2025-04-05T15:20:00"
+    },
+    {
+      "id": "22",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "3",
+      "amount": 12000,
+      "memo": "넷플릭스 구독",
+      "date": "2025-04-01T08:00:00",
+      "createdAt": "2025-04-01T08:00:00",
+      "updatedAt": "2025-04-01T08:00:00"
+    },
+    {
+      "id": "23",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "7",
+      "amount": 2500000,
+      "memo": "3월 월급",
+      "date": "2025-03-31T09:00:00",
+      "createdAt": "2025-03-31T09:00:00",
+      "updatedAt": "2025-03-31T09:00:00"
+    },
+    {
+      "id": "24",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "1",
+      "amount": 11000,
+      "memo": "치킨 도시락",
+      "date": "2025-04-04T12:40:00",
+      "createdAt": "2025-04-04T12:40:00",
+      "updatedAt": "2025-04-04T12:40:00"
+    },
+    {
+      "id": "25",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "11",
+      "amount": 1500,
+      "memo": "은행 이자 수입",
+      "date": "2025-04-03T00:00:00",
+      "createdAt": "2025-04-03T00:00:00",
+      "updatedAt": "2025-04-03T00:00:00"
+    },
+    {
+      "id": "26",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "6",
+      "amount": 100000,
+      "memo": "1박 숙박 예약",
+      "date": "2025-03-28T13:00:00",
+      "createdAt": "2025-03-28T13:00:00",
+      "updatedAt": "2025-03-28T13:00:00"
+    },
+    {
+      "id": "27",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "2",
+      "amount": 1250,
+      "memo": "지하철 요금",
+      "date": "2025-04-06T08:00:00",
+      "createdAt": "2025-04-06T08:00:00",
+      "updatedAt": "2025-04-06T08:00:00"
+    },
+    {
+      "id": "28",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "8",
+      "amount": 50000,
+      "memo": "부모님 용돈",
+      "date": "2025-04-01T10:00:00",
+      "createdAt": "2025-04-01T10:00:00",
+      "updatedAt": "2025-04-01T10:00:00"
+    },
+    {
+      "id": "29",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "4",
+      "amount": 30000,
+      "memo": "친구들과 술자리",
+      "date": "2025-04-02T22:00:00",
+      "createdAt": "2025-04-02T22:00:00",
+      "updatedAt": "2025-04-02T22:00:00"
+    },
+    {
+      "id": "30",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "1",
+      "amount": 9500,
+      "memo": "편의점 간식",
+      "date": "2025-04-06T17:45:00",
+      "createdAt": "2025-04-06T17:45:00",
+      "updatedAt": "2025-04-06T17:45:00"
+    }
+  ],
+  "transactionType": [
+    {
+      "id": "1",
+      "name": "expense"
+    },
+    {
+      "id": "2",
+      "name": "income"
+    }
+  ],
+  "transactionCategory": [
+    {
+      "id": "1",
+      "name": "식비",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "2",
+      "name": "교통",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "3",
+      "name": "문화/여가",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "4",
+      "name": "술/유흥",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "5",
+      "name": "쇼핑",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "6",
+      "name": "여행/숙박",
+      "accountTypeId": "1"
+    },
+    {
+      "id": "7",
+      "name": "월급",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "8",
+      "name": "용돈",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "9",
+      "name": "보너스",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "10",
+      "name": "매매",
+      "accountTypeId": "2"
+    },
+    {
+      "id": "11",
+      "name": "이자",
+      "accountTypeId": "2"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "userName": "kim",
+      "email": "abc@abc.com",
+      "balance": 10000,
+      "updatedAt": "2025-04-06T13:00:00"
+    }
+  ]
+}
