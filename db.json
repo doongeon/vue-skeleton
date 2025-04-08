@@ -317,6 +317,17 @@
       "date": "2025-04-06T17:45:00",
       "createdAt": "2025-04-06T17:45:00",
       "updatedAt": "2025-04-06T17:45:00"
+    },
+    {
+      "id": "31",
+      "userId": "1",
+      "typeId": "expense",
+      "categoryId": "식비",
+      "amount": 10000,
+      "memo": "테스트로 추가함",
+      "date": "2025-04-08",
+      "createdAt": "2025-04-08T10:00:00.000Z",
+      "updatedAt": "2025-04-08T10:00:00.000Z"
     }
   ],
   "transactionType": [
@@ -393,6 +404,13 @@
       "email": "abc@abc.com",
       "balance": 10000,
       "updatedAt": "2025-04-06T13:00:00"
+    },
+    {
+      "id": "2",
+      "userName": "keemochi",
+      "email": "abcd@abc.com",
+      "balance": 100200,
+      "updatedAt": "2025-04-08T13:00:00"
     }
   ]
 }
