@@ -1,7 +1,12 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import Header from './views/Header.vue'
+import QuickAdd from './views/QuickAdd.vue'
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <Header />
+    <Router-View />
+    <QuickAdd />
+  </div>
 </template>
