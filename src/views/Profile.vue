@@ -36,7 +36,9 @@
 <style scoped>
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 0.5rem;
   padding: 1rem;
 }
 
@@ -44,7 +46,8 @@
   border: 1px solid;
   background-color: rgb(255, 188, 0);
   padding: 2rem;
-  margin: 1rem;
+  margin: 0rem;
+  grid-column: span 6;
 }
 
 .layout .container .title {
