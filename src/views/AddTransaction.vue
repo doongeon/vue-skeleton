@@ -186,8 +186,8 @@ textarea::placeholder {
 
 .category-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: center; /* 수직 가운데 정렬 */
+  justify-content: center; /* 아이콘 + 글자를 가운데 정렬 */
   gap: 6px;
   padding: 10px;
   border-radius: 10px;
@@ -195,6 +195,8 @@ textarea::placeholder {
   background-color: #fafafa;
   cursor: pointer;
   position: relative;
+  text-align: center; /* 텍스트 정렬 */
+  font-weight: bold;
 }
 
 .category-item.selected {
@@ -243,17 +245,99 @@ textarea::placeholder {
 }
 
 .edit {
-  background-color: #4caf50;
+  background-color: #ffcc00;
   color: white;
 }
 
 .delete {
-  background-color: #f44336;
+  background-color: #60584c;
   color: white;
 }
 
-.back {
-  background-color: #9e9e9e;
+.type-toggle .active {
+  background-color: #545045;
   color: white;
+}
+
+.category-item.selected {
+  background-color: #545045;
+  color: white;
+}
+/* ✅ 태블릿 대응 추가 */
+@media (max-width: 900px) {
+  .transaction-detail {
+    padding: 24px;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 22px;
+  }
+
+  .type-toggle button {
+    font-size: 15px;
+    padding: 10px 18px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .edit-delete-buttons button,
+  .back-button-wrapper .back {
+    font-size: 15px;
+  }
+
+  input,
+  textarea {
+    font-size: 15px;
+  }
+}
+
+/* ✅ 모바일 대응 */
+@media (max-width: 600px) {
+  .transaction-detail {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .type-toggle {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .type-toggle button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .edit-delete-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .edit-delete-buttons button,
+  .back-button-wrapper .back {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .back-button-wrapper {
+    justify-content: center;
+  }
+
+  input,
+  textarea {
+    font-size: 16px;
+  }
 }
 </style>
