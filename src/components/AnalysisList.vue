@@ -23,12 +23,20 @@ const sum = computed(() => {
 })
 
 const getCategoryName = (categoryId) => {
+  if (transactionCategories.value.length === 0) {
+    return 'loading'
+  }
+
   return transactionCategories.value.find(
     (transactionCategory) => transactionCategory.id === categoryId,
   ).name
 }
 
 const getCategoryIcon = (categoryId) => {
+  if (transactionCategories.value.length === 0) {
+    return 'loading'
+  }
+
   return transactionCategories.value.find(
     (transactionCategory) => transactionCategory.id === categoryId,
   ).icon
@@ -46,7 +54,7 @@ const getRatio = (amount) => {
       v-for="categorialTransaction in categorialTransactions"
       :key="categorialTransaction.id"
     >
-      <span style="width: 70px"
+      <span style="width: 110px"
         >{{ getCategoryIcon(categorialTransaction.id) }}
         {{ getCategoryName(categorialTransaction.id) }}
       </span>
