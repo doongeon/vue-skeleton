@@ -37,7 +37,7 @@ const toggleForm = () => {
   right: 2rem;
 }
 .wrapper .icon {
-  border: none;
+  border: 2px solid rgb(210, 160, 20);
   font-size: 1rem;
   color: white;
   border-radius: 0.5rem;
