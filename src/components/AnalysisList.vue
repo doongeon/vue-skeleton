@@ -38,7 +38,7 @@ const getRatio = (amount) => {
     >
       <span style="width: 70px">{{ getCategoryName(categorialTransaction.id) }}</span>
       <div
-        class="progress w-50"
+        class="progress w-50 me-3"
         role="progressbar"
         aria-label="Success example"
         :aria-valuenow="getRatio(categorialTransaction.amount)"

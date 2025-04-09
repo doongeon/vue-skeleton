@@ -72,14 +72,14 @@ const getCategoryName = (categoryId) => {
 </script>
 
 <template>
-  <div class="card py-3 px-5 shadow-sm">
+  <div class="card py-3 px-lg-5 shadow-sm">
     <div class="card-body">
       <div class="mb-4">
         <span class="fs-4 me-2">총 수익</span>
-        <span class="fs-2">{{ total }}</span>
+        <span class="fs-2">{{ total }} 원</span>
       </div>
 
-      <div class="mb-3 d-flex justify-content-between">
+      <div class="mb-4 d-flex justify-content-between">
         <div>
           <select class="form-select" v-model="states.period">
             <option value="1">1개월</option>
@@ -95,7 +95,9 @@ const getCategoryName = (categoryId) => {
         </div>
       </div>
 
-      <div class="card mb-5 p-4 shadow-sm">
+      <hr class="" />
+
+      <div class="mb-4 px-4">
         <div class="mb-4">
           <span class="fs-5 me-2">
             {{ states.transactionType === 'income' ? '순 수익' : '순 지출' }}
