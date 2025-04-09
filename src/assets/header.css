@@ -1,6 +1,5 @@
 /* 상단바 */
 .header {
-feature/header
   background-color: #fdc400;
   padding: 20px;
 
@@ -14,13 +13,15 @@ feature/header
 }
 
 /* 홈화면 */
-.title {
+.header-title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   font-weight: bold;
+  font-size: 30px;
   white-space: nowrap;
   z-index: 1;
+  color: #350f00de;
 }
 
 /* 상단바 메뉴  */
@@ -34,9 +35,15 @@ feature/header
   position: relative;
 }
 
+/* 설정 버튼 크기 조정 */
+.setting-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 /* 날짜+프로필+설정 버튼 */
 .menu-button {
-  background-color: white;
+  background-color: rgb(96, 88, 76);
   border: 1px solid #fdc400;
   padding: 8px 14px;
   border-radius: 6px;
@@ -46,12 +53,12 @@ feature/header
   text-decoration: none;
   font-size: 15px;
   font-weight: bold;
-  color: #333;
+  color: #ffffffde;
   white-space: nowrap;
 }
 
 .menu-button:hover {
-  background-color: rgb(250, 248, 231);
+  background-color:  #5A4D45;
 }
 
 .setting-wrapper {
@@ -64,7 +71,7 @@ feature/header
   top: 55px;
   right: 120px;
   padding: 5px;
-  border: 1px solid #fdc400;
+  border: 1px solid rgb(96, 88, 76);
   border-radius: 6px;
   background-color: white;
   font-size: 14px;
@@ -90,12 +97,14 @@ feature/header
   padding: 12px 15px;
   cursor: pointer;
   border-radius: 8px;
-  background: white;
+  background:rgb(96, 88, 76);
   white-space: nowrap;
+  font-weight: bold;
+  color: white;
 }
 
 .popup button:hover {
-  background-color: rgb(250, 248, 231);
+  background-color:  #5A4D45;
 }
 
 /* 날짜 선택기 */
@@ -104,7 +113,7 @@ feature/header
   top: 50px;
   right: 100px;
   padding: 6px;
-  border: 1px solid #fdc400;
+  border: 1px solid rgb(96, 88, 76);
   border-radius: 6px;
   background-color: white;
   font-size: 14px;
@@ -122,4 +131,37 @@ feature/header
     font-size: 24px;
     margin-bottom: 10px;
     text-align: center;
+  }
+
+  .header-menu {
+    flex-wrap: wrap; /* 줄바꿈 허용 */
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .menu-button {
+    font-size: 16px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 760px) {
+    .header-menu {
+      flex-wrap: wrap; /* 줄바꿈 허용 */
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .menu-button {
+      font-size: 10px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+
+    .header-title {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
   }
