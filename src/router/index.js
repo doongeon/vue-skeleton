@@ -4,7 +4,7 @@ import AddTransaction from '@/views/AddTransaction.vue'
 import TransactionHistory from '@/views/TransactionHistory.vue'
 import EditTransaction from '@/views/EditTransaction.vue'
 import HistoryDetail from '@/views/HistoryDetail.vue'
-import StatisticView from '@/views/StatisticView.vue'
+import AnalysisView from '@/views/AnalysisView.vue'
 import Layout from '@/views/Layout.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
@@ -29,7 +29,7 @@ const router = createRouter({
           name: 'editHistory',
           component: EditTransaction,
         },
-        { path: 'analysis', name: 'analysis', component: StatisticView },
+        { path: 'analysis', name: 'analysis', component: AnalysisView },
         { path: 'calendar', name: 'calendar', component: HomeView },
         { path: 'profile', name: 'profile', component: ProfileView },
         {

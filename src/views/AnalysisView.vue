@@ -6,7 +6,6 @@ import PieChart from '../components/PieChart.vue'
 import StatisticList from '../components/StatisticList.vue'
 
 const transactionStore = useTransactionStore()
-
 const transactions = computed(() => transactionStore.states.transactions)
 
 const expenses = computed(() =>
