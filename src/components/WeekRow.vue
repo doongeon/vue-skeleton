@@ -1,4 +1,18 @@
 <script setup>
+</script>
+
+<style scoped>
+
+</style>
+<template>
+  <div>
+
+  </div>
+</template>
+
+
+
+<!-- <script setup>
 import { computed } from 'vue'
 import { useCalendarStore } from '@/stores/calendarStore'
 
@@ -90,4 +104,4 @@ function getWeekNumber(date) {
   background-color: rgba(255, 204, 0, 0.3);
   top: 10%;
 }
-</style>
+</style> -->

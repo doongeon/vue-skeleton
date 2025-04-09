@@ -3,7 +3,7 @@ import { Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
 import CategoryFilter from '@/components/CategoryFilter.vue'
 import DayCell from '@/components/DayCell.vue'
-import WeekRow from '@/components/WeekRow.vue'
+
 
 // 날짜 클릭 시 해당 내역 중첩 라우팅 처리
 </script>
@@ -13,11 +13,9 @@ import WeekRow from '@/components/WeekRow.vue'
     <div class="calendar-wrapper">
       <div class="calendar-outer">
         <Calendar style="height: 600px; width: 760px" is-expanded trim-weeks>
-          <!-- <template #week="{ week, weekIndex }"> -->
-          <!-- <div class="week-box"> -->
+          <!-- <template #week="{ week }"> -->
           <!-- <WeekRow :week="week" :index="weekIndex" /> -->
-          <!-- </div> -->
-          <!-- </template> -->
+           <!-- 나중에 #week slot 찾으면 시도 -->
           <template #day-content="{ day }">
             <DayCell :date="day.date" class="day-cell" />
           </template>
@@ -62,16 +60,6 @@ import WeekRow from '@/components/WeekRow.vue'
   padding-right: 8px;
 }
 
-.week-box {
-  position: absolute;
-  top: -30px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-weight: bold;
-  color: #333;
-  border: palegreen solid 2px;
-}
 
 ::v-deep(.vc-day) {
   border: 0.5px dashed #ccc;

@@ -9,7 +9,7 @@ import Layout from '@/views/Layout.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import CalendarView from '@/views/CalendarView.vue'
-import { CalendarDetails } from '@/views/CalendarDetails.vue'
+//import { CalendarDetails } from '@/views/CalendarDetails.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,9 +33,9 @@ const router = createRouter({
         },
         { path: 'analysis', name: 'analysis', component: StatisticView },
         { path: 'calendar', name: 'calendar', component: CalendarView, 
-          children : [
-            {path: '/details', component: CalendarDetails}
-          ]
+          // children : [
+          //   {path: '/details', component: CalendarDetails}
+          // ]
         },
         { path: 'profile', name: 'profile', component: ProfileView },
         {
