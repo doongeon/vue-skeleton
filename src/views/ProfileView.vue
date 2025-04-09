@@ -7,14 +7,13 @@ import { computed, reactive, watch } from 'vue'
 
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
-const periodics = computed(() =>
+const periodic = computed(() =>
   transactions.value
     .filter((t) => ['2', '3'].includes(String(t.categoryId)))
     .sort((a, b) => new Date(a.date) - new Date(b.date)),
 )
 // categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
 // 날짜기준 오름차순 정렬
-console.log(periodics)
 const users = ref([]) /* db.json 유저 정보 */
 const transactionCategories = ref([]) /* db.json 태그 관리 */
 
@@ -63,7 +62,7 @@ function formatToMonthDay(dateString) {
     <div class="container">
       <p class="containerTitle">고정지출 관리</p>
       <div class="article">
-        <div class="periodical" v-for="list in periodics" :key="list.id">
+        <div class="periodical" v-for="list in periodic" :key="list.id">
           {{ formatToMonthDay(list.date) }} {{ list.memo }} {{ list.amount }}
         </div>
       </div>
