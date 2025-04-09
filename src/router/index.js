@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Sidebar from '../views/Sidebar.vue'
+import Header from '../views/Header.vue'
 import AddTransaction from '@/views/AddTransaction.vue'
 import TransactionHistory from '@/views/TransactionHistory.vue'
 import EditTransaction from '@/views/EditTransaction.vue'
@@ -31,7 +33,7 @@ const router = createRouter({
           component: EditTransaction,
         },
         { path: 'analysis', name: 'analysis', component: AnalysisView },
-        { path: 'calendar', name: 'calendar', component: HomeView },
+        { path: 'calendar', name: 'calendar', component: CalendarView },
         { path: 'profile', name: 'profile', component: ProfileView },
         {
           path: '/:pathMatch(.*)*',
@@ -40,6 +42,7 @@ const router = createRouter({
         },
       ],
     },
+    { path: '/sidebar', name: 'Sidebar', component: Sidebar },
   ],
 })
 

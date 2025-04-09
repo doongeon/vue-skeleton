@@ -1,6 +1,7 @@
 <script setup>
 import Header from '@/views/Header.vue'
 import Sidebar from '@/views/Sidebar.vue'
+import QuickAdd from '@/views/QuickAdd.vue'
 </script>
 
 <template>
@@ -20,6 +21,7 @@ import Sidebar from '@/views/Sidebar.vue'
       </div>
     </div>
   </div>
+  <QuickAdd />
 </template>
 
 <style scoped>
