@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import Header from '../views/Header.vue'
 import TransactionHistory from '@/components/TransactionHistory.vue'
 import AddTransaction from '@/views/AddTransaction.vue'
 
