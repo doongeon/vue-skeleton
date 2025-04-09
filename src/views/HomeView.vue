@@ -444,8 +444,7 @@ h3 {
 .date {
   margin-bottom: 1rem;
 }
-.date-select {
-}
+
 .selectedDate {
   display: flex;
 }
@@ -463,8 +462,6 @@ h3 {
   margin-bottom: 2rem;
 }
 
-.home-sec01 > div {
-}
 
 .expense,
 .income,
@@ -522,9 +519,9 @@ h3 {
   margin-bottom: 1rem;
 }
 
+
 /* 최근 거래 목록 */
-.home-sec02 > div:first-child {
-}
+
 
 .recent-transaction {
   flex: 2;
@@ -543,8 +540,7 @@ h3 {
 }
 
 /* 고정 지출 */
-.home-sec02 > div:last-child {
-}
+
 
 .fixed-expense {
   flex: 1;
