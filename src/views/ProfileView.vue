@@ -2,9 +2,11 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useTransactionStore } from '@/stores/transactionStore'
-import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/types'
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
 import { computed, reactive, watch } from 'vue'
 
+// categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
+// 날짜기준 오름차순 정렬
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
 const periodic = computed(() =>
@@ -12,20 +14,23 @@ const periodic = computed(() =>
     .filter((t) => ['2', '3'].includes(String(t.categoryId)))
     .sort((a, b) => new Date(a.date) - new Date(b.date)),
 )
-// categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
-// 날짜기준 오름차순 정렬
-const users = ref([]) /* db.json 유저 정보 */
-const transactionCategories = ref([]) /* db.json 태그 관리 */
 
+// category 받아오기
+const transactionCategoryStore = useTransactionCategoryStore()
+const categories = computed(() => transactionCategoryStore.states.transactionCategories)
+
+/* db.json 유저 정보 */
+const users = ref([])
 onMounted(async () => {
   const response = await axios.get('http://localhost:3000/users/1')
   users.value = response.data
 })
 
-onMounted(async () => {
-  const response = await axios.get('http://localhost:3000/transactionCategory')
-  transactionCategories.value = response.data
-})
+// const transactionCategories = ref([]) /* db.json 태그 관리 */
+// onMounted(async () => {
+//   const response = await axios.get('http://localhost:3000/transactionCategory')
+//   transactionCategories.value = response.data
+// })
 
 function formatToMonthDay(dateString) {
   const date = new Date(dateString)
@@ -53,8 +58,8 @@ function formatToMonthDay(dateString) {
       <p class="containerTitle">태그 관리</p>
       <div class="article">
         <div class="categoryList">
-          <span v-for="category in transactionCategories" :key="category.id">
-            {{ category.name }}
+          <span v-for="category in categories" :key="category.id">
+            {{ category.icon }} {{ category.name }}
           </span>
         </div>
       </div>
