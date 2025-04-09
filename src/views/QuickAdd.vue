@@ -80,7 +80,7 @@ const toggleForm = () => {
       <div class="form-row">
         구별
         <select v-model="typeId">
-          <option value=""></option>
+          <option value="">구별을 선택하세요</option>
           <option value="1">지출</option>
           <option value="2">수입</option>
         </select>
