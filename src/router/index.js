@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '@/views/HomeView.vue'
-import TransactionHistory from '@/components/TransactionHistory.vue'
+
 import CalendarView from '../views/CalendarView.vue'
 
 
@@ -12,11 +12,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
-    },
-    {
-      path: '/history',
-      name: 'history',
-      component: TransactionHistory,
     },
     {
       path: '/calendar',

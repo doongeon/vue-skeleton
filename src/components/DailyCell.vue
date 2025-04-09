@@ -5,7 +5,7 @@ import { TRANSACTION_TYPE } from '@/types'
 
 const props = defineProps({
   date: [String, Date],
-  selectedCategory: String,
+  summary: Object
 })
 
 const store = useTransactionStore()
@@ -31,7 +31,7 @@ const summary = computed(() => {
 </script>
 
 <template>
-  <div class="daily-box">
+  <div class="daily-cell">
     <div class="day-number">{{ props.date.getDate() }}</div>
     <div class="income" v-if="summary.income">+{{ summary.income.toLocaleString() }}</div>
     <div class="expense" v-if="summary.expense">-{{ summary.expense.toLocaleString() }}</div>
@@ -39,7 +39,7 @@ const summary = computed(() => {
 </template>
 
 <style scoped>
-.daily-box {
+.daily-cell {
   padding: 4px;
   font-size: 12px;
 }

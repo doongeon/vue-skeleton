@@ -1,45 +1,27 @@
 <script setup>
 import { Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
-import { computed, ref } from 'vue'
 import CategoryFilter from '@/components/CategoryFilter.vue'
 import DailyCell from '@/components/DailyCell.vue'
-import { TRANSACTION_CATEGORY } from '@/types'
+import WeekRow from '@/components/WeekRow.vue'
 
-const CategoryList = computed(() => Object.keys(TRANSACTION_CATEGORY))
-
-const selectedCategory = ref('')
-
-const filterData = (category) => {
-  selectedCategory.value = category
-}
 
 // 날짜 클릭 시 해당 내역 중첩 라우팅 처리
 </script>
 
 <template>
-  <CategoryFilter :categories="CategoryList" @selected-category="filterData" />
+  <CategoryFilter v-slot="{ summary }"> 
   <div class="calendar-wrapper">
     <div class="calendar-outer">
       <Calendar style="height: 600px; width: 760px" is-expanded>
+        <WeekRow :summary="summary"> </WeekRow>
         <template #day-content="{ day }">
-          <DailyCell :date="day.date" :selectedCategory="selectedCategory" />
+          <DailyCell :date="day.date" :summary="summary[day.date.toISOString().slice(0, 10)]" />
         </template>
-        <!-- <template #week="{ week }">
-          <div class="vc-week">
-            <div class="week-summary">
-              {{ getWeeklySummaryText(week) }}
-            </div>
-            <div class="vc-days">
-              <template v-for="day in week.days" :key="day.date">
-                <DailyCell :date="day.date" :selectedCategory="selectedCategory" />
-              </template>
-            </div>
-          </div>
-        </template> -->
       </Calendar>
     </div>
   </div>
+</CategoryFilter>
 </template>
 
 <style scoped>
