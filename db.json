@@ -406,9 +406,107 @@
       "date": "2025-04-10T17:45:00",
       "createdAt": "2025-04-10T11:00:00.000Z",
       "updatedAt": "2025-04-07T11:00:00.000Z"
+    },
+    {
+      "id": "38",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "3",
+      "amount": 24235,
+      "memo": "ㅇㅇ",
+      "date": "2025-04-25T08:32:00.000Z",
+      "createdAt": "2025-04-09T08:32:10.570Z",
+      "updatedAt": "2025-04-09T08:32:10.570Z"
+    },
+    {
+      "id": "39",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "2",
+      "amount": 3,
+      "memo": "2",
+      "date": "2025-04-23T12:36:00.000Z",
+      "createdAt": "2025-04-09T08:36:14.041Z",
+      "updatedAt": "2025-04-09T08:36:14.041Z"
+    },
+    {
+      "id": "40",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "3",
+      "amount": 4,
+      "memo": "2",
+      "date": "2025-04-30T08:36:00.000Z",
+      "createdAt": "2025-04-09T08:36:27.620Z",
+      "updatedAt": "2025-04-09T08:36:27.620Z"
+    },
+    {
+      "id": "41",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "2",
+      "amount": 2,
+      "memo": "1",
+      "date": "2025-04-30T08:36:00.000Z",
+      "createdAt": "2025-04-09T08:36:44.435Z",
+      "updatedAt": "2025-04-09T08:36:44.435Z"
+    },
+    {
+      "id": "42",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "9",
+      "amount": 3,
+      "memo": "33",
+      "date": "2025-04-09T08:39:00.000Z",
+      "createdAt": "2025-04-09T08:37:27.940Z",
+      "updatedAt": "2025-04-09T08:37:27.940Z"
+    },
+    {
+      "id": "43",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "6",
+      "amount": 123,
+      "memo": "2",
+      "date": "2025-04-18T09:01:00.000Z",
+      "createdAt": "2025-04-09T09:01:16.098Z",
+      "updatedAt": "2025-04-09T09:01:16.098Z"
+    },
+    {
+      "id": "44",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "6",
+      "amount": 112,
+      "memo": "112",
+      "date": "2025-04-11T09:01:00.000Z",
+      "createdAt": "2025-04-09T09:01:31.368Z",
+      "updatedAt": "2025-04-09T09:01:31.368Z"
+    },
+    {
+      "id": "45",
+      "userId": "1",
+      "typeId": "2",
+      "categoryId": "3",
+      "amount": 1,
+      "memo": "1",
+      "date": "2025-04-21T09:10:00.000Z",
+      "createdAt": "2025-04-09T09:10:23.889Z",
+      "updatedAt": "2025-04-09T09:10:23.889Z"
+    },
+    {
+      "id": "46",
+      "userId": "1",
+      "typeId": "1",
+      "categoryId": "10",
+      "amount": 2,
+      "memo": "2",
+      "date": "2025-04-22T09:10:00.000Z",
+      "createdAt": "2025-04-09T09:10:35.736Z",
+      "updatedAt": "2025-04-09T09:10:35.736Z"
     }
   ],
-
   "transactionType": [
     {
       "id": "1",

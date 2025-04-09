@@ -26,8 +26,11 @@ import DayCell from '@/components/DayCell.vue'
 </template>
 
 <style scoped>
+
 .calendar-wrapper {
   margin-top: 5%;
+  position: relative;    
+  z-index: -1;  
 }
 
 .calendar-outer {
