@@ -63,7 +63,15 @@ const submitTransaction = () => {
 
 // 거래 취소 함수
 const cancelTransaction = () => {
-  if (confirm('작성을 취소하시겠습니까?')) {
+  // 작성된 내용이 없으면 바로 목록으로 돌아감
+  if (!title.value && !amount.value && !content.value && !customCategory.value) {
+    router.push('/history')
+    return
+  }
+
+  // 작성된 내용이 있으면 취소 확인 메시지 후 이동
+  const isConfirmed = confirm('작성을 취소하시겠습니까?')
+  if (isConfirmed) {
     router.push('/history')
   }
 }
