@@ -1,14 +1,11 @@
 /* 사이드바 css */
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 360px;
-  width: 200px;
   height: 100vh;
-  background: #f5f5f5;
+  /* background: #f5f5f5; */
   padding: 20px;
+  padding-top: 200px;
   box-sizing: border-box;
-  border-right: 1px solid #a8a8a8;
+  /* border-right: 1px solid #a8a8a8; */
 }
 
 /* 사이드바 */
@@ -27,10 +24,11 @@
 
 /* 홈화면, 거래상세내역, 수입/지출분석/ 캘린더 */
 .menu-item {
-  padding: 20px 100px;
+  width: 100%;
+  padding: 0 10px;
   margin-bottom: 10px;
   margin-left: 10px;
-  background-color: #d6d6d6;
+  background-color: #fdc400;
   border-radius: 10px;
   text-decoration: none;
   color: #000000;
@@ -40,3 +38,53 @@
 .menu-item:hover {
   background-color: #ffffff;
 }
+
+/* 사이드바 반응형 */
+@media screen and (max-width: 900px) {
+  .menu-item {
+    padding: 15px 60px;
+  }
+}
+
+/* ===== 반응형: 화면 너비가 768px 이하일 때 메뉴만 전환 =====*/
+@media screen and (max-width: 1200px) {
+  .sidebar {
+    position: relative;
+    top: 60px; /* 상단바 높이만큼 내림 */
+    left: 0;
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    background: transparent;
+    border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: none;
+  }
+
+  .title {
+    display: none; /* 타이틀 숨김 */
+  }
+
+  .menu {
+    flex-direction: row; /* 가로 정렬 */
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+   .menu-item {
+    padding: 10px 20px;
+    margin: 5px;
+    margin-left: 0; /* 좌측 마진 제거 */
+    font-size: 14px;
+    width: auto;
+    border-radius: 8px;
+  }
+  .home-section {
+    margin-top: 120px; /* 상단바 + 메뉴 높이 고려 */
+  }
+
