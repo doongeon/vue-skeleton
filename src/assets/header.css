@@ -134,7 +134,7 @@
   }
 
   .header-menu {
-    flex-wrap: wrap; /* 줄바꿈 허용 */
+    flex-wrap: wrap;
     justify-content: center;
     gap: 6px;
     margin-top: 10px;
@@ -148,7 +148,7 @@
 
   @media screen and (max-width: 760px) {
     .header-menu {
-      flex-wrap: wrap; /* 줄바꿈 허용 */
+      flex-wrap: wrap;
       justify-content: center;
       gap: 6px;
       margin-top: 10px;

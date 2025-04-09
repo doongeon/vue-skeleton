@@ -17,7 +17,7 @@ function toggleDatePicker() {
 
 <template>
   <div class="header">
-    <div class="title">홈 화면</div>
+    <div class="header-title">유전자's 가계부</div>
 
     <div class="header-menu">
       <span class="menu-button" @click="toggleDatePicker">날짜</span>
@@ -31,7 +31,6 @@ function toggleDatePicker() {
           <button>로그아웃</button>
           <button>태그 추가</button>
         </div>
-
       </div>
     </div>
   </div>
