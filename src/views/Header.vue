@@ -14,7 +14,7 @@ function toggleSetting() {
     <div class="title">홈 화면</div>
     <div class="menu">
       <span>날짜</span>
-      <span>프로필</span>
+      <RouterLink to="/profile">프로필</RouterLink>
       <span class="setting" @click="toggleSetting">설정</span>
 
       <div class="popup" v-if="showSettingPopup">
