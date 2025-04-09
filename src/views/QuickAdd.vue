@@ -80,7 +80,7 @@ const toggleForm = () => {
       <div class="form-row">
         구별
         <select v-model="typeId">
-          <option value=""></option>
+          <option value="">구별을 선택하세요</option>
           <option value="1">지출</option>
           <option value="2">수입</option>
         </select>
@@ -111,6 +111,7 @@ const toggleForm = () => {
   display: inline-block;
   bottom: 2rem;
   right: 2rem;
+  z-index: 100;
 }
 .wrapper .icon {
   border: 2px solid rgb(210, 160, 20);
@@ -121,7 +122,7 @@ const toggleForm = () => {
   position: relative;
   display: flex;
   padding: 1rem 1.5rem;
-  z-index: 200;
+  z-index: 300;
 }
 
 .wrapper .icon:hover {
@@ -142,7 +143,7 @@ const toggleForm = () => {
   bottom: 0;
   right: 0;
   width: fit-content;
-  z-index: 100;
+  z-index: 200;
   padding-bottom: 5rem;
   display: flex;
   flex-direction: column;
