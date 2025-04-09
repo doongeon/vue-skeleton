@@ -296,6 +296,7 @@ const formatDate = (dateStr) => {
 
 </script>
 
+</style>
 <template>
   <div>home</div>
 
