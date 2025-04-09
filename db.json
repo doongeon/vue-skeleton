@@ -199,7 +199,7 @@
       "updatedAt": "2025-04-01T14:00:00"
     },
     {
-      "id": "20",
+      "id": "19",
       "userId": "1",
       "typeId": "1",
       "categoryId": "1",
@@ -210,7 +210,7 @@
       "updatedAt": "2025-04-07T12:00:00"
     },
     {
-      "id": "21",
+      "id": "20",
       "userId": "1",
       "typeId": "1",
       "categoryId": "5",
@@ -221,7 +221,7 @@
       "updatedAt": "2025-04-05T15:20:00"
     },
     {
-      "id": "22",
+      "id": "21",
       "userId": "1",
       "typeId": "1",
       "categoryId": "3",
@@ -232,7 +232,7 @@
       "updatedAt": "2025-04-01T08:00:00"
     },
     {
-      "id": "23",
+      "id": "22",
       "userId": "1",
       "typeId": "2",
       "categoryId": "7",
@@ -243,7 +243,7 @@
       "updatedAt": "2025-03-31T09:00:00"
     },
     {
-      "id": "24",
+      "id": "23",
       "userId": "1",
       "typeId": "1",
       "categoryId": "1",
@@ -254,7 +254,7 @@
       "updatedAt": "2025-04-04T12:40:00"
     },
     {
-      "id": "25",
+      "id": "24",
       "userId": "1",
       "typeId": "2",
       "categoryId": "11",
@@ -265,7 +265,7 @@
       "updatedAt": "2025-04-03T00:00:00"
     },
     {
-      "id": "26",
+      "id": "25",
       "userId": "1",
       "typeId": "1",
       "categoryId": "6",
@@ -276,7 +276,7 @@
       "updatedAt": "2025-03-28T13:00:00"
     },
     {
-      "id": "27",
+      "id": "26",
       "userId": "1",
       "typeId": "1",
       "categoryId": "2",
@@ -287,7 +287,7 @@
       "updatedAt": "2025-04-06T08:00:00"
     },
     {
-      "id": "28",
+      "id": "27",
       "userId": "1",
       "typeId": "2",
       "categoryId": "8",
@@ -298,7 +298,7 @@
       "updatedAt": "2025-04-01T10:00:00"
     },
     {
-      "id": "29",
+      "id": "28",
       "userId": "1",
       "typeId": "1",
       "categoryId": "4",
@@ -309,7 +309,7 @@
       "updatedAt": "2025-04-02T22:00:00"
     },
     {
-      "id": "30",
+      "id": "29",
       "userId": "1",
       "typeId": "1",
       "categoryId": "1",
@@ -320,17 +320,95 @@
       "updatedAt": "2025-04-06T17:45:00"
     },
     {
-      "id": "31",
+      "id": "30",
       "userId": "1",
       "typeId": "expense",
       "categoryId": "식비",
       "amount": 10000,
       "memo": "테스트로 추가함",
-      "date": "2025-04-08",
+      "date": "2025-04-08T17:45:00",
       "createdAt": "2025-04-08T10:00:00.000Z",
       "updatedAt": "2025-04-08T10:00:00.000Z"
+    },
+    {
+      "id": "32",
+      "userId": "1",
+      "typeId": "income",
+      "categoryId": "7",
+      "amount": 3000000,
+      "memo": "연말 월급",
+      "date": "2024-12-31T17:45:00",
+      "createdAt": "2024-12-31T10:00:00.000Z",
+      "updatedAt": "2024-12-31T10:00:00.000Z"
+    },
+    {
+      "id": "33",
+      "userId": "1",
+      "typeId": "expense",
+      "categoryId": "5",
+      "amount": 120000,
+      "memo": "봄 재킷 구매",
+      "date": "2025-03-03T17:45:00",
+      "createdAt": "2025-03-03T12:00:00.000Z",
+      "updatedAt": "2025-03-03T12:00:00.000Z"
+    },
+    {
+      "id": "34",
+      "userId": "1",
+      "typeId": "expense",
+      "categoryId": "1",
+      "amount": 9000,
+      "memo": "점심 국밥",
+      "date": "2025-03-07T17:45:00",
+      "createdAt": "2025-03-07T11:00:00.000Z",
+      "updatedAt": "2025-03-07T11:00:00.000Z"
+    },
+    {
+      "id": "35",
+      "userId": "1",
+      "typeId": "expense",
+      "categoryId": "2",
+      "amount": 2500,
+      "memo": "지하철",
+      "date": "2025-03-12T17:45:00",
+      "createdAt": "2025-03-12T08:00:00.000Z",
+      "updatedAt": "2025-03-12T08:00:00.000Z"
+    },
+    {
+      "id": "36",
+      "userId": "1",
+      "typeId": "income",
+      "categoryId": "11",
+      "amount": 15000,
+      "memo": "예금 이자",
+      "date": "2025-03-20T17:45:00",
+      "createdAt": "2025-03-20T09:00:00.000Z",
+      "updatedAt": "2025-03-20T09:00:00.000Z"
+    },
+    {
+      "id": "37",
+      "userId": "1",
+      "typeId": "expense",
+      "categoryId": "3",
+      "amount": 18000,
+      "memo": "영화 관람",
+      "date": "2025-03-25T17:45:00",
+      "createdAt": "2025-03-25T13:00:00.000Z",
+      "updatedAt": "2025-03-25T13:00:00.000Z"
+    },
+    {
+      "id": "38",
+      "userId": "1",
+      "typeId": "expense",
+      "categoryId": "1",
+      "amount": 9000,
+      "memo": "점심 국밥",
+      "date": "2025-04-10T17:45:00",
+      "createdAt": "2025-04-10T11:00:00.000Z",
+      "updatedAt": "2025-04-07T11:00:00.000Z"
     }
   ],
+
   "transactionType": [
     {
       "id": "1",

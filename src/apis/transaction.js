@@ -9,6 +9,7 @@ const fetchTransactions = async () => {
       alert('transactions를 불러오는데 실패했습니다.')
       console.log('  ⚠️  : ', res)
     }
+    console.log('  fetch transactions : ', res.data)
     return res
   } catch (e) {
     console.log('  ⚠️ fail to fetch transaction : ', e)

@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-import CalendarPicker from '@/components/CalendarPicker.vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
+import CalendarPicker from '@/components/CalendarPicker.vue'
+
+// Pinia store 연결
+const transactionCategoryStore = useTransactionCategoryStore()
 
 const router = useRouter()
 
@@ -10,42 +14,43 @@ const date = ref(new Date())
 const amount = ref(null)
 const content = ref('')
 const type = ref('지출')
-const selectedCategory = ref('식비')
 const customCategory = ref('')
+const selectedCategory = ref('')
 
-const categories = ref([
-  { name: '식비', icon: '🍽️' },
-  { name: '교통', icon: '🚗' },
-  { name: '문화/여가', icon: '🎮' },
-  { name: '술/유흥', icon: '🍺' },
-  { name: '쇼핑', icon: '🛍️' },
-  { name: '여행/숙박', icon: '🏨' },
-  { name: '월급', icon: '💼' },
-  { name: '용돈', icon: '💸' },
-  { name: '보너스', icon: '🎁' },
-  { name: '매매', icon: '📈' },
-  { name: '이자', icon: '💰' },
-])
+// computed로 카테고리 목록을 Pinia store의 상태와 연결
+const categories = computed(() => transactionCategoryStore.states.transactionCategories)
 
+// 카테고리 선택 함수
+const selectCategory = (category) => {
+  selectedCategory.value = category.name
+}
+
+// 커스텀 카테고리 추가 함수
 const addCustomCategory = () => {
   const trimmed = customCategory.value.trim()
   if (trimmed !== '') {
     const exists = categories.value.some((cat) => cat.name === trimmed)
     if (!exists) {
-      categories.value.push({ name: trimmed, icon: '🆕', isCustom: true })
+      transactionCategoryStore.addTransactionCategory({
+        name: trimmed,
+        icon: '🆕',
+        accountTypeId: '1',
+      })
     }
     selectedCategory.value = trimmed
     customCategory.value = ''
   }
 }
 
+// 선택된 카테고리 삭제 함수
 const removeCategory = (name) => {
-  categories.value = categories.value.filter((cat) => cat.name !== name)
+  transactionCategoryStore.deleteTransactionCategory(name)
   if (selectedCategory.value === name) {
     selectedCategory.value = ''
   }
 }
 
+// 거래 등록 함수
 const submitTransaction = () => {
   const isConfirmed = confirm(
     `등록하시겠습니까?\n제목: ${title.value}\n금액: ${amount.value}\n카테고리: ${selectedCategory.value}`,
@@ -56,11 +61,17 @@ const submitTransaction = () => {
   }
 }
 
+// 거래 취소 함수
 const cancelTransaction = () => {
   if (confirm('작성을 취소하시겠습니까?')) {
     router.push('/history')
   }
 }
+
+// selectedCategory가 변경될 때마다 카테고리 업데이트
+watch(selectedCategory, (newCategory) => {
+  console.log('선택된 카테고리:', newCategory)
+})
 </script>
 
 <template>
@@ -88,15 +99,15 @@ const cancelTransaction = () => {
       <div class="category-list">
         <div
           v-for="cat in categories"
-          :key="cat.name"
+          :key="cat.id"
           class="category-item"
           :class="{ selected: selectedCategory === cat.name }"
-          @click="selectedCategory = cat.name"
+          @click="selectCategory(cat)"
         >
           <span class="icon">{{ cat.icon }}</span> {{ cat.name }}
-          <span v-if="cat.isCustom" class="remove-btn" @click.stop="removeCategory(cat.name)"
-            >×</span
-          >
+          <span v-if="cat.isCustom" class="remove-btn" @click.stop="removeCategory(cat.name)">
+            ×
+          </span>
         </div>
       </div>
 
@@ -186,8 +197,8 @@ textarea::placeholder {
 
 .category-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: center; /* 수직 가운데 정렬 */
+  justify-content: center; /* 아이콘 + 글자를 가운데 정렬 */
   gap: 6px;
   padding: 10px;
   border-radius: 10px;
@@ -195,6 +206,8 @@ textarea::placeholder {
   background-color: #fafafa;
   cursor: pointer;
   position: relative;
+  text-align: center; /* 텍스트 정렬 */
+  font-weight: bold;
 }
 
 .category-item.selected {
@@ -243,17 +256,99 @@ textarea::placeholder {
 }
 
 .edit {
-  background-color: #4caf50;
+  background-color: #ffcc00;
   color: white;
 }
 
 .delete {
-  background-color: #f44336;
+  background-color: #60584c;
   color: white;
 }
 
-.back {
-  background-color: #9e9e9e;
+.type-toggle .active {
+  background-color: #545045;
   color: white;
+}
+
+.category-item.selected {
+  background-color: #545045;
+  color: white;
+}
+/* ✅ 태블릿 대응 추가 */
+@media (max-width: 900px) {
+  .transaction-detail {
+    padding: 24px;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 22px;
+  }
+
+  .type-toggle button {
+    font-size: 15px;
+    padding: 10px 18px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .edit-delete-buttons button,
+  .back-button-wrapper .back {
+    font-size: 15px;
+  }
+
+  input,
+  textarea {
+    font-size: 15px;
+  }
+}
+
+/* ✅ 모바일 대응 */
+@media (max-width: 600px) {
+  .transaction-detail {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .type-toggle {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .type-toggle button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .edit-delete-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .edit-delete-buttons button,
+  .back-button-wrapper .back {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .back-button-wrapper {
+    justify-content: center;
+  }
+
+  input,
+  textarea {
+    font-size: 16px;
+  }
 }
 </style>

@@ -1,6 +1,10 @@
 <script setup>
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
 import { TRANSACTION_CATEGORY } from '@/types'
 import { computed, defineProps } from 'vue'
+
+const transactionCategoryStore = useTransactionCategoryStore()
+const transactionCategories = computed(() => transactionCategoryStore.states.transactionCategories)
 
 const props = defineProps({
   categorialTransaction: Object,
@@ -19,9 +23,23 @@ const sum = computed(() => {
 })
 
 const getCategoryName = (categoryId) => {
-  return Object.keys(TRANSACTION_CATEGORY).find(
-    (categoryName) => TRANSACTION_CATEGORY[categoryName] === categoryId,
-  )
+  if (transactionCategories.value.length === 0) {
+    return 'loading'
+  }
+
+  return transactionCategories.value.find(
+    (transactionCategory) => transactionCategory.id === categoryId,
+  ).name
+}
+
+const getCategoryIcon = (categoryId) => {
+  if (transactionCategories.value.length === 0) {
+    return 'loading'
+  }
+
+  return transactionCategories.value.find(
+    (transactionCategory) => transactionCategory.id === categoryId,
+  ).icon
 }
 
 const getRatio = (amount) => {
@@ -36,7 +54,10 @@ const getRatio = (amount) => {
       v-for="categorialTransaction in categorialTransactions"
       :key="categorialTransaction.id"
     >
-      <span style="width: 70px">{{ getCategoryName(categorialTransaction.id) }}</span>
+      <span style="width: 110px"
+        >{{ getCategoryIcon(categorialTransaction.id) }}
+        {{ getCategoryName(categorialTransaction.id) }}
+      </span>
       <div
         class="progress w-50 me-3"
         role="progressbar"

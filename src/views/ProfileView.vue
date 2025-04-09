@@ -1,13 +1,43 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useTransactionStore } from '@/stores/transactionStore'
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
+import { computed, reactive, watch } from 'vue'
 
+// categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
+// 날짜기준 오름차순 정렬
+const transactionStore = useTransactionStore()
+const transactions = computed(() => transactionStore.states.transactions)
+const periodic = computed(() =>
+  transactions.value
+    .filter((t) => ['2', '3'].includes(String(t.categoryId)))
+    .sort((a, b) => new Date(a.date) - new Date(b.date)),
+)
+
+// category 받아오기
+const transactionCategoryStore = useTransactionCategoryStore()
+const categories = computed(() => transactionCategoryStore.states.transactionCategories)
+
+/* db.json 유저 정보 */
 const users = ref([])
-
 onMounted(async () => {
   const response = await axios.get('http://localhost:3000/users/1')
   users.value = response.data
 })
+
+// const transactionCategories = ref([]) /* db.json 태그 관리 */
+// onMounted(async () => {
+//   const response = await axios.get('http://localhost:3000/transactionCategory')
+//   transactionCategories.value = response.data
+// })
+
+function formatToMonthDay(dateString) {
+  const date = new Date(dateString)
+  const month = date.getMonth() + 1 /* getMonth가 0부터 시작하므로 +1 */
+  const day = date.getDate()
+  return `${month}월 ${day}일`
+}
 </script>
 
 <template>
@@ -27,13 +57,19 @@ onMounted(async () => {
     <div class="container">
       <p class="containerTitle">태그 관리</p>
       <div class="article">
-        <p>태그 리스트</p>
+        <div class="categoryList">
+          <span v-for="category in categories" :key="category.id">
+            {{ category.icon }} {{ category.name }}
+          </span>
+        </div>
       </div>
     </div>
     <div class="container">
       <p class="containerTitle">고정지출 관리</p>
       <div class="article">
-        <p>매달 자동입력되는 지출 기록</p>
+        <div class="periodical" v-for="list in periodic" :key="list.id">
+          {{ formatToMonthDay(list.date) }} {{ list.memo }} {{ list.amount }}
+        </div>
       </div>
     </div>
     <div class="container">
@@ -50,8 +86,10 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 0.2fr 1fr 1fr;
-  gap: 0.5rem;
-  padding: 1rem;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: rgb(255, 188, 0);
+  border-radius: 1rem;
 }
 
 .layout .profile {
@@ -63,19 +101,17 @@ onMounted(async () => {
   justify-content: flex-start;
   align-items: center;
   gap: 3rem;
-  background-color: rgb(255, 188, 0);
+  /* background-color: rgb(255, 255, 255); */
   border-radius: 0.5rem;
-  margin: 1rem;
 }
 
 .layout .container {
-  background-color: rgb(255, 188, 0);
+  background-color: rgb(255, 255, 255);
   padding: 2rem;
-  margin: 1rem;
   grid-column: span 6;
   display: flex;
   flex-direction: column;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
 }
 
 .layout .container .containerTitle {
@@ -86,19 +122,32 @@ onMounted(async () => {
 }
 
 .layout .container .article {
-  background-color: rgb(96, 88, 76);
+  /* background-color: rgb(255, 188, 0); */
   padding: 1rem;
   flex: 1; /* 높이를 유연하게 */
   display: flex;
   flex-direction: column;
   justify-content: center; /* 수직 가운데 정렬 */
   align-items: center; /* 수평 가운데 정렬 */
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   font-size: 1rem;
   gap: 0.5rem;
 }
 
+.layout .container .article .categoryList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.layout .container .article .periodical {
+  align-self: flex-start; /* article이 가운데 정렬이고 periodical만 왼쪽 정렬함*/
+}
+
 .layout .container .article button {
+  flex-direction: column;
   border: 1px solid;
   margin: 0; /* ✅ 좌우 마진 제거 */
   padding: 0.75rem;
