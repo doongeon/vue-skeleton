@@ -8,7 +8,7 @@ const props = defineProps({
 
 <template>
   <div class="container history-wrapper">
-    <!-- 테이블 헤더 -->
+    <!-- 테이블 헤더 (PC용) -->
     <div class="row header">
       <span>날짜</span>
       <span>구별</span>
@@ -19,15 +19,20 @@ const props = defineProps({
     </div>
 
     <!-- 거래 내역 리스트 -->
-    <div class="row item" v-for="item in props.items" :key="item.id">
-      <span>{{ item.date }}</span>
-      <span>{{ item.type }}</span>
-      <span>{{ item.category }}</span>
-      <span>{{ item.amount.toLocaleString() }}원</span>
-      <span>{{ item.memo }}</span>
+    <div
+      class="row item"
+      v-for="item in props.items"
+      :key="item.id"
+      @click="$emit('click', item.id)"
+    >
+      <span><strong class="label">날짜:</strong> {{ item.date }}</span>
+      <span><strong class="label">구별:</strong> {{ item.type }}</span>
+      <span><strong class="label">카테고리:</strong> {{ item.category }}</span>
+      <span><strong class="label">금액:</strong> {{ item.amount.toLocaleString() }}원</span>
+      <span><strong class="label">메모:</strong> {{ item.memo }}</span>
       <span>
-        <button @click="$emit('edit', item.id)">✏️</button>
-        <button @click="$emit('delete', item.id)">🗑️</button>
+        <button @click.stop="$emit('edit', item.id)">✏️</button>
+        <button @click.stop="$emit('delete', item.id)">🗑️</button>
       </span>
     </div>
   </div>
@@ -44,7 +49,7 @@ const props = defineProps({
 
 .row {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6등분으로 균등하게 */
+  grid-template-columns: repeat(6, 1fr); /* PC에서 6등분 */
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -53,7 +58,7 @@ const props = defineProps({
 
 .header {
   font-weight: bold;
-  background-color: #f0e9e9;
+  background-color: rgb(255, 204, 0);
 }
 
 .item:hover {
@@ -66,5 +71,37 @@ button {
   cursor: pointer;
   font-size: 18px;
   margin: 0 4px;
+}
+
+/* 반응형 스타일 */
+.label {
+  display: none;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+
+  .row span {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .label {
+    display: inline;
+    margin-right: 4px;
+  }
+
+  button {
+    font-size: 16px;
+  }
 }
 </style>

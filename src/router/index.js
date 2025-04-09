@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Sidebar from '../views/Sidebar.vue'
+import Header from '../views/Header.vue'
 import AddTransaction from '@/views/AddTransaction.vue'
 import TransactionHistory from '@/views/TransactionHistory.vue'
 import EditTransaction from '@/views/EditTransaction.vue'
 import HistoryDetail from '@/views/HistoryDetail.vue'
-import StatisticView from '@/views/StatisticView.vue'
+import AnalysisView from '@/views/AnalysisView.vue'
 import Layout from '@/views/Layout.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+import CalendarView from '@/views/CalendarView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,8 +32,8 @@ const router = createRouter({
           name: 'editHistory',
           component: EditTransaction,
         },
-        { path: 'analysis', name: 'analysis', component: StatisticView },
-        { path: 'calendar', name: 'calendar', component: HomeView },
+        { path: 'analysis', name: 'analysis', component: AnalysisView },
+        { path: 'calendar', name: 'calendar', component: CalendarView },
         { path: 'profile', name: 'profile', component: ProfileView },
         {
           path: '/:pathMatch(.*)*',
@@ -39,6 +42,7 @@ const router = createRouter({
         },
       ],
     },
+    { path: '/sidebar', name: 'Sidebar', component: Sidebar },
   ],
 })
 

@@ -4,6 +4,7 @@ import '@/assets/Sidebar.css'
 
 <template>
   <aside class="sidebar">
+    <div class="title">사이드바</div>
     <nav class="menu">
       <router-link to="/" class="menu-item">홈화면</router-link>
       <router-link to="/history" class="menu-item">거래 상세내역</router-link>
