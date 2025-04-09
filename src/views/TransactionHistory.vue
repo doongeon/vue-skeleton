@@ -149,7 +149,7 @@ const goToAdd = () => {
       @delete="deleteTransaction"
     />
 
-    <!-- 최신순 정렬 버튼과 거래 추가 버튼을 가로로 배치 -->
+    <!-- 거래 추가 버튼을 가로로 배치 -->
     <div class="button-group">
       <button class="add-transaction-btn" @click="goToAdd">거래 추가</button>
     </div>
