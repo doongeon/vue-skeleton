@@ -5,6 +5,7 @@
       "userId": "1",
       "typeId": "1",
       "categoryId": "7",
+      "amount": 10000,
       "memo": "test 돈까쓰",
       "date": "2025-04-06T12:30:00",
       "createdAt": "2025-04-06T00:00:00",
