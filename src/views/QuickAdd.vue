@@ -1,7 +1,39 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import axios from 'axios'
+import { useTransactionStore } from '@/stores/transactionStore'
 
 const isFormVisible = ref(false) // 폼 표시 여부 상태
+const date = ref('')
+const typeId = ref('')
+const categoryId = ref('')
+const amount = ref('')
+const memo = ref('')
+// Pinia Store
+const transactionStore = useTransactionStore()
+const submit = async () => {
+  const newHistory = {
+    typeId: String(typeId.value),
+    categoryId: String(categoryId.value),
+    amount: parseInt(amount.value),
+    memo: memo.value,
+    date: new Date(date.value).toISOString(),
+  }
+  try {
+    await transactionStore.actions.addTransaction(newHistory)
+    alert('거래내역이 추가되었습니다.')
+    // 초기화
+    typeId.value = ''
+    categoryId.value = ''
+    amount.value = ''
+    memo.value = ''
+    date.value = ''
+    isFormVisible.value = false
+  } catch (error) {
+    console.error(error)
+    alert('거래내역 추가에 실패했습니다.')
+  }
+}
 
 const toggleForm = () => {
   if (isFormVisible.value == false) {
@@ -17,14 +49,27 @@ const toggleForm = () => {
     <button class="icon" @click="toggleForm">빠른 추가</button>
     <div v-if="isFormVisible" class="format">
       <div>새로운 거래 추가</div>
-      <div class="form-row">날짜<input type="text" placeholder="내용입력" /></div>
-      <div class="form-row">구별<input type="text" placeholder="내용입력" /></div>
-      <div class="form-row">카테고리<input type="text" placeholder="내용입력" /></div>
-      <div class="form-row">금액<input type="text" placeholder="내용입력" /></div>
       <div class="form-row">
-        메모<textarea placeholder="내용입력" class="memo" name="" id=""></textarea>
+        날짜<input v-model="date" type="datetime-local" placeholder="내용입력" />
       </div>
-      <button>거래내역 추가</button>
+      <div class="form-row">
+        구별
+        <select v-model="typeId">
+          <option value=""></option>
+          <option value="1">지출</option>
+          <option value="2">수입</option>
+        </select>
+      </div>
+      <div class="form-row">
+        카테고리<input v-model="categoryId" type="text" placeholder="카테고리 ID 입력" />
+      </div>
+      <div class="form-row">
+        금액<input v-model="amount" type="number" placeholder="숫자만 입력" />
+      </div>
+      <div class="form-row">
+        메모<textarea v-model="memo" placeholder="내용입력" class="memo"></textarea>
+      </div>
+      <button @click="submit">거래내역 추가</button>
     </div>
   </div>
 </template>
