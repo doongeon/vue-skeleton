@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Sidebar from '../views/Sidebar.vue'
 import AddTransaction from '@/views/AddTransaction.vue'
 import TransactionHistory from '@/views/TransactionHistory.vue'
 import EditTransaction from '@/views/EditTransaction.vue'
@@ -40,6 +41,7 @@ const router = createRouter({
         },
       ],
     },
+    { path: '/sidebar', name: 'Sidebar', component: Sidebar },
   ],
 })
 
