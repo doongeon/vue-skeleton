@@ -1,5 +1,9 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { useTransactionCategoryStore } from '../stores/transactionCategoryStore'
+
+// Pinia store 가져오기
+const store = useTransactionCategoryStore()
 
 // 부모 컴포넌트로 필터 정보 전달
 const emit = defineEmits([
@@ -11,28 +15,16 @@ const emit = defineEmits([
   'close',
 ])
 
-// 초기 카테고리 리스트
-const categories = ref([
-  { name: '식비', icon: '🍽️' },
-  { name: '교통', icon: '🚗' },
-  { name: '문화/여가', icon: '🎮' },
-  { name: '술/유흥', icon: '🍺' },
-  { name: '쇼핑', icon: '🛍️' },
-  { name: '여행/숙박', icon: '🏨' },
-  { name: '월급', icon: '💼' },
-  { name: '용돈', icon: '💸' },
-  { name: '보너스', icon: '🎁' },
-  { name: '매매', icon: '📈' },
-  { name: '이자', icon: '💰' },
-])
-
-// 상태
+// 상태 정의
 const selectedCategories = ref([])
 const selectedType = ref('all')
 const selectedDay = ref(null)
 const searchQuery = ref('')
 const newCategory = ref({ name: '', icon: '' })
 const dateOrder = ref('desc')
+
+// 카테고리 목록은 computed로 Pinia store의 데이터 반영
+const categories = computed(() => store.states.transactionCategories)
 
 // 수입/지출/전체 필터
 const setFilter = (type) => {
@@ -66,20 +58,20 @@ const selectCategory = (categoryName) => {
 }
 
 // 카테고리 제거
-const removeCategory = (categoryName) => {
+const removeCategory = async (categoryName) => {
   if (confirm('삭제하시겠습니까?')) {
-    categories.value = categories.value.filter((c) => c.name !== categoryName)
+    await store.actions.deleteTransactionCategory(categoryName)
     selectedCategories.value = selectedCategories.value.filter((name) => name !== categoryName)
     alert('삭제되었습니다.')
   }
 }
 
 // 카테고리 추가
-const addCategory = () => {
+const addCategory = async () => {
   const name = newCategory.value.name.trim()
   const icon = newCategory.value.icon.trim()
   if (name && icon && !categories.value.some((c) => c.name === name)) {
-    categories.value.push({ name, icon })
+    await store.actions.addTransactionCategory({ name, icon, accountTypeId: '1' }) // 예시로 '1' 사용
     newCategory.value = { name: '', icon: '' }
   }
 }

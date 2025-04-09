@@ -33,7 +33,7 @@ const router = createRouter({
           component: EditTransaction,
         },
         { path: 'analysis', name: 'analysis', component: AnalysisView },
-        { path: 'calendar', name: 'calendar', component: HomeView },
+        { path: 'calendar', name: 'calendar', component: CalendarView },
         { path: 'profile', name: 'profile', component: ProfileView },
         {
           path: '/:pathMatch(.*)*',

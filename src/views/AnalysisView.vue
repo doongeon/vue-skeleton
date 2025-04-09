@@ -8,21 +8,34 @@ import AnalysisList from '@/components/AnalysisList.vue'
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
 
-const expenses = computed(() =>
-  transactions.value
-    .filter((t) => t.typeId === TRANSACTION_TYPE.expense)
-    .sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime()
-    }),
-)
+const states = reactive({
+  period: 1,
+  transactionType: 'income',
+})
 
-const incomes = computed(() =>
-  transactions.value
-    .filter((t) => t.typeId === TRANSACTION_TYPE.income)
+const expenses = computed(() => {
+  const now = new Date()
+  const past = new Date(now.getTime() - states.period * 30 * 24 * 60 * 60 * 1000) // N개월 전 (30일 기준)
+
+  return transactions.value
+    .filter(
+      (t) => t.typeId === TRANSACTION_TYPE.expense && new Date(t.date).getTime() >= past.getTime(),
+    )
     .sort((a, b) => {
       return new Date(b.date).getTime() - new Date(a.date).getTime()
-    }),
-)
+    })
+})
+
+const incomes = computed(() => {
+  const now = new Date()
+  const past = new Date(now.getTime() - states.period * 30 * 24 * 60 * 60 * 1000) // N개월 전 (30일 기준)
+
+  return transactions.value
+    .filter(
+      (t) => t.typeId === TRANSACTION_TYPE.income && new Date(t.date).getTime() >= past.getTime(),
+    )
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+})
 
 const categorialExpense = computed(() =>
   expenses.value.reduce((res, e) => {
@@ -53,15 +66,6 @@ const totalIncome = computed(() => {
 
 const totalExpense = computed(() => {
   return expenses.value.reduce((sum, i) => sum + i.amount, 0).toLocaleString()
-})
-
-const states = reactive({
-  period: 1,
-  transactionType: 'income',
-  expenses: [],
-  incomes: [],
-  categorialExpense: {},
-  categorialIncome: {},
 })
 
 const getCategoryName = (categoryId) => {
