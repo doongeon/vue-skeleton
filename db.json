@@ -423,56 +423,67 @@
     {
       "id": "1",
       "name": "식비",
+      "icon": "🍽️",
       "accountTypeId": "1"
     },
     {
       "id": "2",
       "name": "교통",
+      "icon": "🚗",
       "accountTypeId": "1"
     },
     {
       "id": "3",
       "name": "문화/여가",
+      "icon": "🎮",
       "accountTypeId": "1"
     },
     {
       "id": "4",
       "name": "술/유흥",
+      "icon": "🍺",
       "accountTypeId": "1"
     },
     {
       "id": "5",
       "name": "쇼핑",
+      "icon": "🛍️",
       "accountTypeId": "1"
     },
     {
       "id": "6",
       "name": "여행/숙박",
+      "icon": "🏨",
       "accountTypeId": "1"
     },
     {
       "id": "7",
       "name": "월급",
+      "icon": "💼",
       "accountTypeId": "2"
     },
     {
       "id": "8",
       "name": "용돈",
+      "icon": "💸",
       "accountTypeId": "2"
     },
     {
       "id": "9",
       "name": "보너스",
+      "icon": "🎁",
       "accountTypeId": "2"
     },
     {
       "id": "10",
       "name": "매매",
+      "icon": "📈",
       "accountTypeId": "2"
     },
     {
       "id": "11",
       "name": "이자",
+      "icon": "💰",
       "accountTypeId": "2"
     }
   ],

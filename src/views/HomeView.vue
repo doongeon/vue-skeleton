@@ -520,6 +520,9 @@ h3 {
 }
 
 
+/* 최근 거래 목록 */
+
+
 .recent-transaction {
   flex: 2;
   /* flex: 1 1 calc((100% - 1rem) * 2 / 3); */
@@ -537,6 +540,7 @@ h3 {
 }
 
 /* 고정 지출 */
+
 
 .fixed-expense {
   flex: 1;

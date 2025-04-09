@@ -1,9 +1,9 @@
 <script setup>
 import { useTransactionStore } from '@/stores/transactionStore'
 import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/types'
-import { computed, reactive, watch } from 'vue'
-import PieChart from '../components/PieChart.vue'
-import StatisticList from '../components/StatisticList.vue'
+import { computed, reactive } from 'vue'
+import PieChart from '@/components/PieChart.vue'
+import AnalysisList from '@/components/AnalysisList.vue'
 
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
@@ -11,33 +11,61 @@ const transactions = computed(() => transactionStore.states.transactions)
 const states = reactive({
   period: 1,
   transactionType: 'income',
-  expenses: [],
-  incomes: [],
-  categorialExpense: {},
-  categorialIncome: {},
 })
 
-watch(transactions, () => {
-  transactions.value.forEach((t) => {
-    if (t.typeId === TRANSACTION_TYPE.expense) states.expenses.push(t)
-    if (t.typeId === TRANSACTION_TYPE.income) states.incomes.push(t)
-  })
+const expenses = computed(() => {
+  const now = new Date()
+  const past = new Date(now.getTime() - states.period * 30 * 24 * 60 * 60 * 1000) // N개월 전 (30일 기준)
 
-  states.expenses.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime()
-  })
+  return transactions.value
+    .filter(
+      (t) => t.typeId === TRANSACTION_TYPE.expense && new Date(t.date).getTime() >= past.getTime(),
+    )
+    .sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    })
+})
 
-  states.categorialExpense = states.expenses.reduce((res, e) => {
+const incomes = computed(() => {
+  const now = new Date()
+  const past = new Date(now.getTime() - states.period * 30 * 24 * 60 * 60 * 1000) // N개월 전 (30일 기준)
+
+  return transactions.value
+    .filter(
+      (t) => t.typeId === TRANSACTION_TYPE.income && new Date(t.date).getTime() >= past.getTime(),
+    )
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+})
+
+const categorialExpense = computed(() =>
+  expenses.value.reduce((res, e) => {
     if (!res[e.categoryId]) res[e.categoryId] = 0
     res[e.categoryId] += e.amount
     return res
-  }, {})
+  }, {}),
+)
 
-  states.categorialIncome = states.incomes.reduce((res, e) => {
+const categorialIncome = computed(() =>
+  incomes.value.reduce((res, e) => {
     if (!res[e.categoryId]) res[e.categoryId] = 0
     res[e.categoryId] += e.amount
     return res
-  }, {})
+  }, {}),
+)
+
+const total = computed(() => {
+  return (
+    incomes.value.reduce((sum, i) => sum + i.amount, 0) -
+    expenses.value.reduce((sum, i) => sum + i.amount, 0)
+  ).toLocaleString()
+})
+
+const totalIncome = computed(() => {
+  return incomes.value.reduce((sum, i) => sum + i.amount, 0).toLocaleString()
+})
+
+const totalExpense = computed(() => {
+  return expenses.value.reduce((sum, i) => sum + i.amount, 0).toLocaleString()
 })
 
 const getCategoryName = (categoryId) => {
@@ -45,27 +73,17 @@ const getCategoryName = (categoryId) => {
     (categoryName) => TRANSACTION_CATEGORY[categoryName] === categoryId,
   )
 }
-
-const getTotal = () => {
-  return transactions.value
-    .reduce((res, t) => {
-      if (t.typeId === TRANSACTION_TYPE.expense) res -= t.amount
-      else res += t.amount
-      return res
-    }, 0)
-    .toLocaleString()
-}
 </script>
 
 <template>
-  <div class="card py-3 px-5 shadow-sm">
+  <div class="card py-3 px-lg-5 shadow-sm">
     <div class="card-body">
       <div class="mb-4">
         <span class="fs-4 me-2">총 수익</span>
-        <span class="fs-2">{{ getTotal() }}</span>
+        <span class="fs-2">{{ total }} 원</span>
       </div>
 
-      <div class="mb-3 d-flex justify-content-between">
+      <div class="mb-4 d-flex justify-content-between">
         <div>
           <select class="form-select" v-model="states.period">
             <option value="1">1개월</option>
@@ -81,21 +99,15 @@ const getTotal = () => {
         </div>
       </div>
 
-      <div class="card mb-5 p-4 shadow-sm">
+      <hr class="" />
+
+      <div class="mb-4 px-4">
         <div class="mb-4">
           <span class="fs-5 me-2">
             {{ states.transactionType === 'income' ? '순 수익' : '순 지출' }}
           </span>
           <span class="fs-4">
-            {{
-              states.transactionType === 'income'
-                ? Object.values(states.categorialIncome)
-                    .reduce((sum, i) => sum + i, 0)
-                    .toLocaleString()
-                : Object.values(states.categorialExpense)
-                    .reduce((sum, i) => sum + i, 0)
-                    .toLocaleString()
-            }}
+            {{ states.transactionType === 'income' ? totalIncome : totalExpense }}
             원
           </span>
         </div>
@@ -104,24 +116,24 @@ const getTotal = () => {
           <div class="col-lg-6 mb-3 mb-lg-0">
             <template v-if="states.transactionType === 'expense'">
               <PieChart
-                :series="Object.values(states.categorialExpense)"
-                :labels="Object.keys(states.categorialExpense).map(getCategoryName)"
+                :series="Object.values(categorialExpense)"
+                :labels="Object.keys(categorialExpense).map(getCategoryName)"
               />
             </template>
             <template v-if="states.transactionType === 'income'">
               <PieChart
-                :series="Object.values(states.categorialIncome)"
-                :labels="Object.keys(states.categorialIncome).map(getCategoryName)"
+                :series="Object.values(categorialIncome)"
+                :labels="Object.keys(categorialIncome).map(getCategoryName)"
               />
             </template>
           </div>
 
           <div class="col-lg-6">
             <template v-if="states.transactionType === 'income'">
-              <StatisticList :categorialTransaction="states.categorialIncome" />
+              <AnalysisList :categorialTransaction="categorialIncome" />
             </template>
             <template v-if="states.transactionType === 'expense'">
-              <StatisticList :categorialTransaction="states.categorialExpense" />
+              <AnalysisList :categorialTransaction="categorialExpense" />
             </template>
           </div>
         </div>
