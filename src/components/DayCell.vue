@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed } from 'vue'
+import {  computed } from 'vue'
 import { useCalendarStore } from '@/stores/calendarStore'
 
 const props = defineProps({
@@ -10,7 +10,6 @@ const props = defineProps({
 })
 
 const categoryFilter = useCalendarStore()
-console.log('DayCell: categoryFilter.filteredData 업데이트:', categoryFilter.filteredData)
 
 // 날짜 변환용 함수 : YYYY-MM-DD 형식
 const toDateString = (date) => new Date(date).toISOString().slice(0, 10)
@@ -29,7 +28,7 @@ const cellData = computed(() => {
 </script>
 
 <template>
-  <div class="daily-cell">
+  <div class="day-cell">
     <div class="day-number">{{ props.date.getDate() }}</div>
     <!-- toLocaleString은 숫자 3마다 , 찍기 -->
     <div class="income" v-if="cellData.income">+{{ cellData.income.toLocaleString() }}</div>
@@ -38,7 +37,7 @@ const cellData = computed(() => {
 </template>
 
 <style scoped>
-.daily-cell {
+.day-cell {
   padding: 4px;
   font-size: 12px;
 }

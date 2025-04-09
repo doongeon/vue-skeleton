@@ -9,13 +9,17 @@ import WeekRow from '@/components/WeekRow.vue'
 </script>
 
 <template>
-  <CategoryFilter v-slot="categoryData">
+  <CategoryFilter>
     <div class="calendar-wrapper">
       <div class="calendar-outer">
-        <Calendar style="height: 600px; width: 760px" is-expanded>
+        <Calendar style="height: 600px; width: 760px" is-expanded trim-weeks>
+          <!-- <template #week="{ week, weekIndex }"> -->
+          <!-- <div class="week-box"> -->
+          <!-- <WeekRow :week="week" :index="weekIndex" /> -->
+          <!-- </div> -->
+          <!-- </template> -->
           <template #day-content="{ day }">
-            <!-- <WeekRow :date="day.date" :filteredData="categoryData.filter"> </WeekRow> -->
-            <DayCell :date="day.date" :filteredData="categoryData.filter" />
+            <DayCell :date="day.date" class="day-cell" />
           </template>
         </Calendar>
       </div>
@@ -46,7 +50,7 @@ import WeekRow from '@/components/WeekRow.vue'
 }
 
 ::v-deep(.vc-week::before) {
-  content: '주간 요약 +120,000 / -95,000'; /* placeholder */
+  /* content: '주간 요약 +120,000 / -95,000'; */
   position: absolute;
   top: -20px;
   left: 0;
@@ -58,10 +62,31 @@ import WeekRow from '@/components/WeekRow.vue'
   padding-right: 8px;
 }
 
+.week-box {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+  border: palegreen solid 2px;
+}
+
 ::v-deep(.vc-day) {
-  border: 1px dashed #ccc;
+  border: 0.5px dashed #ccc;
+  border-radius: 5px;
   box-sizing: border-box;
   background-color: #fff;
   height: 100%;
+  transition: 0.2s;
+}
+
+::v-deep(.vc-day):hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+.day-cell {
+  height: 70px;
 }
 </style>
