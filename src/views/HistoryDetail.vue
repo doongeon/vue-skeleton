@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useTransactionCategoryStore } from '../stores/transactionCategoryStore'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,19 +14,11 @@ const type = ref('')
 const selectedCategory = ref('')
 const transactionId = ref('')
 
-const categories = [
-  { id: '1', name: '식비', icon: '🍽️' },
-  { id: '2', name: '교통', icon: '🚗' },
-  { id: '3', name: '문화/여가', icon: '🎮' },
-  { id: '4', name: '술/유흥', icon: '🍺' },
-  { id: '5', name: '쇼핑', icon: '🛍️' },
-  { id: '6', name: '여행/숙박', icon: '🏨' },
-  { id: '7', name: '월급', icon: '💼' },
-  { id: '8', name: '용돈', icon: '💸' },
-  { id: '9', name: '보너스', icon: '🎁' },
-  { id: '10', name: '매매', icon: '📈' },
-  { id: '11', name: '이자', icon: '💰' },
-]
+// Pinia store 사용
+const transactionCategoryStore = useTransactionCategoryStore()
+
+// 카테고리 리스트는 store에서 가져오기
+const categories = computed(() => transactionCategoryStore.states.transactionCategories)
 
 // 거래 데이터 불러오기
 onMounted(async () => {
@@ -39,7 +32,8 @@ onMounted(async () => {
   date.value = data.date.slice(0, 10)
   type.value = data.typeId === 1 || data.typeId === '1' ? '수입' : '지출'
 
-  const category = categories.find((cat) => cat.id === String(data.categoryId))
+  // 카테고리 찾아서 선택
+  const category = categories.value.find((cat) => cat.id === String(data.categoryId))
   selectedCategory.value = category ? category.name : ''
 })
 
@@ -49,7 +43,7 @@ const updateTransaction = async () => {
     id: transactionId.value,
     userId: '1',
     typeId: type.value === '수입' ? 1 : 2,
-    categoryId: categories.find((cat) => cat.name === selectedCategory.value)?.id || '',
+    categoryId: categories.value.find((cat) => cat.name === selectedCategory.value)?.id || '',
     amount: amount.value,
     memo: content.value,
     date: new Date(date.value).toISOString(),
@@ -114,8 +108,8 @@ const goBack = () => {
           :class="{ selected: selectedCategory === cat.name }"
           @click="selectedCategory = cat.name"
         >
-          <span class="icon">{{ cat.icon }}</span
-          >{{ cat.name }}
+          <span class="icon">{{ cat.icon }}</span>
+          {{ cat.name }}
         </button>
       </div>
 
