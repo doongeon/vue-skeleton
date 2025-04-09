@@ -8,7 +8,7 @@ onMounted(async () => {
   const response = await axios.get('http://localhost:3000/transactionCategory')
   categoryList.value = response.data
 })
-// 현재 존재하는 categoryId
+// 현재 존재하는 categoryId의 list
 
 const isFormVisible = ref(false) // 폼 표시 여부 상태
 const date = ref('')
@@ -30,7 +30,7 @@ const submit = async () => {
     alert('유효한 카테고리를 선택하세요')
     return
   } else if (isNaN(amount.value) || amount.value <= 0) {
-    alert('유효한 금액을 입력하세요')
+    alert('0보다 큰 금액을 입력하세요')
     return
   } else if (!memo.value) {
     alert('유효한 메모를 입력하세요')
@@ -59,6 +59,7 @@ const submit = async () => {
   }
 }
 
+// 빠른추가버튼 클릭할때마다 새로운거래추가 화면 on/off
 const toggleForm = () => {
   if (isFormVisible.value == false) {
     isFormVisible.value = true
@@ -85,7 +86,13 @@ const toggleForm = () => {
         </select>
       </div>
       <div class="form-row">
-        카테고리<input v-model="categoryId" type="text" placeholder="카테고리 ID 입력" />
+        카테고리
+        <select v-model="categoryId">
+          <option value="">카테고리를 선택하세요</option>
+          <option v-for="category in categoryList" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
       </div>
       <div class="form-row">
         금액<input v-model="amount" type="number" placeholder="숫자만 입력" />
