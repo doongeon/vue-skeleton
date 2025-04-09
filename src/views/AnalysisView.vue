@@ -2,8 +2,8 @@
 import { useTransactionStore } from '@/stores/transactionStore'
 import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/types'
 import { computed, reactive } from 'vue'
-import PieChart from '../components/PieChart.vue'
-import StatisticList from '../components/StatisticList.vue'
+import PieChart from '@/components/PieChart.vue'
+import AnalysisList from '@/components/AnalysisList.vue'
 
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
@@ -125,10 +125,10 @@ const getCategoryName = (categoryId) => {
 
           <div class="col-lg-6">
             <template v-if="states.transactionType === 'income'">
-              <StatisticList :categorialTransaction="categorialIncome" />
+              <AnalysisList :categorialTransaction="categorialIncome" />
             </template>
             <template v-if="states.transactionType === 'expense'">
-              <StatisticList :categorialTransaction="categorialExpense" />
+              <AnalysisList :categorialTransaction="categorialExpense" />
             </template>
           </div>
         </div>
