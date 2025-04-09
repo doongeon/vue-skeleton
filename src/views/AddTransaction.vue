@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-import CalendarPicker from '@/components/CalendarPicker.vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
+import CalendarPicker from '@/components/CalendarPicker.vue'
+
+// Pinia store 연결
+const transactionCategoryStore = useTransactionCategoryStore()
 
 const router = useRouter()
 
@@ -10,42 +14,43 @@ const date = ref(new Date())
 const amount = ref(null)
 const content = ref('')
 const type = ref('지출')
-const selectedCategory = ref('식비')
 const customCategory = ref('')
+const selectedCategory = ref('')
 
-const categories = ref([
-  { name: '식비', icon: '🍽️' },
-  { name: '교통', icon: '🚗' },
-  { name: '문화/여가', icon: '🎮' },
-  { name: '술/유흥', icon: '🍺' },
-  { name: '쇼핑', icon: '🛍️' },
-  { name: '여행/숙박', icon: '🏨' },
-  { name: '월급', icon: '💼' },
-  { name: '용돈', icon: '💸' },
-  { name: '보너스', icon: '🎁' },
-  { name: '매매', icon: '📈' },
-  { name: '이자', icon: '💰' },
-])
+// computed로 카테고리 목록을 Pinia store의 상태와 연결
+const categories = computed(() => transactionCategoryStore.states.transactionCategories)
 
+// 카테고리 선택 함수
+const selectCategory = (category) => {
+  selectedCategory.value = category.name
+}
+
+// 커스텀 카테고리 추가 함수
 const addCustomCategory = () => {
   const trimmed = customCategory.value.trim()
   if (trimmed !== '') {
     const exists = categories.value.some((cat) => cat.name === trimmed)
     if (!exists) {
-      categories.value.push({ name: trimmed, icon: '🆕', isCustom: true })
+      transactionCategoryStore.addTransactionCategory({
+        name: trimmed,
+        icon: '🆕',
+        accountTypeId: '1',
+      })
     }
     selectedCategory.value = trimmed
     customCategory.value = ''
   }
 }
 
+// 선택된 카테고리 삭제 함수
 const removeCategory = (name) => {
-  categories.value = categories.value.filter((cat) => cat.name !== name)
+  transactionCategoryStore.deleteTransactionCategory(name)
   if (selectedCategory.value === name) {
     selectedCategory.value = ''
   }
 }
 
+// 거래 등록 함수
 const submitTransaction = () => {
   const isConfirmed = confirm(
     `등록하시겠습니까?\n제목: ${title.value}\n금액: ${amount.value}\n카테고리: ${selectedCategory.value}`,
@@ -56,11 +61,17 @@ const submitTransaction = () => {
   }
 }
 
+// 거래 취소 함수
 const cancelTransaction = () => {
   if (confirm('작성을 취소하시겠습니까?')) {
     router.push('/history')
   }
 }
+
+// selectedCategory가 변경될 때마다 카테고리 업데이트
+watch(selectedCategory, (newCategory) => {
+  console.log('선택된 카테고리:', newCategory)
+})
 </script>
 
 <template>
@@ -88,15 +99,15 @@ const cancelTransaction = () => {
       <div class="category-list">
         <div
           v-for="cat in categories"
-          :key="cat.name"
+          :key="cat.id"
           class="category-item"
           :class="{ selected: selectedCategory === cat.name }"
-          @click="selectedCategory = cat.name"
+          @click="selectCategory(cat)"
         >
           <span class="icon">{{ cat.icon }}</span> {{ cat.name }}
-          <span v-if="cat.isCustom" class="remove-btn" @click.stop="removeCategory(cat.name)"
-            >×</span
-          >
+          <span v-if="cat.isCustom" class="remove-btn" @click.stop="removeCategory(cat.name)">
+            ×
+          </span>
         </div>
       </div>
 
