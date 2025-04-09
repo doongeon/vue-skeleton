@@ -67,14 +67,14 @@ github 사이트에서 develop 브랜치로 PR을 보냅니다.
 
 내용은 한글로 작성합니다.
 
-feat: 새로운 기능 추가
-fix: 버그 수정
-docs: 문서 수정
-style: 코드 스타일 변경 (코드 포매팅, 세미콜론 누락 등)
-design: 사용자 UI 디자인 변경 (CSS 등)
-refactor: 리팩토링
-rename: 파일 혹은 폴더명을 수정만 한 경우
-remove: 파일을 삭제만 한 경우
+- feat: 새로운 기능 추가
+- fix: 버그 수정
+- docs: 문서 수정
+- style: 코드 스타일 변경 (코드 포매팅, 세미콜론 누락 등)
+- design: 사용자 UI 디자인 변경 (CSS 등)
+- refactor: 리팩토링
+- rename: 파일 혹은 폴더명을 수정만 한 경우
+- remove: 파일을 삭제만 한 경우
 
 **예시**
 feat: 가계부기능 추가
