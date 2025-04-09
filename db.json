@@ -199,7 +199,7 @@
       "updatedAt": "2025-04-01T14:00:00"
     },
     {
-      "id": "20",
+      "id": "19",
       "userId": "1",
       "typeId": "1",
       "categoryId": "1",
@@ -210,7 +210,7 @@
       "updatedAt": "2025-04-07T12:00:00"
     },
     {
-      "id": "21",
+      "id": "20",
       "userId": "1",
       "typeId": "1",
       "categoryId": "5",
@@ -221,7 +221,7 @@
       "updatedAt": "2025-04-05T15:20:00"
     },
     {
-      "id": "22",
+      "id": "21",
       "userId": "1",
       "typeId": "1",
       "categoryId": "3",
@@ -232,7 +232,7 @@
       "updatedAt": "2025-04-01T08:00:00"
     },
     {
-      "id": "23",
+      "id": "22",
       "userId": "1",
       "typeId": "2",
       "categoryId": "7",
@@ -243,7 +243,7 @@
       "updatedAt": "2025-03-31T09:00:00"
     },
     {
-      "id": "24",
+      "id": "23",
       "userId": "1",
       "typeId": "1",
       "categoryId": "1",
@@ -254,7 +254,7 @@
       "updatedAt": "2025-04-04T12:40:00"
     },
     {
-      "id": "25",
+      "id": "24",
       "userId": "1",
       "typeId": "2",
       "categoryId": "11",
@@ -265,7 +265,7 @@
       "updatedAt": "2025-04-03T00:00:00"
     },
     {
-      "id": "26",
+      "id": "25",
       "userId": "1",
       "typeId": "1",
       "categoryId": "6",
@@ -276,7 +276,7 @@
       "updatedAt": "2025-03-28T13:00:00"
     },
     {
-      "id": "27",
+      "id": "26",
       "userId": "1",
       "typeId": "1",
       "categoryId": "2",
@@ -287,7 +287,7 @@
       "updatedAt": "2025-04-06T08:00:00"
     },
     {
-      "id": "28",
+      "id": "27",
       "userId": "1",
       "typeId": "2",
       "categoryId": "8",
@@ -298,7 +298,7 @@
       "updatedAt": "2025-04-01T10:00:00"
     },
     {
-      "id": "29",
+      "id": "28",
       "userId": "1",
       "typeId": "1",
       "categoryId": "4",
@@ -309,7 +309,7 @@
       "updatedAt": "2025-04-02T22:00:00"
     },
     {
-      "id": "30",
+      "id": "29",
       "userId": "1",
       "typeId": "1",
       "categoryId": "1",
@@ -320,7 +320,7 @@
       "updatedAt": "2025-04-06T17:45:00"
     },
     {
-      "id": "31",
+      "id": "30",
       "userId": "1",
       "typeId": "expense",
       "categoryId": "식비",
