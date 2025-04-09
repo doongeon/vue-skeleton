@@ -1,7 +1,9 @@
 /* 상단바 */
 .header {
+feature/header
   background-color: #fdc400;
   padding: 20px;
+
   border-radius: 10px;
   display: flex;
   align-items: center;

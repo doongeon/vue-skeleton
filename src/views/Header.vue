@@ -31,6 +31,7 @@ function toggleDatePicker() {
           <button>로그아웃</button>
           <button>태그 추가</button>
         </div>
+
       </div>
     </div>
   </div>
