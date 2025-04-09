@@ -1,21 +1,29 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
+import { useTransactionStore } from '@/stores/transactionStore' // transactionStore.js 불러오기
 import FilterContent from '@/components/FilterContent.vue'
 import HistoryList from '@/components/HistoryList.vue'
 
 const router = useRouter()
-const transactions = ref([])
 
-// 카테고리 스토어 불러오기
-const transactionCategoryStore = useTransactionCategoryStore()
+// transactionStore 사용
+const transactionStore = useTransactionStore()
+
+// 거래 데이터 가져오기
+onMounted(async () => {
+  await transactionStore.initStore()
+})
 
 // 카테고리 id → 이름+아이콘 매핑
 const categoryMap = computed(() => {
   const map = {}
-  transactionCategoryStore.states.transactionCategories.forEach((cat) => {
-    map[Number(cat.id)] = `${cat.name} ${cat.icon}`
+  transactionStore.states.transactions.forEach((transaction) => {
+    const category =
+      transactionStore.states.transactions.find(
+        (cat) => cat.categoryId === transaction.categoryId,
+      ) || {} // categoryId에 맞는 카테고리를 찾거나 없으면 빈 객체 반환
+    map[transaction.categoryId] = `${category.name} ${category.icon}` // 카테고리 이름과 아이콘 추가
   })
   return map
 })
@@ -25,25 +33,6 @@ const typeMap = {
   1: '지출',
   2: '수입',
 }
-
-// 거래 데이터 가져오기
-onMounted(async () => {
-  try {
-    const response = await fetch('http://localhost:3000/transactions')
-    const data = await response.json()
-
-    transactions.value = data.map((item) => ({
-      id: item.id,
-      date: item.date.slice(0, 10), // 날짜만 추출
-      category: categoryMap.value[item.categoryId] || '기타',
-      amount: item.amount,
-      memo: item.memo,
-      type: typeMap[item.typeId] || '기타',
-    }))
-  } catch (error) {
-    console.error('데이터 불러오기 실패:', error)
-  }
-})
 
 // 필터 상태 정의
 const filters = ref({
@@ -76,7 +65,7 @@ const handleDateOrder = (order) => {
 
 // 필터링 + 정렬된 거래 내역 반환
 const filteredTransactions = computed(() => {
-  let result = transactions.value.filter((transaction) => {
+  let result = transactionStore.states.transactions.filter((transaction) => {
     const matchesType = filters.value.type === 'all' || transaction.type === filters.value.type
     const matchesCategory =
       filters.value.categories.length === 0 ||
@@ -111,16 +100,8 @@ const goToEdit = (id) => {
 const deleteTransaction = async (id) => {
   const confirmation = window.confirm('삭제하시겠습니까?')
   if (confirmation) {
-    try {
-      await fetch(`http://localhost:3000/transactions/${id}`, {
-        method: 'DELETE',
-      })
-      transactions.value = transactions.value.filter((transaction) => transaction.id !== id)
-      alert('삭제되었습니다.')
-    } catch (error) {
-      console.error('삭제 실패:', error)
-      alert('실패했습니다.')
-    }
+    await transactionStore.deleteTransaction(id)
+    alert('삭제되었습니다.')
   }
 }
 
@@ -149,7 +130,7 @@ const goToAdd = () => {
       @delete="deleteTransaction"
     />
 
-    <!-- 최신순 정렬 버튼과 거래 추가 버튼을 가로로 배치 -->
+    <!-- 거래 추가 버튼을 가로로 배치 -->
     <div class="button-group">
       <button class="add-transaction-btn" @click="goToAdd">거래 추가</button>
     </div>
