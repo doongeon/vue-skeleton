@@ -1,7 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useTransactionStore } from '@/stores/transactionStore'
+
+const categoryList = ref([])
+onMounted(async () => {
+  const response = await axios.get('http://localhost:3000/transactionCategory')
+  categoryList.value = response.data
+})
+// 현재 존재하는 categoryId
 
 const isFormVisible = ref(false) // 폼 표시 여부 상태
 const date = ref('')
@@ -11,7 +18,24 @@ const amount = ref('')
 const memo = ref('')
 // Pinia Store
 const transactionStore = useTransactionStore()
+// 제출 및 유효성검사
 const submit = async () => {
+  if (!date.value) {
+    alert('유효한 날짜를 선택하세요')
+    return
+  } else if (typeId.value !== '1' && typeId.value !== '2') {
+    alert('유효한 구별을 선택하세요')
+    return
+  } else if (!categoryList.value.find((item) => String(item.id) === String(categoryId.value))) {
+    alert('유효한 카테고리를 선택하세요')
+    return
+  } else if (isNaN(amount.value) || amount.value <= 0) {
+    alert('유효한 금액을 입력하세요')
+    return
+  } else if (!memo.value) {
+    alert('유효한 메모를 입력하세요')
+    return
+  }
   const newHistory = {
     typeId: String(typeId.value),
     categoryId: String(categoryId.value),
