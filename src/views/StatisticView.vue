@@ -1,12 +1,61 @@
 <script setup>
 import { useTransactionStore } from '@/stores/transactionStore'
 import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/types'
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive } from 'vue'
 import PieChart from '../components/PieChart.vue'
 import StatisticList from '../components/StatisticList.vue'
 
 const transactionStore = useTransactionStore()
+
 const transactions = computed(() => transactionStore.states.transactions)
+
+const expenses = computed(() =>
+  transactions.value
+    .filter((t) => t.typeId === TRANSACTION_TYPE.expense)
+    .sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    }),
+)
+
+const incomes = computed(() =>
+  transactions.value
+    .filter((t) => t.typeId === TRANSACTION_TYPE.income)
+    .sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    }),
+)
+
+const categorialExpense = computed(() =>
+  expenses.value.reduce((res, e) => {
+    if (!res[e.categoryId]) res[e.categoryId] = 0
+    res[e.categoryId] += e.amount
+    return res
+  }, {}),
+)
+
+const categorialIncome = computed(() =>
+  incomes.value.reduce((res, e) => {
+    if (!res[e.categoryId]) res[e.categoryId] = 0
+    res[e.categoryId] += e.amount
+    return res
+  }, {}),
+)
+
+const total = computed(() => {
+  console.log('  ⚠️  : ', incomes)
+  return (
+    incomes.value.reduce((sum, i) => sum + i.amount, 0) -
+    expenses.value.reduce((sum, i) => sum + i.amount, 0)
+  ).toLocaleString()
+})
+
+const totalIncome = computed(() => {
+  return incomes.value.reduce((sum, i) => sum + i.amount, 0).toLocaleString()
+})
+
+const totalExpense = computed(() => {
+  return expenses.value.reduce((sum, i) => sum + i.amount, 0).toLocaleString()
+})
 
 const states = reactive({
   period: 1,
@@ -17,43 +66,10 @@ const states = reactive({
   categorialIncome: {},
 })
 
-watch(transactions, () => {
-  transactions.value.forEach((t) => {
-    if (t.typeId === TRANSACTION_TYPE.expense) states.expenses.push(t)
-    if (t.typeId === TRANSACTION_TYPE.income) states.incomes.push(t)
-  })
-
-  states.expenses.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime()
-  })
-
-  states.categorialExpense = states.expenses.reduce((res, e) => {
-    if (!res[e.categoryId]) res[e.categoryId] = 0
-    res[e.categoryId] += e.amount
-    return res
-  }, {})
-
-  states.categorialIncome = states.incomes.reduce((res, e) => {
-    if (!res[e.categoryId]) res[e.categoryId] = 0
-    res[e.categoryId] += e.amount
-    return res
-  }, {})
-})
-
 const getCategoryName = (categoryId) => {
   return Object.keys(TRANSACTION_CATEGORY).find(
     (categoryName) => TRANSACTION_CATEGORY[categoryName] === categoryId,
   )
-}
-
-const getTotal = () => {
-  return transactions.value
-    .reduce((res, t) => {
-      if (t.typeId === TRANSACTION_TYPE.expense) res -= t.amount
-      else res += t.amount
-      return res
-    }, 0)
-    .toLocaleString()
 }
 </script>
 
@@ -62,7 +78,7 @@ const getTotal = () => {
     <div class="card-body">
       <div class="mb-4">
         <span class="fs-4 me-2">총 수익</span>
-        <span class="fs-2">{{ getTotal() }}</span>
+        <span class="fs-2">{{ total }}</span>
       </div>
 
       <div class="mb-3 d-flex justify-content-between">
@@ -87,15 +103,7 @@ const getTotal = () => {
             {{ states.transactionType === 'income' ? '순 수익' : '순 지출' }}
           </span>
           <span class="fs-4">
-            {{
-              states.transactionType === 'income'
-                ? Object.values(states.categorialIncome)
-                    .reduce((sum, i) => sum + i, 0)
-                    .toLocaleString()
-                : Object.values(states.categorialExpense)
-                    .reduce((sum, i) => sum + i, 0)
-                    .toLocaleString()
-            }}
+            {{ states.transactionType === 'income' ? totalIncome : totalExpense }}
             원
           </span>
         </div>
@@ -104,24 +112,24 @@ const getTotal = () => {
           <div class="col-lg-6 mb-3 mb-lg-0">
             <template v-if="states.transactionType === 'expense'">
               <PieChart
-                :series="Object.values(states.categorialExpense)"
-                :labels="Object.keys(states.categorialExpense).map(getCategoryName)"
+                :series="Object.values(categorialExpense)"
+                :labels="Object.keys(categorialExpense).map(getCategoryName)"
               />
             </template>
             <template v-if="states.transactionType === 'income'">
               <PieChart
-                :series="Object.values(states.categorialIncome)"
-                :labels="Object.keys(states.categorialIncome).map(getCategoryName)"
+                :series="Object.values(categorialIncome)"
+                :labels="Object.keys(categorialIncome).map(getCategoryName)"
               />
             </template>
           </div>
 
           <div class="col-lg-6">
             <template v-if="states.transactionType === 'income'">
-              <StatisticList :categorialTransaction="states.categorialIncome" />
+              <StatisticList :categorialTransaction="categorialIncome" />
             </template>
             <template v-if="states.transactionType === 'expense'">
-              <StatisticList :categorialTransaction="states.categorialExpense" />
+              <StatisticList :categorialTransaction="categorialExpense" />
             </template>
           </div>
         </div>
