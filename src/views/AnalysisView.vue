@@ -41,7 +41,6 @@ const categorialIncome = computed(() =>
 )
 
 const total = computed(() => {
-  console.log('  ⚠️  : ', incomes)
   return (
     incomes.value.reduce((sum, i) => sum + i.amount, 0) -
     expenses.value.reduce((sum, i) => sum + i.amount, 0)
