@@ -12,11 +12,6 @@ const categoryList = computed(() =>
   })),
 )
 
-const filteredDataStore = useCalendarStore()
-// 자동추적 & 재실행
-watchEffect(()=> {
-  filteredDataStore.updateFilteredData(filteredData.value)
-})
 
 // selectedCategories 초기화: 전체 태그 포함
 // category id 기준 계산
@@ -54,7 +49,7 @@ watchEffect(async () => {
 const toggleCategory = (category) => {
   const id = category.id
   const idx = selectedCategories.value.indexOf(id)
-
+  
   if (idx >= 0) {
     selectedCategories.value.splice(idx, 1)
   } else {
@@ -67,7 +62,7 @@ const toggleCategory = (category) => {
 // 2025-04-03: {income: 0, expense: 45000}
 const filteredData = computed(() => {
   console.log('DEBUG: selectedCategories:', selectedCategories.value)
-
+  
   const result = {}
   const txArray = transactions.value
   txArray.forEach((transaction) => {
@@ -76,7 +71,7 @@ const filteredData = computed(() => {
     if (selectedCategories.value.includes(transactionCategoryId)) {
       // 날짜는 ISO 문자열의 앞부분(YYYY-MM-DD)으로 처리
       const date = transaction.date.slice(0, 10)
-
+      
       // 해당 날짜에 대한 결과 초기화
       if (!result[date]) {
         result[date] = { income: 0, expense: 0 }
@@ -89,11 +84,17 @@ const filteredData = computed(() => {
       }
     }
   })
-
+  
   console.log('DEBUG: filteredData result:', result)
   return result
 })
 
+// filteredData 선언 후 사용 가능
+const categoryFilter = useCalendarStore()
+// 자동추적 & 재실행
+watchEffect(()=> {
+  categoryFilter.updateFilteredData(filteredData.value)
+})
 
 </script>
 

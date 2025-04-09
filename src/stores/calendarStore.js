@@ -1,14 +1,12 @@
-import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { defineStore } from 'pinia'
 
-export const useCalendarStore = defineStore('filter', ()=> {
-    state : ()=> (reactive({
-        filteredData: {}
-    })),
-    actions: {
-        updateFilteredData(newData){
-            this.filteredData = newData
-        }
+export const useCalendarStore = defineStore('filter', {
+  state: () => ({
+    filteredData: {},
+  }),
+  actions: {
+    updateFilteredData(newData) {
+      this.filteredData = newData
     }
-}
+  }
 })

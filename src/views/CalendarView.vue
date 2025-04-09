@@ -14,7 +14,7 @@ import WeekRow from '@/components/WeekRow.vue'
       <div class="calendar-outer">
         <Calendar style="height: 600px; width: 760px" is-expanded>
           <template #day-content="{ day }">
-            <WeekRow :date="day.date" :filteredData="categoryData.filter"> </WeekRow>
+            <!-- <WeekRow :date="day.date" :filteredData="categoryData.filter"> </WeekRow> -->
             <DayCell :date="day.date" :filteredData="categoryData.filter" />
           </template>
         </Calendar>
