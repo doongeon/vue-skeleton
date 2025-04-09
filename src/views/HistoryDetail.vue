@@ -1,17 +1,17 @@
 <script setup>
-import { ref, watch } from 'vue'
-import CalendarPicker from '@/components/CalendarPicker.vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
+const route = useRoute()
 const router = useRouter()
 
-const title = ref('커피')
+const title = ref('')
 const date = ref(new Date())
-const amount = ref(4500)
-const content = ref('카페에서 커피를 마셨어요.')
+const amount = ref(0)
+const content = ref('')
 const type = ref('지출')
-const selectedCategory = ref('식비')
-const customCategory = ref('') // 사용자 직접 입력 카테고리
+const selectedCategory = ref('')
+const customCategory = ref('')
 
 const categories = [
   { name: '식비', icon: '🍽️' },
@@ -27,26 +27,36 @@ const categories = [
   { name: '이자', icon: '💰' },
 ]
 
-watch(customCategory, (val) => {
-  if (val.trim() !== '') {
-    selectedCategory.value = val.trim()
-  }
+const transactionId = route.params.id
+
+onMounted(async () => {
+  const res = await fetch(`http://localhost:3000/transactions/${transactionId}`)
+  const data = await res.json()
+  title.value = data.title
+  date.value = new Date(data.date)
+  amount.value = data.amount
+  content.value = data.content
+  type.value = data.type
+  selectedCategory.value = data.category
+  customCategory.value = data.customCategory || '' // 추가
 })
-
-const updateTransaction = () => {
-  alert(
-    `수정되었습니다.\n제목: ${title.value}\n금액: ${amount.value}\n카테고리: ${selectedCategory.value}`,
-  )
-}
-
-const deleteTransaction = () => {
-  if (confirm('삭제하시겠습니까?')) {
-    alert('삭제되었습니다.')
-  }
-}
 
 const goBack = () => {
   router.push('/history')
+}
+
+const goToEdit = () => {
+  router.push(`/edit/${transactionId}`)
+}
+
+const deleteTransaction = async () => {
+  if (confirm('삭제하시겠습니까?')) {
+    await fetch(`http://localhost:3000/transactions/${transactionId}`, {
+      method: 'DELETE',
+    })
+    alert('삭제되었습니다.')
+    router.push('/history')
+  }
 }
 </script>
 
@@ -56,20 +66,20 @@ const goBack = () => {
 
     <div class="detail-form">
       <label>제목</label>
-      <input v-model="title" type="text" />
+      <input v-model="title" type="text" disabled />
 
       <label>날짜</label>
-      <CalendarPicker v-model="date" />
+      <input :value="date.toLocaleDateString()" disabled />
 
       <label>금액</label>
-      <input v-model="amount" type="number" />
+      <input v-model="amount" type="number" disabled />
 
       <label>내용</label>
-      <textarea v-model="content" rows="3" />
+      <textarea v-model="content" rows="3" disabled />
 
       <div class="type-toggle">
-        <button :class="{ active: type === '수입' }" @click="type = '수입'">수입</button>
-        <button :class="{ active: type === '지출' }" @click="type = '지출'">지출</button>
+        <button :class="{ active: type === '수입' }" disabled>수입</button>
+        <button :class="{ active: type === '지출' }" disabled>지출</button>
       </div>
 
       <div class="category-list">
@@ -77,24 +87,22 @@ const goBack = () => {
           v-for="cat in categories"
           :key="cat.name"
           :class="{ selected: selectedCategory === cat.name }"
-          @click="selectedCategory = cat.name"
+          disabled
         >
           <span class="icon">{{ cat.icon }}</span> {{ cat.name }}
         </button>
       </div>
 
-      <div class="custom-category">
-        <label>카테고리 직접 입력</label>
-        <input v-model="customCategory" type="text" placeholder="예: 건강, 교육 등" />
+      <div class="custom-category" v-if="customCategory">
+        <label>직접 입력한 카테고리</label>
+        <input :value="customCategory" disabled />
       </div>
 
-      <!-- 수정/삭제 버튼 -->
       <div class="edit-delete-buttons">
-        <button class="edit" @click="updateTransaction">수정</button>
+        <button class="edit" @click="goToEdit">수정</button>
         <button class="delete" @click="deleteTransaction">삭제</button>
       </div>
 
-      <!-- 목록으로 버튼 -->
       <div class="back-button-wrapper">
         <button class="back" @click="goBack">목록으로</button>
       </div>
