@@ -3,8 +3,14 @@ import { computed, defineProps } from 'vue';
 
 
 const props = defineProps({
-    summary:Object
-
+  date: {
+    type: Date, // Fri May 09 2025 00:00:00 GMT+0900 (Korean)
+    required: true,
+  },
+  filteredData: {
+    type: Object, // 2025-04-03: {income: 0, expense: 45000}
+    default: () => ({}),
+  },
 })
 
 const weeklySummary = computed(()=> {

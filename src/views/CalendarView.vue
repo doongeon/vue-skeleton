@@ -2,26 +2,25 @@
 import { Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
 import CategoryFilter from '@/components/CategoryFilter.vue'
-import DailyCell from '@/components/DailyCell.vue'
+import DayCell from '@/components/DayCell.vue'
 import WeekRow from '@/components/WeekRow.vue'
-
 
 // 날짜 클릭 시 해당 내역 중첩 라우팅 처리
 </script>
 
 <template>
-  <CategoryFilter v-slot="{ summary }"> 
-  <div class="calendar-wrapper">
-    <div class="calendar-outer">
-      <Calendar style="height: 600px; width: 760px" is-expanded>
-        <WeekRow :summary="summary"> </WeekRow>
-        <template #day-content="{ day }">
-          <DailyCell :date="day.date" :summary="summary[day.date.toISOString().slice(0, 10)]" />
-        </template>
-      </Calendar>
+  <CategoryFilter v-slot="categoryData">
+    <div class="calendar-wrapper">
+      <div class="calendar-outer">
+        <Calendar style="height: 600px; width: 760px" is-expanded>
+          <template #day-content="{ day }">
+            <WeekRow :date="day.date" :filteredData="categoryData.filter"> </WeekRow>
+            <DayCell :date="day.date" :filteredData="categoryData.filter" />
+          </template>
+        </Calendar>
+      </div>
     </div>
-  </div>
-</CategoryFilter>
+  </CategoryFilter>
 </template>
 
 <style scoped>
