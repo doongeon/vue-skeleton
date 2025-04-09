@@ -1,13 +1,39 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useTransactionStore } from '@/stores/transactionStore'
+import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/types'
+import { computed, reactive, watch } from 'vue'
 
-const users = ref([])
+const transactionStore = useTransactionStore()
+const transactions = computed(() => transactionStore.states.transactions)
+const periodics = computed(() =>
+  transactions.value
+    .filter((t) => ['2', '3'].includes(String(t.categoryId)))
+    .sort((a, b) => new Date(a.date) - new Date(b.date)),
+)
+// categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
+// 날짜기준 오름차순 정렬
+console.log(periodics)
+const users = ref([]) /* db.json 유저 정보 */
+const transactionCategories = ref([]) /* db.json 태그 관리 */
 
 onMounted(async () => {
   const response = await axios.get('http://localhost:3000/users/1')
   users.value = response.data
 })
+
+onMounted(async () => {
+  const response = await axios.get('http://localhost:3000/transactionCategory')
+  transactionCategories.value = response.data
+})
+
+function formatToMonthDay(dateString) {
+  const date = new Date(dateString)
+  const month = date.getMonth() + 1 /* getMonth가 0부터 시작하므로 +1 */
+  const day = date.getDate()
+  return `${month}월 ${day}일`
+}
 </script>
 
 <template>
@@ -27,13 +53,19 @@ onMounted(async () => {
     <div class="container">
       <p class="containerTitle">태그 관리</p>
       <div class="article">
-        <p>태그 리스트</p>
+        <div class="categoryList">
+          <span v-for="category in transactionCategories" :key="category.id">
+            {{ category.name }}
+          </span>
+        </div>
       </div>
     </div>
     <div class="container">
       <p class="containerTitle">고정지출 관리</p>
       <div class="article">
-        <p>매달 자동입력되는 지출 기록</p>
+        <div class="periodical" v-for="list in periodics" :key="list.id">
+          {{ formatToMonthDay(list.date) }} {{ list.memo }} {{ list.amount }}
+        </div>
       </div>
     </div>
     <div class="container">
@@ -98,7 +130,20 @@ onMounted(async () => {
   gap: 0.5rem;
 }
 
+.layout .container .article .categoryList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.layout .container .article .periodical {
+  align-self: flex-start; /* article이 가운데 정렬이고 periodical만 왼쪽 정렬함*/
+}
+
 .layout .container .article button {
+  flex-direction: column;
   border: 1px solid;
   margin: 0; /* ✅ 좌우 마진 제거 */
   padding: 0.75rem;
