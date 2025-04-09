@@ -49,7 +49,7 @@
 @media screen and (max-width: 1200px) {
   .sidebar {
     position: relative;
-    top: 60px;
+    top: 0px;
     width: 100%;
     height: auto;
     padding: 10px 0;
@@ -59,6 +59,7 @@
     justify-content: center;
     align-items: center;
     border-right: none;
+
   }
 
   .title {
@@ -72,9 +73,10 @@
     align-items: center;
     gap: 10px;
     width: 100%;
+    padding-bottom: 20px;
   }
 
-   .menu-item {
+  .menu-item {
     padding: 15px 80px;
     margin: 5px;
     margin-left: 0;
@@ -85,3 +87,5 @@
   .home-section {
     margin-top: 120px;
   }
+
+
