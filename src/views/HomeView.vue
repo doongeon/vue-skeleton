@@ -419,10 +419,9 @@ const formatDate = (dateStr) => {
     </div><!-- home-sec -->
 
   </section>
-
 </template>
 
-<style>
+<style scoped>
 *{
   margin: 0;
   padding: 0;

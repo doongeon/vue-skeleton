@@ -4,21 +4,21 @@ import { ref } from 'vue'
 const emit = defineEmits(['filter-type', 'filter-day', 'filter-category', 'filter-search'])
 
 const categories = ref([
-  '식비',
-  '교통',
-  '문화/여가',
-  '술/유흥',
-  '쇼핑',
-  '여행/숙박',
-  '월급',
-  '용돈',
-  '보너스',
-  '매매',
-  '이자',
+  { name: '식비', icon: '🍽️' },
+  { name: '교통', icon: '🚗' },
+  { name: '문화/여가', icon: '🎮' },
+  { name: '술/유흥', icon: '🍺' },
+  { name: '쇼핑', icon: '🛍️' },
+  { name: '여행/숙박', icon: '🏨' },
+  { name: '월급', icon: '💼' },
+  { name: '용돈', icon: '💸' },
+  { name: '보너스', icon: '🎁' },
+  { name: '매매', icon: '📈' },
+  { name: '이자', icon: '💰' },
 ])
 
 const searchQuery = ref('')
-const newCategory = ref('')
+const newCategory = ref({ name: '', icon: '' })
 
 const setFilter = (type) => emit('filter-type', type)
 const setDayFilter = (day) => emit('filter-day', day)
@@ -26,16 +26,18 @@ const setCategoryFilter = (category) => emit('filter-category', category)
 const setSearchQuery = () => emit('filter-search', searchQuery.value)
 
 const addCategory = () => {
-  const trimmed = newCategory.value.trim()
-  if (trimmed && !categories.value.includes(trimmed)) {
-    categories.value.push(trimmed)
-    newCategory.value = ''
+  const trimmedName = newCategory.value.name.trim()
+  const trimmedIcon = newCategory.value.icon.trim()
+
+  if (trimmedName && trimmedIcon && !categories.value.some((cat) => cat.name === trimmedName)) {
+    categories.value.push({ name: trimmedName, icon: trimmedIcon })
+    newCategory.value = { name: '', icon: '' }
   }
 }
 
 const deleteCategory = (category) => {
-  if (confirm(`"${category}" 카테고리를 삭제할까요?`)) {
-    categories.value = categories.value.filter((c) => c !== category)
+  if (confirm(`"${category.name}" 카테고리를 삭제할까요?`)) {
+    categories.value = categories.value.filter((c) => c.name !== category.name)
   }
 }
 </script>
@@ -62,9 +64,9 @@ const deleteCategory = (category) => {
 
     <!-- 카테고리 필터 버튼 + 삭제 -->
     <div class="category-filter">
-      <div v-for="category in categories" :key="category" class="category-chip">
+      <div v-for="category in categories" :key="category.name" class="category-chip">
         <button @click="setCategoryFilter(category)">
-          {{ category }}
+          <span>{{ category.icon }}</span> {{ category.name }}
         </button>
         <span class="delete-btn" @click="deleteCategory(category)">&times;</span>
       </div>
@@ -72,7 +74,8 @@ const deleteCategory = (category) => {
 
     <!-- 카테고리 추가 -->
     <div class="add-category">
-      <input type="text" v-model="newCategory" placeholder="새 카테고리 입력" />
+      <input v-model="newCategory.name" type="text" placeholder="새 카테고리 이름" />
+      <input v-model="newCategory.icon" type="text" placeholder="아이콘 입력 (예: 🍽️)" />
       <button @click="addCategory">추가</button>
     </div>
 

@@ -1,7 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
-import FilterContent from './FilterContent.vue'
-import HistoryList from './HistoryList.vue'
+import { useRouter } from 'vue-router' // Vue Router 추가
+import FilterContent from '@/components/FilterContent.vue'
+import HistoryList from '@/components/HistoryList.vue'
 
 // 거래내역
 const transactions = ref([
@@ -21,19 +22,24 @@ const filters = ref({
 const filteredTransactions = computed(() => {
   return transactions.value.filter((transaction) => {
     const matchesType = filters.value.type === 'all' || transaction.type === filters.value.type
-
     const matchesCategory =
       filters.value.category === 'all' || transaction.category === filters.value.category
-
     const matchesDay =
       filters.value.dayOfWeek === 'all' ||
       new Date(transaction.date).getDay() === Number(filters.value.dayOfWeek)
-
     const matchesSearch = transaction.memo.includes(filters.value.searchQuery)
 
     return matchesType && matchesCategory && matchesDay && matchesSearch
   })
 })
+
+// Vue Router의 useRouter 훅 사용
+const router = useRouter()
+
+// 거래 클릭 시 상세보기로 이동하는 함수
+const goToDetail = (id) => {
+  router.push({ name: 'TransactionDetail', params: { id } })
+}
 </script>
 
 <template>
@@ -42,7 +48,7 @@ const filteredTransactions = computed(() => {
     <FilterContent />
 
     <!-- 거래내역 리스트 -->
-    <HistoryList :transactions="filteredTransactions" />
+    <HistoryList :transactions="filteredTransactions" @click="goToDetail" />
   </div>
 </template>
 
