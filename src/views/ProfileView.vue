@@ -50,8 +50,10 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 0.2fr 1fr 1fr;
-  gap: 0.5rem;
-  padding: 1rem;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: rgb(255, 188, 0);
+  border-radius: 1rem;
 }
 
 .layout .profile {
@@ -63,19 +65,17 @@ onMounted(async () => {
   justify-content: flex-start;
   align-items: center;
   gap: 3rem;
-  background-color: rgb(255, 188, 0);
+  /* background-color: rgb(255, 255, 255); */
   border-radius: 0.5rem;
-  margin: 1rem;
 }
 
 .layout .container {
-  background-color: rgb(255, 188, 0);
+  background-color: rgb(255, 255, 255);
   padding: 2rem;
-  margin: 1rem;
   grid-column: span 6;
   display: flex;
   flex-direction: column;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
 }
 
 .layout .container .containerTitle {
@@ -86,14 +86,14 @@ onMounted(async () => {
 }
 
 .layout .container .article {
-  background-color: rgb(96, 88, 76);
+  /* background-color: rgb(255, 188, 0); */
   padding: 1rem;
   flex: 1; /* 높이를 유연하게 */
   display: flex;
   flex-direction: column;
   justify-content: center; /* 수직 가운데 정렬 */
   align-items: center; /* 수평 가운데 정렬 */
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   font-size: 1rem;
   gap: 0.5rem;
 }
