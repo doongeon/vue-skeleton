@@ -74,7 +74,7 @@ const submitTransaction = async () => {
       category: selectedCategory.value,
     }
 
-    await transactionStore.addTransaction(newTransaction)
+    await transactionStore.actions.addTransaction(newTransaction)
 
     alert('등록되었습니다.')
     router.push('/history')
