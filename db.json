@@ -322,7 +322,7 @@
     {
       "id": "30",
       "userId": "1",
-      "typeId": "expense",
+      "typeId": "1",
       "categoryId": "식비",
       "amount": 10000,
       "memo": "테스트로 추가함",
@@ -333,7 +333,7 @@
     {
       "id": "32",
       "userId": "1",
-      "typeId": "income",
+      "typeId": "2",
       "categoryId": "7",
       "amount": 3000000,
       "memo": "연말 월급",
@@ -344,7 +344,7 @@
     {
       "id": "33",
       "userId": "1",
-      "typeId": "expense",
+      "typeId": "1",
       "categoryId": "5",
       "amount": 120000,
       "memo": "봄 재킷 구매",
@@ -355,7 +355,7 @@
     {
       "id": "34",
       "userId": "1",
-      "typeId": "expense",
+      "typeId": "1",
       "categoryId": "1",
       "amount": 9000,
       "memo": "점심 국밥",
@@ -366,7 +366,7 @@
     {
       "id": "35",
       "userId": "1",
-      "typeId": "expense",
+      "typeId": "1",
       "categoryId": "2",
       "amount": 2500,
       "memo": "지하철",
@@ -377,7 +377,7 @@
     {
       "id": "36",
       "userId": "1",
-      "typeId": "income",
+      "typeId": "2",
       "categoryId": "11",
       "amount": 15000,
       "memo": "예금 이자",
@@ -388,7 +388,7 @@
     {
       "id": "37",
       "userId": "1",
-      "typeId": "expense",
+      "typeId": "1",
       "categoryId": "3",
       "amount": 18000,
       "memo": "영화 관람",
@@ -399,7 +399,7 @@
     {
       "id": "38",
       "userId": "1",
-      "typeId": "expense",
+      "typeId": "1",
       "categoryId": "1",
       "amount": 9000,
       "memo": "점심 국밥",
