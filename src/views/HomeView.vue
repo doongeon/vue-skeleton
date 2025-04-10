@@ -8,7 +8,7 @@ import { useDateStore } from '@/stores/dateStore'
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
 
-// 날짜짜
+// 날짜
 const dateStore = useDateStore()
 const selectedDate = computed(() => dateStore.selectedDate)
 
@@ -399,6 +399,7 @@ h3{
 /* home-section */
 .home-section{
   /* border: 1px solid blue; */
+  margin: 0;
   background-color: rgb(255, 188, 0, 0.8);
   padding: 1rem;
 
@@ -413,8 +414,9 @@ h3{
   font-size: larger;
   /* font-weight: 900; */
 }
-
-.selectedDate {
+.date-select{
+}
+.selectedDate{
   display: flex;
 }
 .selectedDate > p {
@@ -430,6 +432,8 @@ h3{
   /* gap: 1rem; */
   margin-bottom: 1rem;
 }
+
+.home-sec01 > div {}
 
 .expense,
 .income,
@@ -500,6 +504,9 @@ h3{
   margin-bottom: 1rem;
 }
 
+/* 최근 거래 목록 */
+.home-sec02 > div:first-child {}
+
 /* .recent-transaction > card{ */
 .re-trans-c {
   /* flex: 2; */
@@ -517,6 +524,9 @@ h3{
 .re-trans-c:hover{
   background-color: lightgray;
 }
+
+/* 고정 지출 */
+.home-sec02 > div:last-child {}
 
 /* .fixed-expense > card{ */
 .fix-ex-c{
