@@ -3,6 +3,7 @@ import '@/assets/header.css'
 import { getUserInfo, logoutProcess } from '@/utils/AuthUtils'
 import { useRouter } from 'vue-router'
 import { ref, reactive } from 'vue'
+import { useDateStore } from '@/stores/dateStore'
 
 // 로그아웃 부분
 const router = useRouter()
@@ -16,7 +17,9 @@ const logout = () => {
 
 const showSettingPopup = ref(false)
 const showDatePicker = ref(false)
-const selectedDate = ref(null)
+
+// const selectedDate = ref(null)
+const dateStore = useDateStore()
 
 function toggleSetting() {
   showSettingPopup.value = !showSettingPopup.value
@@ -33,7 +36,9 @@ function toggleDatePicker() {
 
     <div class="header-menu">
       <span class="menu-button" @click="toggleDatePicker">날짜</span>
-      <input v-if="showDatePicker" type="date" v-model="selectedDate" class="date-picker" />
+      <!-- <input v-if="showDatePicker" type="date" v-model="selectedDate" class="date-picker" /> -->
+      <input v-if="showDatePicker" type="date" v-model="dateStore.selectedDate" class="date-picker" />
+
       <RouterLink to="/main/profile" class="menu-button">프로필</RouterLink>
 
       <div class="setting-wrapper">
