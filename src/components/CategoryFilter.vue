@@ -1,19 +1,18 @@
 <script setup>
 import { TRANSACTION_TYPE } from '@/types'
-import { computed, watch,reactive } from 'vue'
+import { computed, watch, reactive } from 'vue'
 import { useCalendarStore } from '@/stores/calendarStore.js'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
-
 
 const categoryStore = useTransactionCategoryStore()
 
 // 태그 구조 [ {id:1, name: '식비'}, {} ...]
 const categoryList = computed(() =>
-(categoryStore.states.transactionCategories || []).map(c => ({
+  (categoryStore.states.transactionCategories || []).map((c) => ({
     id: Number(c.id),
-    name: c.name
-  }))
+    name: c.name,
+  })),
 )
 
 // selectedCategories 초기화: 전체 태그 포함
@@ -45,7 +44,6 @@ watch(
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
 
-
 // selectedCategories 값 토글함수
 const toggleCategory = (category) => {
   const id = category.id
@@ -58,7 +56,7 @@ const toggleCategory = (category) => {
   }
 }
 
-// summaryData: 선택된 태그 기준 날짜별 {income, expense} object
+// 선택된 태그 기준 날짜별 {income, expense} object
 // 2025-04-02: {income: 0, expense: 30000}
 // 2025-04-03: {income: 0, expense: 45000}
 const filteredData = computed(() => {
@@ -85,17 +83,19 @@ const filteredData = computed(() => {
       }
     }
   })
-
-  console.log('DEBUG: filteredData result:', result)
   return result
 })
 
 // filteredData 선언 후 사용 가능
 const categoryFilter = useCalendarStore()
 // 자동추적 & 재실행
-watch(filteredData, (newVal) => {
-  categoryFilter.updateFilteredData(newVal)
-}, { immediate: true })
+watch(
+  filteredData,
+  (newVal) => {
+    categoryFilter.updateFilteredData(newVal)
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

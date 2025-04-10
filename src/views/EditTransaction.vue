@@ -121,7 +121,7 @@ const submitTransaction = async () => {
       }),
     })
     alert('수정되었습니다.')
-    router.push('/history')
+    router.push('/main/history')
   }
 }
 
@@ -129,14 +129,14 @@ const submitTransaction = async () => {
 const cancelTransaction = () => {
   // 입력된 내용이 없으면 바로 목록으로 이동
   if (!title.value && !amount.value && !content.value && !customCategory.value) {
-    router.push('/history')
+    router.push('/main/history')
     return
   }
 
   // 입력된 내용이 있으면 취소 확인 메시지 후 목록으로 이동
   const isConfirmed = confirm('작성을 취소하시겠습니까?')
   if (isConfirmed) {
-    router.push('/history')
+    router.push('/main/history')
   }
 }
 </script>
@@ -194,7 +194,7 @@ const cancelTransaction = () => {
       </div>
 
       <div class="back-button-wrapper">
-        <button class="back" @click="cancelTransaction">목록으로</button>
+        <button class="back" @click="router.push('/main/history')">목록으로</button>
       </div>
     </div>
   </div>

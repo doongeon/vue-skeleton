@@ -1,6 +1,7 @@
 <script setup>
 import Header from '@/views/Header.vue'
 import Sidebar from '@/views/Sidebar.vue'
+import QuickAdd from '@/views/QuickAdd.vue'
 </script>
 
 <template>
@@ -9,8 +10,8 @@ import Sidebar from '@/views/Sidebar.vue'
       <div class="col-xl-2 d-none d-xl-block">
         <Sidebar />
       </div>
-      <div class="section col-xl-10">
-        <div class="mb-5">
+      <div class="section col-xl-10 px-0 px-sm-2">
+        <div class="mb-lg-5 mb-1">
           <Header />
         </div>
         <div class="d-xl-none">
@@ -19,11 +20,12 @@ import Sidebar from '@/views/Sidebar.vue'
         <RouterView />
       </div>
     </div>
+    <QuickAdd />
   </div>
 </template>
 
 <style scoped>
-*{
+* {
   margin: 0;
   /* padding: 0; */
 }
@@ -31,8 +33,9 @@ import Sidebar from '@/views/Sidebar.vue'
   /* width: 100%; */
   /* max-width: 1200px; */
   max-width: 1920px;
+  margin: 0 auto;
 }
-.section{
+.section {
   max-width: 1200px;
 }
 </style>

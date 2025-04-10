@@ -1,11 +1,17 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
+import { useTransactionStore } from '@/stores/transactionStore'
 import CalendarPicker from '@/components/CalendarPicker.vue'
 
-// Pinia store 연결
+// 스토어 연결
 const transactionCategoryStore = useTransactionCategoryStore()
+const transactionStore = useTransactionStore()
+
+// 구조분해
+const { transactionCategories } = transactionCategoryStore.states
+const { addTransactionCategory, deleteTransactionCategory } = transactionCategoryStore.actions
 
 const router = useRouter()
 
@@ -17,24 +23,26 @@ const type = ref('지출')
 const customCategory = ref('')
 const selectedCategory = ref('')
 
-// computed로 카테고리 목록을 Pinia store의 상태와 연결
-const categories = computed(() => transactionCategoryStore.states.transactionCategories)
+// 카테고리 목록
+const categories = computed(() => transactionCategories)
 
-// 카테고리 선택 함수
+// 카테고리 선택
 const selectCategory = (category) => {
   selectedCategory.value = category.name
 }
 
-// 커스텀 카테고리 추가 함수
+// 커스텀 카테고리 추가
 const addCustomCategory = () => {
   const trimmed = customCategory.value.trim()
   if (trimmed !== '') {
     const exists = categories.value.some((cat) => cat.name === trimmed)
     if (!exists) {
-      transactionCategoryStore.addTransactionCategory({
+      addTransactionCategory({
         name: trimmed,
         icon: '🆕',
         accountTypeId: '1',
+        isCustom: true,
+        id: Date.now(), // 고유 ID
       })
     }
     selectedCategory.value = trimmed
@@ -42,44 +50,49 @@ const addCustomCategory = () => {
   }
 }
 
-// 선택된 카테고리 삭제 함수
+// 카테고리 삭제
 const removeCategory = (name) => {
-  transactionCategoryStore.deleteTransactionCategory(name)
+  deleteTransactionCategory(name)
   if (selectedCategory.value === name) {
     selectedCategory.value = ''
   }
 }
 
-// 거래 등록 함수
-const submitTransaction = () => {
+// 거래 등록
+const submitTransaction = async () => {
   const isConfirmed = confirm(
     `등록하시겠습니까?\n제목: ${title.value}\n금액: ${amount.value}\n카테고리: ${selectedCategory.value}`,
   )
+
   if (isConfirmed) {
+    const newTransaction = {
+      title: title.value,
+      date: date.value.toISOString().split('T')[0], // YYYY-MM-DD
+      amount: Number(amount.value),
+      content: content.value,
+      type: type.value,
+      category: selectedCategory.value,
+    }
+
+    await transactionStore.actions.addTransaction(newTransaction)
+
     alert('등록되었습니다.')
     router.push('/history')
   }
 }
 
-// 거래 취소 함수
+// 거래 취소
 const cancelTransaction = () => {
-  // 작성된 내용이 없으면 바로 목록으로 돌아감
   if (!title.value && !amount.value && !content.value && !customCategory.value) {
     router.push('/history')
     return
   }
 
-  // 작성된 내용이 있으면 취소 확인 메시지 후 이동
   const isConfirmed = confirm('작성을 취소하시겠습니까?')
   if (isConfirmed) {
     router.push('/history')
   }
 }
-
-// selectedCategory가 변경될 때마다 카테고리 업데이트
-watch(selectedCategory, (newCategory) => {
-  console.log('선택된 카테고리:', newCategory)
-})
 </script>
 
 <template>
@@ -112,21 +125,26 @@ watch(selectedCategory, (newCategory) => {
           :class="{ selected: selectedCategory === cat.name }"
           @click="selectCategory(cat)"
         >
-          <span class="icon">{{ cat.icon }}</span> {{ cat.name }}
-          <span v-if="cat.isCustom" class="remove-btn" @click.stop="removeCategory(cat.name)">
-            ×
-          </span>
+          <span class="icon">{{ cat.icon }}</span>
+          <span class="name">{{ cat.name }}</span>
+
+          <!-- 커스텀 카테고리일 경우에만 삭제 버튼 표시 -->
+          <span v-if="cat.isCustom" class="remove-btn" @click.stop="removeCategory(cat.name)"
+            >×</span
+          >
         </div>
       </div>
 
       <div class="custom-category">
         <label>카테고리 직접 입력</label>
-        <input
-          v-model="customCategory"
-          type="text"
-          placeholder="예: 건강, 교육 등"
-          @keyup.enter="addCustomCategory"
-        />
+        <div style="display: flex; gap: 10px">
+          <input
+            v-model="customCategory"
+            type="text"
+            placeholder="예: 건강, 교육 등"
+            @keydown.enter.prevent="addCustomCategory"
+          />
+        </div>
       </div>
 
       <div class="edit-delete-buttons">
@@ -192,7 +210,7 @@ textarea::placeholder {
   font-weight: bold;
 }
 .type-toggle .active {
-  background-color: #333;
+  background-color: #545045;
   color: white;
 }
 
@@ -205,8 +223,8 @@ textarea::placeholder {
 
 .category-item {
   display: flex;
-  align-items: center; /* 수직 가운데 정렬 */
-  justify-content: center; /* 아이콘 + 글자를 가운데 정렬 */
+  align-items: center;
+  justify-content: center;
   gap: 6px;
   padding: 10px;
   border-radius: 10px;
@@ -214,12 +232,12 @@ textarea::placeholder {
   background-color: #fafafa;
   cursor: pointer;
   position: relative;
-  text-align: center; /* 텍스트 정렬 */
+  text-align: center;
   font-weight: bold;
 }
 
 .category-item.selected {
-  background-color: #444;
+  background-color: #545045;
   color: white;
 }
 
@@ -273,16 +291,7 @@ textarea::placeholder {
   color: white;
 }
 
-.type-toggle .active {
-  background-color: #545045;
-  color: white;
-}
-
-.category-item.selected {
-  background-color: #545045;
-  color: white;
-}
-/* ✅ 태블릿 대응 추가 */
+/* ✅ 태블릿 대응 */
 @media (max-width: 900px) {
   .transaction-detail {
     padding: 24px;

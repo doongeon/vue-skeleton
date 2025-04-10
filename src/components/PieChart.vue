@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="container">
+  <div class="">
     <apexchart
       class="chart"
       type="donut"

@@ -39,7 +39,7 @@ onMounted(async () => {
 
 // 목록으로 이동
 const goBack = () => {
-  router.push('/history')
+  router.push('/main/history')
 }
 </script>
 
