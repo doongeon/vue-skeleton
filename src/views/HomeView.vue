@@ -1,33 +1,87 @@
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue'
+// import { ref, onMounted, watch, computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useTransactionStore } from '@/stores/transactionStore'
+import { useDateStore } from '@/stores/dateStore'
 // import axios from 'axios'
 
-// 날짜 기본값(2025-04)
-const selectedDate = ref('2025-04')
+const transactionStore = useTransactionStore()
+const transactions = computed(() => transactionStore.states.transactions)
 
-// 거래
-const transactions = ref([])
-// 지출
-const totalExpense = ref(0)
-const lastMonthExpense = ref(0)
-// 수입
-const totalIncome = ref(0)
-const lastMonthIncome = ref(0)
+// 날짜짜
+const dateStore = useDateStore()
+const selectedDate = computed(() => dateStore.selectedDate)
 
-// ===== 그래프 =====
-// 지출 그래프
-const expenseSeries = ref([
-  {
-    name: '지출',
-    data: [0, 0],
-  },
+const selectedYear = computed(() => parseInt(selectedDate.value.split('-')[0]))
+const selectedMonth = computed(() => parseInt(selectedDate.value.split('-')[1]))
+
+// ===== 지출 =====
+const totalExpense = computed(() => {
+  return transactions.value
+    .filter((tx) => {
+      const d = new Date(tx.date)
+      return (
+        d.getFullYear() === selectedYear.value &&
+        d.getMonth() + 1 === selectedMonth.value &&
+        tx.typeId === '1'
+      )
+    })
+    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
+})
+
+const lastMonthExpense = computed(() => {
+  const last = new Date(selectedDate.value)
+  last.setMonth(last.getMonth() - 1)
+  const year = last.getFullYear()
+  const month = last.getMonth() + 1
+
+  return transactions.value
+    .filter((tx) => {
+      const d = new Date(tx.date)
+      return d.getFullYear() === year && d.getMonth() + 1 === month && tx.typeId === '1'
+    })
+    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
+})
+
+// ===== 수입 =====
+const totalIncome = computed(() => {
+  return transactions.value
+    .filter((tx) => {
+      const d = new Date(tx.date)
+      return (
+        d.getFullYear() === selectedYear.value &&
+        d.getMonth() + 1 === selectedMonth.value &&
+        tx.typeId === '2'
+      )
+    })
+    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
+})
+
+const lastMonthIncome = computed(() => {
+  const last = new Date(selectedDate.value)
+  last.setMonth(last.getMonth() - 1)
+  const year = last.getFullYear()
+  const month = last.getMonth() + 1
+
+  return transactions.value
+    .filter((tx) => {
+      const d = new Date(tx.date)
+      return d.getFullYear() === year && d.getMonth() + 1 === month && tx.typeId === '2'
+    })
+    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
+})
+
+// ========== 그래프 ==========
+// ===== 지출 그래프 =====
+const expenseSeries = computed(() => [
+  { name: '지출', data: [lastMonthExpense.value, totalExpense.value] },
 ])
 
 const expenseCharOptions = ref({
   chart: {
     id: 'expense-line',
     type: 'line',
-    toolbar: { show: false },
+    toolbar: { show: false},
   },
   xaxis: {
     categories: ['지난 달', '이번 달'],
@@ -45,12 +99,9 @@ const expenseCharOptions = ref({
   },
 })
 
-// 수입 그래프
-const incomeSeries = ref([
-  {
-    name: '수입',
-    data: [0, 0],
-  },
+// ===== 수입 그래프 =====
+const incomeSeries = computed(() => [
+  { name: '수입', data: [lastMonthIncome.value, totalIncome.value] },
 ])
 
 const incomeChartOptions = ref({
@@ -66,23 +117,15 @@ const incomeChartOptions = ref({
     align: 'center',
   },
   plotOptions: {
-    bar: {
+    bar:{
       distributed: true,
     },
   },
-  colors: ['lightgray', '#008FFB'],
+  colors: ['lightgray', '#008FFB']
 })
 
-async function fetchTransactions() {
-  const res = await fetch('http://localhost:3000/transactions')
-  const data = await res.json()
-  transactions.value = data
-  calculateMonthlyExpense()
-  calculateMonthlyIncome()
-}
-
-// 순수익 그래프
-const mixedSeries = ref([
+// ===== 순수익 그래프 =====
+const mixedSeries = computed(() => [
   {
     name: '지출',
     type: 'line',
@@ -114,7 +157,7 @@ const mixedChartOptions = ref({
   xaxis: {
     categories: ['지난 달', '이번 달'],
   },
-  yaxios: [
+  yaxis: [ 
     {
       title: {
         text: '수입',
@@ -136,144 +179,27 @@ const mixedChartOptions = ref({
   },
 })
 
-// 순수익 (수입&지출)
-function updateMixedSeries() {
-  mixedSeries.value = [
-    {
-      name: '지출',
-      type: 'line',
-      data: [lastMonthExpense.value, totalExpense.value],
-    },
-    {
-      name: '수입',
-      type: 'column',
-      data: [lastMonthIncome.value, totalIncome.value],
-    },
-  ]
-}
-
-// ========== 월 지출 ==========
-function calculateMonthlyExpense() {
-  // 이번 달 (년/월)
-  const [yearStr, monthStr] = selectedDate.value.split('-')
-  const year = parseInt(yearStr)
-  const month = parseInt(monthStr)
-
-  // 이번 달 지출
-  const total = transactions.value
-    .filter((tx) => tx.typeId === '1')
-    .filter((tx) => {
-      const d = new Date(tx.date)
-      return d.getFullYear() === parseInt(year) && d.getMonth() + 1 === parseInt(month)
-    })
-    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
-
-  totalExpense.value = total
-
-  // 지난 달 (년/월)
-  let lastYear = year
-  let lastMonth = month - 1
-  if (lastMonth === 0) {
-    lastMonth = 12
-    lastYear -= 1
-  }
-
-  //지난 달 지출
-  const lastTotal = transactions.value
-    .filter((tx) => tx.typeId === '1')
-    .filter((tx) => {
-      const d = new Date(tx.date)
-      return d.getFullYear() === lastYear && d.getMonth() + 1 === lastMonth
-    })
-    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
-
-  lastMonthExpense.value = lastTotal
-
-  // 지출 그래프
-  expenseSeries.value[0].data = [lastMonthExpense.value, totalExpense.value]
-
-  // 순수익 (수입&지출)
-  updateMixedSeries()
-}
-
-// ========== 월 수입 ==========
-function calculateMonthlyIncome() {
-  // 이번 달 (년/월)
-  const [yearStr, monthStr] = selectedDate.value.split('-')
-  const year = parseInt(yearStr)
-  const month = parseInt(monthStr)
-
-  // 이번 달 수입
-  const total = transactions.value
-    .filter((tx) => tx.typeId === '2')
-    .filter((tx) => {
-      const d = new Date(tx.date)
-      return d.getFullYear() === parseInt(year) && d.getMonth() + 1 === parseInt(month)
-    })
-    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
-
-  totalIncome.value = total
-
-  // 지난 달 (년/월)
-  let lastYear = year
-  let lastMonth = month - 1
-  if (lastMonth === 0) {
-    lastMonth = 12
-    lastYear -= 1
-  }
-
-  //지난 달 수입
-  const lastTotal = transactions.value
-    .filter((tx) => tx.typeId === '2')
-    .filter((tx) => {
-      const d = new Date(tx.date)
-      return d.getFullYear() === lastYear && d.getMonth() + 1 === lastMonth
-    })
-    .reduce((sum, tx) => sum + parseInt(tx.amount), 0)
-
-  lastMonthIncome.value = lastTotal
-
-  // 수입 그래프
-  incomeSeries.value[0].data = [lastMonthIncome.value, totalIncome.value]
-
-  // 순수익 (수입&지출)
-  updateMixedSeries()
-}
-
-// selectedDate가 바뀌면 다시 계산
-// watch(selectedDate, calculateMonthlyExpense)
-watch(selectedDate, () => {
-  calculateMonthlyExpense()
-  calculateMonthlyIncome()
-  // recentTransactions()
-})
-
-onMounted(() => {
-  fetchTransactions()
-})
 
 // ========== 거래 목록 정렬 ==========
-// 가장 최근 거래들(월 상관x)
 // const recentTransactions = computed(() => {
 //   return [...transactions.value]
+//     .filter((tx) => {
+//       const d = new Date(tx.date)
+//       return d.getFullYear() === selectedYear.value && d.getMonth() + 1 === selectedMonth.value
+//     })
 //     .sort((a, b) => new Date(b.date) - new Date(a.date))
-//     .slice(0, 5)  //최근 5개
-// })
+//     .slice(0, 5)
+// }) 
 
-// 최근 거래 (월 바뀌면 해당 월의 최근 거래)
 const recentTransactions = computed(() => {
-  const [yearStr, monthStr] = selectedDate.value.split('-')
-  const year = parseInt(yearStr)
-  const month = parseInt(monthStr)
-
+  const selected = new Date(selectedDate.value) // 'YYYY-MM-DD'
+  
   return [...transactions.value]
-    .filter((tx) => {
-      const d = new Date(tx.date)
-      return d.getFullYear() === year && d.getMonth() + 1 === month
-    })
+    .filter((tx) => new Date(tx.date) <= selected)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5)
 })
+
 
 // 날짜 형식
 const formatDate = (dateStr) => {
@@ -281,21 +207,25 @@ const formatDate = (dateStr) => {
   const year = d.getFullYear()
   const month = d.getMonth() + 1
   const date = d.getDate()
-
   // const dayNames = ['일', '월', '화', '수', '목', '금', '토']
   // const day = dayNames[d.getDay()]
 
   return `${year}년 ${month}월 ${date}일`
   // return `${year}년 ${month}월 ${date}일 ${day}요일`
 }
+
+
 </script>
 
 <template>
   <!-- <div>home</div> -->
 
+  
   <!-- home -->
-  <div class="home" style="max-width: 1200px">
+  <div class="home" style="max-width: 1200px;">
+  
     <div class="home-section">
+
       <!-- 날짜 -->
       <div class="date">
         <!-- <div class="date-select">
@@ -303,162 +233,162 @@ const formatDate = (dateStr) => {
           <input type="month" v-model="selectedDate">
         </div> -->
         <div class="selectedDate">
-          <p>{{ selectedDate.slice(0, 4) }}년 {{ selectedDate.slice(6, 7) }}월</p>
-          <p class="dateBox"><input type="month" v-model="selectedDate" /></p>
+          <p>{{ selectedDate.slice(0,4) }}년 {{ selectedDate.slice(5,7) }}월</p>
+          <!-- <p class="dateBox"><input type="month" v-model="selectedDate"></p> -->
+
+          <!-- <p class="dateBox">
+            <input type="month" v-model="selectedDate" class="border rounded px-2 py-1"style="font-size: 1rem;"/>
+          </p> -->
+
         </div>
       </div>
 
       <!-- 1 -->
       <!-- <div class="home-sec01 row-card"> -->
-      <div class="container" style="max-width: 1200px">
-        <div class="home-sec01 row g-0">
-          <!-- 총 지출 -->
-          <div class="expense col-lg-4">
-            <div class="ex-c card h-100 p-4 m-2">
-              <router-link to="/main/analysis" style="text-decoration: none">
-                <h3>{{ selectedDate.slice(6, 7) }}월 총 지출</h3>
-                <p class="amount">{{ totalExpense.toLocaleString() }}원</p>
-                <p>
-                  지난 달보다
-                  <span
-                    :class="{
-                      red: totalExpense > lastMonthExpense,
-                      green: totalExpense <= lastMonthExpense,
-                    }"
-                  >
-                    {{ Math.abs(totalExpense - lastMonthExpense).toLocaleString() }}원
-                  </span>
-                  {{ totalExpense > lastMonthExpense ? '더 소비했어요' : '덜 소비했어요' }}
-                </p>
-                <!-- 지출 그래프 -->
-                <div class="expenseGraph">
-                  <ApexChart
-                    type="line"
-                    height="300"
-                    :options="expenseCharOptions"
-                    :series="expenseSeries"
-                  />
-                </div>
-              </router-link>
-            </div>
-            <!-- ex-c -->
-          </div>
-          <!-- expense -->
+    <div class="container" style="max-width: 1200px;">
+        
+      <div class="home-sec01 row g-0">
 
-          <!-- 총 수입 -->
-          <div class="income col-lg-4">
-            <div class="in-c card h-100 p-4 m-2">
-              <router-link to="/main/analysis" style="text-decoration: none">
-                <h3>{{ selectedDate.slice(6, 7) }}월 총 수입</h3>
-                <p class="amount">{{ totalIncome.toLocaleString() }}원</p>
-                <!-- 수입 그래프 -->
-                <div class="incomeGraph">
-                  <ApexChart
-                    type="bar"
-                    height="300"
-                    :options="incomeChartOptions"
-                    :series="incomeSeries"
-                  />
-                </div>
-              </router-link>
-            </div>
-            <!-- in-c -->
-          </div>
-          <!-- income -->
+        <!-- 총 지출 -->
+        <div class="expense col-lg-4">
+          <div class="ex-c card h-100 p-4 m-2">
 
-          <!-- 총/순수익 -->
-          <div class="net-gain col-lg-4">
-            <div class="n-g-c card h-100 p-4 m-2">
-              <router-link to="/main/analysis" style="text-decoration: none">
-                <h3>{{ selectedDate.slice(6, 7) }}월 총/순수익</h3>
-                <p class="amount">{{ (totalIncome - totalExpense).toLocaleString() }}원</p>
-                <!-- 순수익 그래프 (수입&지출) -->
-                <div class="mixedGraph">
-                  <ApexChart
-                    height="350"
-                    type="line"
-                    :options="mixedChartOptions"
-                    :series="mixedSeries"
-                  />
-                </div>
-              </router-link>
-            </div>
-            <!-- n-g-c -->
-          </div>
-          <!-- net-gain -->
-        </div>
-        <!-- home-sec01 -->
-      </div>
+            <router-link to="/main/analysis" style="text-decoration: none;">
+              <h3>{{ selectedDate.slice(6,7) }}월 총 지출</h3>
+              <p class="amount">{{ totalExpense.toLocaleString() }}원</p>
+              <p>
+                지난 달보다 
+                <span :class="{'red': totalExpense>lastMonthExpense, 'green': totalExpense<=lastMonthExpense}">
+                  {{ Math.abs(totalExpense - lastMonthExpense).toLocaleString() }}원
+                </span>
+                {{ totalExpense > lastMonthExpense ? '더 소비했어요' : '덜 소비했어요' }} </p>
+              <!-- 지출 그래프 -->
+              <div class="expenseGraph">
+                <ApexChart
+                  type="line"
+                  height="300"
+                  :options="expenseCharOptions"
+                  :series="expenseSeries"
+                />
+              </div>
+            </router-link>
+
+          </div><!-- ex-c -->
+        </div><!-- expense -->
+
+        <!-- 총 수입 -->
+        <div class="income col-lg-4">
+          <div class="in-c card h-100 p-4 m-2">
+
+            <router-link to="/main/analysis" style="text-decoration: none;">
+              <h3>{{ selectedDate.slice(6,7) }}월 총 수입</h3>
+              <p class="amount">{{ totalIncome.toLocaleString() }}원</p>
+              <!-- 수입 그래프 -->
+              <div class="incomeGraph">
+                <ApexChart
+                  type="bar"
+                  height="300"
+                  :options="incomeChartOptions"
+                  :series="incomeSeries"
+                />
+              </div>
+            </router-link>
+          </div><!-- in-c -->
+        </div><!-- income -->
+
+        <!-- 총/순수익 -->
+        <div class="net-gain col-lg-4">
+          <div class="n-g-c card h-100 p-4 m-2">
+
+            <router-link to="/main/analysis" style="text-decoration: none;">
+              <h3>{{ selectedDate.slice(6,7) }}월 총/순수익</h3>
+              <p class="amount">{{ (totalIncome - totalExpense).toLocaleString() }}원</p>
+              <!-- 순수익 그래프 (수입&지출) -->
+              <div class="mixedGraph">
+                <ApexChart
+                  height="350"
+                  type="line"
+                  :options="mixedChartOptions"
+                  :series="mixedSeries"
+                />
+              </div>
+            </router-link>
+
+          </div><!-- n-g-c -->
+        </div><!-- net-gain -->
+
+      </div><!-- home-sec01 -->
+    </div>
 
       <!-- 2 -->
-      <div class="container" style="max-width: 1200px">
-        <div class="home-sec02 row g-3">
-          <!-- 최근 거래 목록 -->
-          <div class="recent-transaction col-lg-8">
-            <div class="re-trans-c card h-100 p-4 m-2">
-              <router-link to="/main/analysis" style="text-decoration: none">
-                <h3>최근 거래 목록</h3>
+    <div class="container" style="max-width: 1200px;">
 
-                <div class="recent-trans-lists">
-                  <div class="row-card" v-for="item in recentTransactions" :key="item.id">
-                    <p>{{ formatDate(new Date(item.date).toDateString()) }}</p>
-                    <p class="amount-2">
-                      {{
-                        (item.typeId === '1' ? '-' : '+') + parseInt(item.amount).toLocaleString()
-                      }}원
-                    </p>
-                    <p>{{ item.memo }}</p>
-                  </div>
-                </div>
-              </router-link>
-            </div>
-            <!-- re-trans-c -->
-          </div>
-          <!-- recent-transaction -->
+      <div class="home-sec02 row g-3">
 
-          <!-- 월 고정지출 -->
-          <div class="fixed-expense col-lg-4">
-            <div class="fix-ex-c card h-100 p-4 m-2">
-              <h3>{{ selectedDate.slice(6, 7) }}월 고정지출</h3>
+        <!-- 최근 거래 목록 -->
+        <div class="recent-transaction col-lg-8">
+          <div class="re-trans-c card h-100 p-4 m-2">
 
-              <div class="fixed-ex-lists">
-                <div class="row-card">
-                  <p>10일</p>
-                  <p>국민건강보험</p>
-                  <p class="amount-2">100,000원</p>
-                </div>
-                <div class="row-card">
-                  <p>22일</p>
-                  <p>통신요금(SKT)</p>
-                  <p class="amount-2">32,100원</p>
-                </div>
-                <div class="row-card">
-                  <p>27일</p>
-                  <p>KB국민카드</p>
-                  <p class="amount-2">17,100원</p>
+            <router-link to="/main/analysis" style="text-decoration: none;">
+            <h3>최근 거래 목록</h3>
+
+              <div class="recent-trans-lists">
+                <div class="row-card" v-for="item in recentTransactions" :key="item.id">
+                  <p>{{ formatDate(new Date(item.date).toDateString()) }}</p>
+                  <p class="amount-2">{{ (item.typeId === "1" ? '-' : '+') + parseInt(item.amount).toLocaleString() }}원</p>
+                  <p>{{ item.memo }}</p>
                 </div>
               </div>
+
+            </router-link>
+
+          </div><!-- re-trans-c -->
+        </div><!-- recent-transaction -->
+
+        <!-- 월 고정지출 -->
+        <div class="fixed-expense col-lg-4">
+          <div class="fix-ex-c card h-100 p-4 m-2">
+
+            <h3>{{ selectedDate.slice(6,7) }}월 고정지출</h3>
+
+            <div class="fixed-ex-lists">
+              <div class="row-card">
+                <p>10일</p>
+                <p>국민건강보험</p>
+                <p class="amount-2">100,000원</p>
+              </div>
+              <div class="row-card">
+                <p>22일</p>
+                <p>통신요금(SKT)</p>
+                <p class="amount-2">32,100원</p>
+              </div>
+              <div class="row-card">
+                <p>27일</p>
+                <p>KB국민카드</p>
+                <p class="amount-2">17,100원</p>
+              </div>   
             </div>
-            <!-- fix-ex-c -->
-          </div>
-          <!-- fixed-expense -->
-        </div>
-        <!-- home-sec02 -->
-      </div>
-      <!-- home-sec -->
-    </div>
+
+          </div><!-- fix-ex-c -->
+        </div><!-- fixed-expense -->
+        
+      </div><!-- home-sec02 -->
+
+    </div><!-- home-sec -->
   </div>
-  <!-- container -->
-</template>
+
+
+  </div><!-- container -->
+</template> 
 
 <style scoped>
-* {
+*{
   margin: 0;
   padding: 0;
 
   color: rgb(84, 80, 69);
 }
-h3 {
+h3{
   margin-bottom: 0.5rem;
 
   color: rgb(96, 88, 76);
@@ -467,22 +397,25 @@ h3 {
 }
 
 /* home-section */
-.home-section {
+.home-section{
   /* border: 1px solid blue; */
   background-color: rgb(255, 188, 0, 0.8);
   padding: 1rem;
-  margin-top: 0;
+
   border-style: none;
   border-radius: 10px;
 }
 
 /* 날짜 */
-.date {
+.date{
   margin-bottom: 1rem;
+  margin-left: 1rem;
+  font-size: larger;
+  /* font-weight: 900; */
 }
-.date-select {
+.date-select{
 }
-.selectedDate {
+.selectedDate{
   display: flex;
 }
 .selectedDate > p {
@@ -493,23 +426,22 @@ h3 {
 }
 
 /* home-sec01 (총지출, 총수입, 총순수익)*/
-.home-sec01 {
+.home-sec01{
   /* display: flex; */
   /* gap: 1rem; */
   margin-bottom: 1rem;
 }
 
-.home-sec01 > div {
-}
+.home-sec01 > div {}
 
 .expense,
 .income,
-.net-gain {
+.net-gain{
   margin-bottom: 1.5rem;
 }
 .ex-c,
 .in-c,
-.n-g-c {
+.n-g-c{
   /* flex: 1; */
   /* flex: 1 1 calc((100% - 2rem) / 3); */
   /* border: 1px solid gray; */
@@ -525,55 +457,54 @@ h3 {
 .net-gain:hover{ */
 .ex-c:hover,
 .in-c:hover,
-.n-g-c:hover {
+.n-g-c:hover{
   background-color: lightgray;
 }
 
 /* 금액 (총지출, 총소비, 총순수익)*/
-.amount {
+.amount{
   color: black;
   font-weight: 900;
 }
 
 /* 총 지출 금액 색상 */
-.red {
+.red{
   color: red;
   font-weight: bold;
 }
-.green {
+.green{
   color: green;
   font-weight: bold;
 }
 
 /* 지출 그래프 */
-.expenseGraph {
+.expenseGraph{
   margin-top: 1rem;
 }
 
 /* 수입 그래프 */
-.incomeGraph {
+.incomeGraph{
   margin-top: 2rem;
 }
 /* 순수익 그래프 */
-.mixedGraph {
+.mixedGraph{
   margin-top: 1rem;
 }
 
 /* home-sec02 (최근거래목록, 고정지출)*/
-.home-sec02 {
+.home-sec02{
   /* display: flex; */
   /* gap: 2rem; */
   margin-bottom: 1rem;
 }
 
 .recent-transaction,
-.fixed-expense {
+.fixed-expense{
   margin-bottom: 1rem;
 }
 
 /* 최근 거래 목록 */
-.home-sec02 > div:first-child {
-}
+.home-sec02 > div:first-child {}
 
 /* .recent-transaction > card{ */
 .re-trans-c {
@@ -589,16 +520,15 @@ h3 {
 }
 
 /* .recent-transaction > card:hover{ */
-.re-trans-c:hover {
+.re-trans-c:hover{
   background-color: lightgray;
 }
 
 /* 고정 지출 */
-.home-sec02 > div:last-child {
-}
+.home-sec02 > div:last-child {}
 
 /* .fixed-expense > card{ */
-.fix-ex-c {
+.fix-ex-c{
   /* flex: 1; */
   /* flex: 1 1 calc((100% - 1rem) * 1 / 3); */
   /* border: 1px solid gray; */
@@ -610,13 +540,14 @@ h3 {
   box-shadow: 0 4px 6px rgb(0, 0, 0, 0.1);
 }
 
-.row-card {
+.row-card{
   display: flex;
   /* justify-content: space-between; */
   gap: 1rem;
 }
 
-.amount-2 {
+.amount-2{
   font-weight: 900;
 }
+
 </style>
