@@ -111,7 +111,7 @@ const toggleForm = () => {
   display: inline-block;
   bottom: 2rem;
   right: 2rem;
-  z-index: 100;
+  z-index: 1500;
 }
 .wrapper .icon {
   border: 2px solid rgb(210, 160, 20);
