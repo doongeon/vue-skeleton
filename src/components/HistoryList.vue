@@ -1,37 +1,36 @@
 <script setup>
 import { defineProps } from 'vue'
-import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/router/index.js'
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore' // ✅ 정확한 import
+import { TRANSACTION_TYPE } from '@/types/index.js'
 
+// 부모 컴포넌트로부터 전달받는 거래 항목 배열
 const props = defineProps({
   items: Array,
 })
 
+// 날짜를 'YYYY.MM.DD' 형식으로 포맷
 const formatDate = (date) => {
   const d = new Date(date)
   return d.toLocaleDateString('ko-KR')
 }
 
+// 거래 타입 라벨 매핑
 const TYPE_LABEL = {
   [TRANSACTION_TYPE.expense]: '지출',
   [TRANSACTION_TYPE.income]: '수입',
 }
 
-const CATEGORY_LABEL = {
-  [TRANSACTION_CATEGORY.식비]: '🍽️ 식비',
-  [TRANSACTION_CATEGORY.교통]: '🚗 교통',
-  [TRANSACTION_CATEGORY.문화여가]: '🎮 문화/여가',
-  [TRANSACTION_CATEGORY.술유흥]: '🍺 술/유흥',
-  [TRANSACTION_CATEGORY.쇼핑]: '🛍️ 쇼핑',
-  [TRANSACTION_CATEGORY.여행숙박]: '🏨 여행/숙박',
-  [TRANSACTION_CATEGORY.월급]: '💼 월급',
-  [TRANSACTION_CATEGORY.용돈]: '💸 용돈',
-  [TRANSACTION_CATEGORY.보너스]: '🎁 보너스',
-  [TRANSACTION_CATEGORY.매매]: '📈 매매',
-  [TRANSACTION_CATEGORY.이자]: '💰 이자',
-}
-
+// 거래 타입 텍스트 반환
 const getTypeName = (typeId) => TYPE_LABEL[typeId] || '-'
-const getCategoryName = (categoryId) => CATEGORY_LABEL[categoryId] || '-'
+
+// Pinia 스토어 인스턴스 호출
+const categoryStore = useTransactionCategoryStore()
+
+// categoryId로 카테고리 이름 + 아이콘 반환
+const getCategoryName = (categoryId) => {
+  const category = categoryStore.states.transactionCategories.find((c) => c.id === categoryId)
+  return category ? `${category.icon} ${category.name}` : '-'
+}
 </script>
 
 <template>
@@ -54,8 +53,8 @@ const getCategoryName = (categoryId) => CATEGORY_LABEL[categoryId] || '-'
       @click="$emit('click', item.id)"
     >
       <span><strong class="label">날짜:</strong> {{ formatDate(item.date) }}</span>
-      <span><strong class="label">구별:</strong> {{ item.typeId }}</span>
-      <span><strong class="label">카테고리:</strong> {{ item.category }}</span>
+      <span><strong class="label">구별:</strong> {{ getTypeName(item.typeId) }}</span>
+      <span><strong class="label">카테고리:</strong> {{ getCategoryName(item.categoryId) }}</span>
       <span><strong class="label">금액:</strong> {{ item.amount.toLocaleString() }}원</span>
       <span><strong class="label">메모:</strong> {{ item.memo }}</span>
       <span class="buttons">

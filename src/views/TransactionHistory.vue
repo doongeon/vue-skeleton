@@ -16,9 +16,11 @@ const categories = computed(() => transactionStore.states.categories)
 // 카테고리 id → 이름+아이콘 매핑
 const categoryMap = computed(() => {
   const map = {}
-  categories.value.forEach((category) => {
-    map[category.id] = `${category.name} ${category.icon}`
-  })
+  if (Array.isArray(categories.value)) {
+    categories.value.forEach((category) => {
+      map[category.id] = `${category.icon} ${category.name}`
+    })
+  }
   return map
 })
 
