@@ -69,12 +69,12 @@ const deleteTransaction = async () => {
   })
 
   alert('삭제 완료!')
-  router.push('/history')
+  router.push('/main/history')
 }
 
 // 목록으로 이동
 const goBack = () => {
-  router.push('/history')
+  router.push('/main/history')
 }
 </script>
 
