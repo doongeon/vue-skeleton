@@ -1,5 +1,5 @@
 <script setup>
-import {  computed } from 'vue'
+import { computed } from 'vue'
 import { useCalendarStore } from '@/stores/calendarStore'
 
 const props = defineProps({
@@ -11,12 +11,9 @@ const props = defineProps({
 
 const categoryFilter = useCalendarStore()
 
-// 날짜 변환용 함수 : YYYY-MM-DD 형식
-const toDateString = (date) => new Date(date).toISOString().slice(0, 10)
-
 // 해당 날짜에 대한 income, expense 반환
 const cellData = computed(() => {
-  const currentDate = toDateString(props.date)
+  const currentDate = props.date.toISOString().slice(0, 10)
   // day cell에 들어갈 imcome, expense 업데이트
   if (categoryFilter.filteredData[currentDate]) {
     const { income, expense } = categoryFilter.filteredData[currentDate]
