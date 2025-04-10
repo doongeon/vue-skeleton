@@ -327,7 +327,7 @@ const formatDate = (dateStr) => {
         <div class="expense col-lg-4">
           <div class="ex-c card h-100 p-4 m-2">
 
-            <router-link to="/analysis" style="text-decoration: none;">
+            <router-link to="/main/analysis" style="text-decoration: none;">
               <h3>{{ selectedDate.slice(6,7) }}월 총 지출</h3>
               <p class="amount">{{ totalExpense.toLocaleString() }}원</p>
               <p>
@@ -354,7 +354,7 @@ const formatDate = (dateStr) => {
         <div class="income col-lg-4">
           <div class="in-c card h-100 p-4 m-2">
 
-            <router-link to="/analysis" style="text-decoration: none;">
+            <router-link to="/main/analysis" style="text-decoration: none;">
               <h3>{{ selectedDate.slice(6,7) }}월 총 수입</h3>
               <p class="amount">{{ totalIncome.toLocaleString() }}원</p>
               <!-- 수입 그래프 -->
@@ -374,7 +374,7 @@ const formatDate = (dateStr) => {
         <div class="net-gain col-lg-4">
           <div class="n-g-c card h-100 p-4 m-2">
 
-            <router-link to="/analysis" style="text-decoration: none;">
+            <router-link to="/main/analysis" style="text-decoration: none;">
               <h3>{{ selectedDate.slice(6,7) }}월 총/순수익</h3>
               <p class="amount">{{ (totalIncome - totalExpense).toLocaleString() }}원</p>
               <!-- 순수익 그래프 (수입&지출) -->
@@ -403,7 +403,7 @@ const formatDate = (dateStr) => {
         <div class="recent-transaction col-lg-8">
           <div class="re-trans-c card h-100 p-4 m-2">
 
-            <router-link to="/analysis" style="text-decoration: none;">
+            <router-link to="/main/analysis" style="text-decoration: none;">
             <h3>최근 거래 목록</h3>
 
               <div class="recent-trans-lists">
