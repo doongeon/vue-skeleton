@@ -1,9 +1,37 @@
 <script setup>
 import { defineProps } from 'vue'
+import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/router/index.js'
 
 const props = defineProps({
   items: Array,
 })
+
+const formatDate = (date) => {
+  const d = new Date(date)
+  return d.toLocaleDateString('ko-KR')
+}
+
+const TYPE_LABEL = {
+  [TRANSACTION_TYPE.expense]: '지출',
+  [TRANSACTION_TYPE.income]: '수입',
+}
+
+const CATEGORY_LABEL = {
+  [TRANSACTION_CATEGORY.식비]: '🍽️ 식비',
+  [TRANSACTION_CATEGORY.교통]: '🚗 교통',
+  [TRANSACTION_CATEGORY.문화여가]: '🎮 문화/여가',
+  [TRANSACTION_CATEGORY.술유흥]: '🍺 술/유흥',
+  [TRANSACTION_CATEGORY.쇼핑]: '🛍️ 쇼핑',
+  [TRANSACTION_CATEGORY.여행숙박]: '🏨 여행/숙박',
+  [TRANSACTION_CATEGORY.월급]: '💼 월급',
+  [TRANSACTION_CATEGORY.용돈]: '💸 용돈',
+  [TRANSACTION_CATEGORY.보너스]: '🎁 보너스',
+  [TRANSACTION_CATEGORY.매매]: '📈 매매',
+  [TRANSACTION_CATEGORY.이자]: '💰 이자',
+}
+
+const getTypeName = (typeId) => TYPE_LABEL[typeId] || '-'
+const getCategoryName = (categoryId) => CATEGORY_LABEL[categoryId] || '-'
 </script>
 
 <template>
@@ -25,12 +53,12 @@ const props = defineProps({
       :key="item.id"
       @click="$emit('click', item.id)"
     >
-      <span><strong class="label">날짜:</strong> {{ new Date(item.date) }}</span>
+      <span><strong class="label">날짜:</strong> {{ formatDate(item.date) }}</span>
       <span><strong class="label">구별:</strong> {{ item.typeId }}</span>
       <span><strong class="label">카테고리:</strong> {{ item.category }}</span>
       <span><strong class="label">금액:</strong> {{ item.amount.toLocaleString() }}원</span>
       <span><strong class="label">메모:</strong> {{ item.memo }}</span>
-      <span>
+      <span class="buttons">
         <button @click.stop="$emit('edit', item.id)">✏️</button>
         <button @click.stop="$emit('delete', item.id)">🗑️</button>
       </span>
@@ -49,7 +77,7 @@ const props = defineProps({
 
 .row {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* PC에서 6등분 */
+  grid-template-columns: repeat(6, 1fr);
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -65,15 +93,19 @@ const props = defineProps({
   background-color: #f9f9f9;
 }
 
-button {
+.buttons button {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 18px;
   margin: 0 4px;
+  transition: transform 0.2s;
 }
 
-/* 반응형 스타일 */
+.buttons button:hover {
+  transform: scale(1.2);
+}
+
 .label {
   display: none;
   font-weight: bold;
@@ -100,7 +132,12 @@ button {
     margin-right: 4px;
   }
 
-  button {
+  .buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .buttons button {
     font-size: 16px;
   }
 }
