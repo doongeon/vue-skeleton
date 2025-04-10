@@ -26,10 +26,11 @@ const dateOrder = ref('desc') // 정렬순서 (desc: 최신순, asc: 오래된�
 // 카테고리 목록 가져오기
 const categories = computed(() => store.states.transactionCategories)
 
-// 수입/지출/전체 필터 설정
+// 전체/수입/지출 필터 설정
 const setFilter = (type) => {
   selectedType.value = type
-  emit('filter-type', type)
+  const typeId = type === '지출' ? 1 : type === '수입' ? 2 : 'all'
+  emit('filter-type', typeId)
 }
 
 // 요일 필터 설정 (같은 요일 누르면 해제)
