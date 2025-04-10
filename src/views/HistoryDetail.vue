@@ -30,7 +30,7 @@ onMounted(async () => {
   amount.value = data.amount || 0
   content.value = data.memo || ''
   date.value = data.date.slice(0, 10)
-  type.value = data.typeId === 1 || data.typeId === '1' ? '수입' : '지출'
+  type.value = data.typeId === 1 || data.typeId === '1' ? '지출' : '수입'
 
   // 카테고리 찾아서 선택
   const category = categories.value.find((cat) => cat.id === String(data.categoryId))
@@ -42,7 +42,7 @@ const updateTransaction = async () => {
   const updatedData = {
     id: transactionId.value,
     userId: '1',
-    typeId: type.value === '수입' ? 1 : 2,
+    typeId: type.value === '수입' ? 2 : 1,
     categoryId: categories.value.find((cat) => cat.name === selectedCategory.value)?.id || '',
     amount: amount.value,
     memo: content.value,

@@ -108,7 +108,7 @@ const getCategoryName = (categoryId) => {
 
       <hr class="" />
 
-      <div class="mb-4 px-4">
+      <div class="mb-4 px-md-4">
         <div class="mb-4">
           <span class="fs-5 me-2">
             {{ states.transactionType === 'income' ? '순 수익' : '순 지출' }}
@@ -135,7 +135,7 @@ const getCategoryName = (categoryId) => {
             </template>
           </div>
 
-          <div class="col-lg-6">
+          <div class="col-lg-6 px-2">
             <template v-if="states.transactionType === 'income'">
               <AnalysisList :categorialTransaction="categorialIncome" />
             </template>

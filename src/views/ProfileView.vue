@@ -38,11 +38,15 @@ onMounted(async () => {
 //   transactionCategories.value = response.data
 // })
 
-function formatToMonthDay(dateString) {
+function formatToMonth(dateString) {
   const date = new Date(dateString)
   const month = date.getMonth() + 1 /* getMonth가 0부터 시작하므로 +1 */
+  return `${month}월`
+}
+function formatToDay(dateString) {
+  const date = new Date(dateString)
   const day = date.getDate()
-  return `${month}월 ${day}일`
+  return `${day}일`
 }
 
 const logout = ()=>{
@@ -59,7 +63,7 @@ const logout = ()=>{
       <p>이름 {{ users.userName }}</p>
       <p>이메일 {{ users.email }}</p>
     </div>
-    <div class="container">
+    <div class="container account">
       <p class="containerTitle">계정 관리</p>
       <div class="article">
         <button>비밀번호 변경</button>
@@ -67,7 +71,7 @@ const logout = ()=>{
         <button @click="logout" type="button">로그아웃</button>
       </div>
     </div>
-    <div class="container">
+    <div class="container category">
       <p class="containerTitle">태그 관리</p>
       <div class="article">
         <div class="categoryList">
@@ -77,18 +81,24 @@ const logout = ()=>{
         </div>
       </div>
     </div>
-    <div class="container">
-      <p class="containerTitle">고정지출 관리</p>
-      <div class="article">
-        <div class="periodical" v-for="list in periodic" :key="list.id">
-          {{ formatToMonthDay(list.date) }} {{ list.memo }} {{ list.amount }}
-        </div>
-      </div>
-    </div>
-    <div class="container">
+
+    <div class="container export">
       <p class="containerTitle">데이터 내보내기</p>
       <div class="article">
         <button>데이터 내보내기</button>
+      </div>
+    </div>
+    <div class="container periodic">
+      <p class="containerTitle">고정지출 관리</p>
+      <div class="article">
+        <div class="periodical" v-for="list in periodic" :key="list.id">
+          <span class="date">
+            <span class="month">{{ formatToMonth(list.date) }}</span>
+            <span class="day">{{ formatToDay(list.date) }}</span>
+          </span>
+          <span class="memo">{{ list.memo }}</span>
+          <span class="amount">{{ list.amount }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -98,7 +108,7 @@ const logout = ()=>{
 .layout {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 0.2fr 1fr 1fr;
+  /* grid-template-rows: 0.2fr 1fr 1fr; */
   gap: 2rem;
   padding: 2rem;
   background-color: rgb(255, 188, 0);
@@ -108,6 +118,7 @@ const logout = ()=>{
 .layout .profile {
   padding: 1rem;
   font-size: 2rem;
+  font-weight: bold;
   grid-column: span 12;
   display: flex;
   flex-direction: row;
@@ -121,10 +132,19 @@ const logout = ()=>{
 .layout .container {
   background-color: rgb(255, 255, 255);
   padding: 2rem;
-  grid-column: span 6;
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
+}
+
+.layout .container.account,
+.layout .container.category,
+.layout .container.export {
+  grid-column: span 4;
+}
+
+.layout .container.periodic {
+  grid-column: span 12;
 }
 
 .layout .container .containerTitle {
@@ -132,12 +152,14 @@ const logout = ()=>{
   font-size: 1.5rem;
   margin-top: 0;
   margin-bottom: 1.5rem;
+  font-weight: bold;
 }
 
 .layout .container .article {
   /* background-color: rgb(255, 188, 0); */
-  padding: 1rem;
-  flex: 1; /* 높이를 유연하게 */
+  padding: 0rem 1rem;
+  flex: 1;
+  /* 높이를 유연하게 */
   display: flex;
   flex-direction: column;
   justify-content: center; /* 수직 가운데 정렬 */
@@ -155,20 +177,59 @@ const logout = ()=>{
   align-items: center;
 }
 
-.layout .container .article .periodical {
-  align-self: flex-start; /* article이 가운데 정렬이고 periodical만 왼쪽 정렬함*/
+.layout .container.periodic .article {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: flex-start; /* 다른 article은 가운데 정렬이고 periodical만 왼쪽 정렬함*/
+  justify-items: flex-start;
+}
+
+/* .periodical {
+  display: flex;
+  flex-direction: column;
+  background-color: #fffdf5;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-height: 100px;
+  justify-content: space-between;
+} */
+
+.periodical {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.periodical .date {
+  display: flex;
+  gap: 0.5rem;
+  width: 5rem;
+  justify-content: flex-start;
+}
+.periodical .month,
+.periodical .day {
+  display: inline-block;
+  width: 3rem;
+  text-align: right;
+}
+
+.periodical .amount {
+  font-weight: bold;
 }
 
 .layout .container .article button {
   flex-direction: column;
-  border: 1px solid;
-  margin: 0; /* ✅ 좌우 마진 제거 */
+  border: none;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+  margin: 1rem;
   padding: 0.75rem;
   width: 100%; /* ✅ 부모 너비에 맞게 */
   box-sizing: border-box; /* ✅ padding 포함 너비 계산 */
   background-color: white;
   color: black;
-  border-radius: 0.5rem;
+  border-radius: 10rem;
   font-size: 1rem;
 }
 
@@ -178,5 +239,22 @@ const logout = ()=>{
 
 .layout .container .article button:active {
   transform: translateY(0.1rem);
+}
+
+@media (max-width: 920px) {
+  .layout {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .layout .container {
+    grid-column: span 12 !important; /* 모바일에선 모두 한 줄 */
+  }
+
+  .layout .container.export {
+    order: 10;
+  }
+  /* .layout .container.periodic .article {
+    grid-template-columns: 1fr;
+  } */
 }
 </style>
