@@ -1,6 +1,18 @@
 <script setup>
 import '@/assets/header.css'
-import { ref } from 'vue'
+import { getUserInfo, logoutProcess } from '@/utils/AuthUtils'
+import { useRouter } from 'vue-router'
+import { ref, reactive } from 'vue'
+
+// 로그아웃 부분
+const router = useRouter()
+const data = reactive({ userInfo: getUserInfo() })
+const logout = () => {
+  logoutProcess(() => {
+    data.userInfo = {}
+    router.push({ name: 'home' })
+  })
+}
 
 const showSettingPopup = ref(false)
 const showDatePicker = ref(false)
@@ -28,7 +40,7 @@ function toggleDatePicker() {
         <span class="menu-button setting-btn" @click="toggleSetting">설정</span>
 
         <div class="popup" v-if="showSettingPopup">
-          <button>로그아웃</button>
+          <button @click="logout">로그아웃</button>
           <button>태그 추가</button>
         </div>
       </div>

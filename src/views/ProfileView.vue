@@ -1,15 +1,14 @@
 <script setup>
-import { getUserInfo, logoutProcess } from '@/utils/AuthUtils';
-import { useRouter } from 'vue-router';
+import { getUserInfo, logoutProcess } from '@/utils/AuthUtils'
+import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
 import { computed, reactive } from 'vue'
 
-
-const router = useRouter();
-const data = reactive({userInfo:getUserInfo()})
+const router = useRouter()
+const data = reactive({ userInfo: getUserInfo() })
 
 // categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
 // 날짜기준 오름차순 정렬
@@ -49,10 +48,10 @@ function formatToDay(dateString) {
   return `${day}일`
 }
 
-const logout = ()=>{
-  logoutProcess(()=> {
-    data.userInfo = {};
-    router.push({name: 'home'})
+const logout = () => {
+  logoutProcess(() => {
+    data.userInfo = {}
+    router.push({ name: 'home' })
   })
 }
 </script>
