@@ -1,6 +1,5 @@
 <script setup>
 import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
-import { TRANSACTION_CATEGORY } from '@/types'
 import { computed, defineProps } from 'vue'
 
 const transactionCategoryStore = useTransactionCategoryStore()
