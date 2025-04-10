@@ -1,14 +1,12 @@
-/* 사이드바 css */
+/* 사이드바 */
 .sidebar {
   height: 100vh;
-  /* background: #f5f5f5; */
   padding: 20px;
-  padding-top: 200px;
   box-sizing: border-box;
-  /* border-right: 1px solid #a8a8a8; */
+  padding-top: 160px;
 }
 
-/* 사이드바 */
+
 .title {
   font-size: 32px;
   font-weight: bold;
@@ -17,41 +15,76 @@
   margin-top: 30px;
 }
 
+/* 홈화면, 거래상세내역, 수입/지출분석/ 캘린더 */
 .menu {
   display: flex;
   flex-direction: column;
 }
 
-/* 홈화면, 거래상세내역, 수입/지출분석/ 캘린더 */
 .menu-item {
   width: 100%;
-  padding: 0 10px;
-  margin-bottom: 10px;
+  padding: 10px 8px;
+  margin-bottom: 15px;
   margin-left: 10px;
   background-color: #fdc400;
   border-radius: 10px;
   text-decoration: none;
   color: #000000;
   transition: background-color 0.2s ease;
+  font-weight: bold;
 }
 
 .menu-item:hover {
   background-color: #ffffff;
 }
 
-/* 사이드바 반응형 */
-@media screen and (max-width: 900px) {
-  .menu-item {
-    padding: 15px 60px;
-  }
+/* ===== 화면 축소될때 반응형 ===== */
+@media screen and (max-width: 1200px) {
+.sidebar {
+  position: relative;
+  top: 0px;
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+  background: transparent;
+  border-right: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: none;
 }
 
-/* ===== 반응형: 화면 너비가 768px 이하일 때 메뉴만 전환 =====*/
-@media screen and (max-width: 1200px) {
+.title {
+  display: none;
+}
+
+.menu {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.menu-item {
+  padding: clamp(14px, 2vw, 24px);
+  margin: 5px;
+  margin-left: 0;
+  width: auto;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: clamp(8px, 2.5vw, 20px);
+}
+.home-section {
+  margin-top: 120px;
+}
+
+@media screen and (max-width: 760px) {
   .sidebar {
     position: relative;
-    top: 60px; /* 상단바 높이만큼 내림 */
-    left: 0;
+    top: 0px;
     width: 100%;
     height: auto;
     padding: 10px 0;
@@ -60,31 +93,71 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: none;
   }
 
   .title {
-    display: none; /* 타이틀 숨김 */
+    display: none;
   }
 
   .menu {
-    flex-direction: row; /* 가로 정렬 */
-    flex-wrap: wrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     width: 100%;
+    padding-bottom: 20px;
   }
 
-   .menu-item {
-    padding: 10px 20px;
-    margin: 5px;
-    margin-left: 0; /* 좌측 마진 제거 */
-    font-size: 14px;
-    width: auto;
+  .menu-item {
+    padding: 8px 20px;
+    margin: 4px;
+    font-size: 12px;
     border-radius: 8px;
-  }
+     white-space: nowrap;
+
   .home-section {
-    margin-top: 120px; /* 상단바 + 메뉴 높이 고려 */
+    margin-top: 120px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    background: transparent;
+    border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
+  .title {
+    display: none;
+  }
+
+  .menu {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+
+  .menu-item {
+    padding: 8px 20px;
+    margin: 4px;
+    font-size: 5px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  .home-section {
+    margin-top: 120px;
+  }
+}

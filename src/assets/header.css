@@ -1,51 +1,169 @@
 /* 상단바 */
 .header {
-  background-color: #dad9d7;
-  padding: 30px 20px;
+  background-color: #fdc400;
+  padding: 20px;
+
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   position: relative;
+  z-index: 1000;
 }
 
 /* 홈화면 */
-.title {
+.header-title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 30px;
+  font-weight: bold;
+  font-size: 32px;
+  white-space: nowrap;
+  z-index: 1;
+  color: #350f00de;
+  text-align: center;
 }
 
-/* 오른쪽 메뉴 */
-.menu {
+/* 상단바 메뉴  */
+.header-menu {
   display: flex;
-  gap: 20px;
-  position: relative;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
   margin-left: auto;
+  position: relative;
+}
+
+/* 설정 버튼 크기 조정 */
+.setting-wrapper {
+  display: flex;
   align-items: center;
+}
+
+/* 날짜+프로필+설정 버튼 */
+.menu-button {
+  background-color: rgb(96, 88, 76);
+  border: 1px solid #fdc400;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffffde;
+  white-space: nowrap;
+  font-size: clamp(6px, 2vw, 20px)
+}
+
+.menu-button:hover {
+  background-color:  #5A4D45;
+}
+
+.setting-wrapper {
+  position: relative;
+}
+
+/* 날짜 선택기 위치 */
+.date-picker {
+  position: absolute;
+  top: 55px;
+  right: 120px;
+  padding: 5px;
+  border: 1px solid rgb(96, 88, 76);
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  z-index: 99;
 }
 
 /* 설정 팝업창 */
 .popup {
   position: absolute;
-  top: 35px;
+  top: 50px;
   right: 0;
-  background: #f3f3f3;
+  background: #fdc400;
   border-radius: 8px;
   padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   z-index: 100;
 }
 
 .popup button {
   border: none;
-  padding: 10px;
+  padding: 12px 15px;
   cursor: pointer;
+  border-radius: 8px;
+  background:rgb(96, 88, 76);
+  white-space: nowrap;
+  font-weight: bold;
+  color: white;
 }
 
 .popup button:hover {
-  background-color: #fffefe;
+  background-color:  #5A4D45;
 }
+
+/* 날짜 선택기 */
+.date-picker {
+  position: absolute;
+  top: 50px;
+  right: 100px;
+  padding: 6px;
+  border: 1px solid rgb(96, 88, 76);
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  z-index: 99;
+}
+
+@media (max-width: 1200px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-title {
+    font-size: clamp(20px, 5vw, 32px)
+  }
+
+  .header-menu {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .menu-button {
+    font-size: 16px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 760px) {
+    .header-menu {
+      flex-wrap: nowrap;
+      justify-content: center;
+      bottom: -15px;
+      right: -15px;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .menu-button {
+
+      padding: 4px 8px;
+      white-space: nowrap;
+      font-size: clamp(4px, 1vw, 20px)
+    }
+
+    .header-title {
+      font-size: clamp(5px, 1vw, 32px)
+      text-align: center;
+    }
+  }
+

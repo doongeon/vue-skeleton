@@ -2,7 +2,7 @@ import transactionCategoryRequest from '../apis/transactionCategory'
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 
-export const useTransactionCategoryStore = defineStore('transactionStore', () => {
+export const useTransactionCategoryStore = defineStore('transactionCategoryStore', () => {
   /**
    * transactionCategories: [
    *   { id: '1', name: '식비', icon: '🍽️', accountTypeId: '1' },

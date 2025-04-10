@@ -1,7 +1,17 @@
 <script setup>
-import { ref } from 'vue'
-import CalendarPicker from '@/components/CalendarPicker.vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
+import { useTransactionStore } from '@/stores/transactionStore'
+import CalendarPicker from '@/components/CalendarPicker.vue'
+
+// 스토어 연결
+const transactionCategoryStore = useTransactionCategoryStore()
+const transactionStore = useTransactionStore()
+
+// 구조분해
+const { transactionCategories } = transactionCategoryStore.states
+const { addTransactionCategory, deleteTransactionCategory } = transactionCategoryStore.actions
 
 const router = useRouter()
 
@@ -10,54 +20,76 @@ const date = ref(new Date())
 const amount = ref(null)
 const content = ref('')
 const type = ref('지출')
-const selectedCategory = ref('식비')
 const customCategory = ref('')
+const selectedCategory = ref('')
 
-const categories = ref([
-  { name: '식비', icon: '🍽️' },
-  { name: '교통', icon: '🚗' },
-  { name: '문화/여가', icon: '🎮' },
-  { name: '술/유흥', icon: '🍺' },
-  { name: '쇼핑', icon: '🛍️' },
-  { name: '여행/숙박', icon: '🏨' },
-  { name: '월급', icon: '💼' },
-  { name: '용돈', icon: '💸' },
-  { name: '보너스', icon: '🎁' },
-  { name: '매매', icon: '📈' },
-  { name: '이자', icon: '💰' },
-])
+// 카테고리 목록
+const categories = computed(() => transactionCategories)
 
+// 카테고리 선택
+const selectCategory = (category) => {
+  selectedCategory.value = category.name
+}
+
+// 커스텀 카테고리 추가
 const addCustomCategory = () => {
   const trimmed = customCategory.value.trim()
   if (trimmed !== '') {
     const exists = categories.value.some((cat) => cat.name === trimmed)
     if (!exists) {
-      categories.value.push({ name: trimmed, icon: '🆕', isCustom: true })
+      addTransactionCategory({
+        name: trimmed,
+        icon: '🆕',
+        accountTypeId: '1',
+        isCustom: true,
+        id: Date.now(), // 고유 ID
+      })
     }
     selectedCategory.value = trimmed
     customCategory.value = ''
   }
 }
 
+// 카테고리 삭제
 const removeCategory = (name) => {
-  categories.value = categories.value.filter((cat) => cat.name !== name)
+  deleteTransactionCategory(name)
   if (selectedCategory.value === name) {
     selectedCategory.value = ''
   }
 }
 
-const submitTransaction = () => {
+// 거래 등록
+const submitTransaction = async () => {
   const isConfirmed = confirm(
     `등록하시겠습니까?\n제목: ${title.value}\n금액: ${amount.value}\n카테고리: ${selectedCategory.value}`,
   )
+
   if (isConfirmed) {
+    const newTransaction = {
+      title: title.value,
+      date: date.value.toISOString().split('T')[0], // YYYY-MM-DD
+      amount: Number(amount.value),
+      content: content.value,
+      type: type.value,
+      category: selectedCategory.value,
+    }
+
+    await transactionStore.actions.addTransaction(newTransaction)
+
     alert('등록되었습니다.')
     router.push('/history')
   }
 }
 
+// 거래 취소
 const cancelTransaction = () => {
-  if (confirm('작성을 취소하시겠습니까?')) {
+  if (!title.value && !amount.value && !content.value && !customCategory.value) {
+    router.push('/history')
+    return
+  }
+
+  const isConfirmed = confirm('작성을 취소하시겠습니까?')
+  if (isConfirmed) {
     router.push('/history')
   }
 }
@@ -88,12 +120,15 @@ const cancelTransaction = () => {
       <div class="category-list">
         <div
           v-for="cat in categories"
-          :key="cat.name"
+          :key="cat.id"
           class="category-item"
           :class="{ selected: selectedCategory === cat.name }"
-          @click="selectedCategory = cat.name"
+          @click="selectCategory(cat)"
         >
-          <span class="icon">{{ cat.icon }}</span> {{ cat.name }}
+          <span class="icon">{{ cat.icon }}</span>
+          <span class="name">{{ cat.name }}</span>
+
+          <!-- 커스텀 카테고리일 경우에만 삭제 버튼 표시 -->
           <span v-if="cat.isCustom" class="remove-btn" @click.stop="removeCategory(cat.name)"
             >×</span
           >
@@ -102,12 +137,14 @@ const cancelTransaction = () => {
 
       <div class="custom-category">
         <label>카테고리 직접 입력</label>
-        <input
-          v-model="customCategory"
-          type="text"
-          placeholder="예: 건강, 교육 등"
-          @keyup.enter="addCustomCategory"
-        />
+        <div style="display: flex; gap: 10px">
+          <input
+            v-model="customCategory"
+            type="text"
+            placeholder="예: 건강, 교육 등"
+            @keydown.enter.prevent="addCustomCategory"
+          />
+        </div>
       </div>
 
       <div class="edit-delete-buttons">
@@ -173,7 +210,7 @@ textarea::placeholder {
   font-weight: bold;
 }
 .type-toggle .active {
-  background-color: #333;
+  background-color: #545045;
   color: white;
 }
 
@@ -187,7 +224,7 @@ textarea::placeholder {
 .category-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 6px;
   padding: 10px;
   border-radius: 10px;
@@ -195,10 +232,12 @@ textarea::placeholder {
   background-color: #fafafa;
   cursor: pointer;
   position: relative;
+  text-align: center;
+  font-weight: bold;
 }
 
 .category-item.selected {
-  background-color: #444;
+  background-color: #545045;
   color: white;
 }
 
@@ -243,17 +282,90 @@ textarea::placeholder {
 }
 
 .edit {
-  background-color: #4caf50;
+  background-color: #ffcc00;
   color: white;
 }
 
 .delete {
-  background-color: #f44336;
+  background-color: #60584c;
   color: white;
 }
 
-.back {
-  background-color: #9e9e9e;
-  color: white;
+/* ✅ 태블릿 대응 */
+@media (max-width: 900px) {
+  .transaction-detail {
+    padding: 24px;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 22px;
+  }
+
+  .type-toggle button {
+    font-size: 15px;
+    padding: 10px 18px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .edit-delete-buttons button,
+  .back-button-wrapper .back {
+    font-size: 15px;
+  }
+
+  input,
+  textarea {
+    font-size: 15px;
+  }
+}
+
+/* ✅ 모바일 대응 */
+@media (max-width: 600px) {
+  .transaction-detail {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .type-toggle {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .type-toggle button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .edit-delete-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .edit-delete-buttons button,
+  .back-button-wrapper .back {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .back-button-wrapper {
+    justify-content: center;
+  }
+
+  input,
+  textarea {
+    font-size: 16px;
+  }
 }
 </style>

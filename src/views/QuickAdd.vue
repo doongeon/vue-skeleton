@@ -1,8 +1,65 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import { useTransactionStore } from '@/stores/transactionStore'
+
+const categoryList = ref([])
+onMounted(async () => {
+  const response = await axios.get('http://localhost:3000/transactionCategory')
+  categoryList.value = response.data
+})
+// 현재 존재하는 categoryId의 list
 
 const isFormVisible = ref(false) // 폼 표시 여부 상태
+const date = ref('')
+const typeId = ref('')
+const categoryId = ref('')
+const amount = ref('')
+const memo = ref('')
+// Pinia Store
+const transactionStore = useTransactionStore()
+// 제출 및 유효성검사
+const submit = async () => {
+  if (!date.value) {
+    alert('유효한 날짜를 선택하세요')
+    return
+  } else if (typeId.value !== '1' && typeId.value !== '2') {
+    alert('유효한 구별을 선택하세요')
+    return
+  } else if (!categoryList.value.find((item) => String(item.id) === String(categoryId.value))) {
+    alert('유효한 카테고리를 선택하세요')
+    return
+  } else if (isNaN(amount.value) || amount.value <= 0) {
+    alert('0보다 큰 금액을 입력하세요')
+    return
+  } else if (!memo.value) {
+    alert('유효한 메모를 입력하세요')
+    return
+  }
+  const newHistory = {
+    typeId: String(typeId.value),
+    categoryId: String(categoryId.value),
+    amount: parseInt(amount.value),
+    memo: memo.value,
+    date: new Date(date.value).toISOString(),
+  }
+  try {
+    await transactionStore.actions.addTransaction(newHistory)
+    alert('거래내역이 추가되었습니다.')
+    // 초기화
+    typeId.value = ''
+    categoryId.value = ''
+    amount.value = ''
+    memo.value = ''
+    date.value = ''
+    isFormVisible.value = false
+  } catch (error) {
+    console.error(error)
+    alert('거래내역 추가에 실패했습니다.')
+  }
+}
 
+// 빠른추가버튼 클릭할때마다 새로운거래추가 화면 on/off
 const toggleForm = () => {
   if (isFormVisible.value == false) {
     isFormVisible.value = true
@@ -17,14 +74,33 @@ const toggleForm = () => {
     <button class="icon" @click="toggleForm">빠른 추가</button>
     <div v-if="isFormVisible" class="format">
       <div>새로운 거래 추가</div>
-      <div class="form-row">날짜<input type="text" placeholder="내용입력" /></div>
-      <div class="form-row">구별<input type="text" placeholder="내용입력" /></div>
-      <div class="form-row">카테고리<input type="text" placeholder="내용입력" /></div>
-      <div class="form-row">금액<input type="text" placeholder="내용입력" /></div>
       <div class="form-row">
-        메모<textarea placeholder="내용입력" class="memo" name="" id=""></textarea>
+        날짜<input v-model="date" type="datetime-local" placeholder="내용입력" />
       </div>
-      <button>거래내역 추가</button>
+      <div class="form-row">
+        구별
+        <select v-model="typeId">
+          <option value="">구별을 선택하세요</option>
+          <option value="1">지출</option>
+          <option value="2">수입</option>
+        </select>
+      </div>
+      <div class="form-row">
+        카테고리
+        <select v-model="categoryId">
+          <option value="">카테고리를 선택하세요</option>
+          <option v-for="category in categoryList" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-row">
+        금액<input v-model="amount" type="number" placeholder="숫자만 입력" />
+      </div>
+      <div class="form-row">
+        메모<textarea v-model="memo" placeholder="내용입력" class="memo"></textarea>
+      </div>
+      <button @click="submit">거래내역 추가</button>
     </div>
   </div>
 </template>
@@ -35,9 +111,10 @@ const toggleForm = () => {
   display: inline-block;
   bottom: 2rem;
   right: 2rem;
+  z-index: 1500;
 }
 .wrapper .icon {
-  border: none;
+  border: 2px solid rgb(210, 160, 20);
   font-size: 1rem;
   color: white;
   border-radius: 0.5rem;
@@ -45,7 +122,7 @@ const toggleForm = () => {
   position: relative;
   display: flex;
   padding: 1rem 1.5rem;
-  z-index: 200;
+  z-index: 300;
 }
 
 .wrapper .icon:hover {
@@ -66,7 +143,7 @@ const toggleForm = () => {
   bottom: 0;
   right: 0;
   width: fit-content;
-  z-index: 100;
+  z-index: 200;
   padding-bottom: 5rem;
   display: flex;
   flex-direction: column;
