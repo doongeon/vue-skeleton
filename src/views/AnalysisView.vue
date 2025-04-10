@@ -135,7 +135,7 @@ const getCategoryName = (categoryId) => {
             </template>
           </div>
 
-          <div class="col-lg-6">
+          <div class="col-lg-6 px-2">
             <template v-if="states.transactionType === 'income'">
               <AnalysisList :categorialTransaction="categorialIncome" />
             </template>

@@ -49,7 +49,7 @@ const getRatio = (amount) => {
 <template>
   <ul class="p-lg-3 list-group list-group-flush">
     <li
-      class="list-group-item d-flex align-items-center justify-content-between px-2"
+      class="list-group-item d-flex align-items-center justify-content-between px-0 px-sm-2"
       v-for="categorialTransaction in categorialTransactions"
       :key="categorialTransaction.id"
     >
