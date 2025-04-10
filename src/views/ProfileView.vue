@@ -62,7 +62,7 @@ function formatToDay(dateString) {
       <p class="containerTitle">태그 관리</p>
       <div class="article">
         <div class="categoryList">
-          <span v-for="category in categories" :key="category.id">
+          <span v-for="category in categories" :key="category.id" class="tags">
             {{ category.icon }} {{ category.name }}
           </span>
         </div>
@@ -162,6 +162,10 @@ function formatToDay(dateString) {
   gap: 0.5rem;
   justify-content: flex-start;
   align-items: center;
+}
+
+.layout .container .article .categoryList .tags {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .layout .container.periodic .article {
