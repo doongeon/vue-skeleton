@@ -1,12 +1,15 @@
 <script setup>
 import { useTransactionStore } from '@/stores/transactionStore'
-import { TRANSACTION_TYPE, TRANSACTION_CATEGORY } from '@/types'
+import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
+import { TRANSACTION_TYPE } from '@/types'
 import { computed, reactive } from 'vue'
 import PieChart from '@/components/PieChart.vue'
 import AnalysisList from '@/components/AnalysisList.vue'
 
 const transactionStore = useTransactionStore()
+const transactionCategoryStore = useTransactionCategoryStore()
 const transactions = computed(() => transactionStore.states.transactions)
+const transactionCategories = computed(() => transactionCategoryStore.states.transactionCategories)
 
 const states = reactive({
   period: 1,
@@ -69,9 +72,13 @@ const totalExpense = computed(() => {
 })
 
 const getCategoryName = (categoryId) => {
-  return Object.keys(TRANSACTION_CATEGORY).find(
-    (categoryName) => TRANSACTION_CATEGORY[categoryName] === categoryId,
-  )
+  if (transactionCategories.value.length === 0) {
+    return 'loading'
+  }
+
+  return transactionCategories.value.find(
+    (transactionCategory) => transactionCategory.id === categoryId,
+  ).name
 }
 </script>
 
