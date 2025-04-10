@@ -240,8 +240,8 @@ function formatToDay(dateString) {
   .layout .container.export {
     order: 10;
   }
-  /* .layout .container.periodic .article {
+  .layout .container.periodic .article {
     grid-template-columns: 1fr;
-  } */
+  }
 }
 </style>
