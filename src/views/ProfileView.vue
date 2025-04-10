@@ -60,8 +60,8 @@ const logout = ()=>{
 <template>
   <div class="layout">
     <div class="profile" v-if="users">
-      <p>이름 {{ users.userName }}</p>
-      <p>이메일 {{ users.email }}</p>
+      <p>{{ users.userName }}</p>
+      <p>{{ users.email }}</p>
     </div>
     <div class="container account">
       <p class="containerTitle">계정 관리</p>
@@ -75,7 +75,7 @@ const logout = ()=>{
       <p class="containerTitle">태그 관리</p>
       <div class="article">
         <div class="categoryList">
-          <span v-for="category in categories" :key="category.id">
+          <span v-for="category in categories" :key="category.id" class="tags">
             {{ category.icon }} {{ category.name }}
           </span>
         </div>
@@ -117,7 +117,7 @@ const logout = ()=>{
 
 .layout .profile {
   padding: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   grid-column: span 12;
   display: flex;
@@ -175,6 +175,10 @@ const logout = ()=>{
   gap: 0.5rem;
   justify-content: flex-start;
   align-items: center;
+}
+
+.layout .container .article .categoryList .tags {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .layout .container.periodic .article {
@@ -253,8 +257,8 @@ const logout = ()=>{
   .layout .container.export {
     order: 10;
   }
-  /* .layout .container.periodic .article {
+  .layout .container.periodic .article {
     grid-template-columns: 1fr;
-  } */
+  }
 }
 </style>
