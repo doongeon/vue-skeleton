@@ -1,18 +1,18 @@
 <script setup>
-import { getUserInfo, logoutProcess } from '@/utils/AuthUtils';
-import { useRouter } from 'vue-router';
+import { getUserInfo, logoutProcess } from '@/utils/AuthUtils'
+import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
 import { computed, reactive } from 'vue'
 
-
-const router = useRouter();
-const data = reactive({userInfo:getUserInfo()})
+const router = useRouter()
+const data = reactive({ userInfo: getUserInfo() })
 
 // categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
-// 날짜기준 오름차순 정렬
+// categoryId기준으로 임시로 고정지출 선정
+// 연월일기준 오름차순 정렬
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
 const periodic = computed(() =>
@@ -49,10 +49,10 @@ function formatToDay(dateString) {
   return `${day}일`
 }
 
-const logout = ()=>{
-  logoutProcess(()=> {
-    data.userInfo = {};
-    router.push({name: 'home'})
+const logout = () => {
+  logoutProcess(() => {
+    data.userInfo = {}
+    router.push({ name: 'home' })
   })
 }
 </script>
@@ -84,9 +84,7 @@ const logout = ()=>{
 
     <div class="container export">
       <p class="containerTitle">데이터 내보내기</p>
-      <div class="article">
-        <button>데이터 내보내기</button>
-      </div>
+      <div class="article"><button>데이터 내보내기</button></div>
     </div>
     <div class="container periodic">
       <p class="containerTitle">고정지출 관리</p>
@@ -184,8 +182,9 @@ const logout = ()=>{
 .layout .container.periodic .article {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  align-items: flex-start; /* 다른 article은 가운데 정렬이고 periodical만 왼쪽 정렬함*/
-  justify-items: flex-start;
+  align-items: center;
+  justify-items: stretch;
+  column-gap: 3rem;
 }
 
 /* .periodical {
