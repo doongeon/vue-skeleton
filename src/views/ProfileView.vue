@@ -11,6 +11,7 @@ const router = useRouter()
 const data = reactive({ userInfo: getUserInfo() })
 
 // categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
+// categoryId기준으로 임시로 고정지출 선정
 // 연월일기준 오름차순 정렬
 const transactionStore = useTransactionStore()
 const transactions = computed(() => transactionStore.states.transactions)
