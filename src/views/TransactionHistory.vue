@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTransactionStore } from '@/stores/transactionStore' // transactionStore.js 불러오기
 import FilterContent from '@/components/FilterContent.vue'
@@ -9,11 +9,12 @@ const router = useRouter()
 
 // transactionStore 사용
 const transactionStore = useTransactionStore()
+const transactions = computed(() => transactionStore.states.transactions)
 
 // 거래 데이터 가져오기
-onMounted(async () => {
-  await transactionStore.initStore()
-})
+// onMounted(async () => {
+//   await transactionStore.initStore()
+// })
 
 // 카테고리 id → 이름+아이콘 매핑
 const categoryMap = computed(() => {
