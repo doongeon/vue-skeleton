@@ -108,7 +108,7 @@ const getCategoryName = (categoryId) => {
 
       <hr class="" />
 
-      <div class="mb-4 px-4">
+      <div class="mb-4 px-md-4">
         <div class="mb-4">
           <span class="fs-5 me-2">
             {{ states.transactionType === 'income' ? '순 수익' : '순 지출' }}

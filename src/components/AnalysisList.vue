@@ -47,9 +47,9 @@ const getRatio = (amount) => {
 </script>
 
 <template>
-  <ul class="card p-3 list-group list-group-flush">
+  <ul class="p-lg-3 list-group list-group-flush">
     <li
-      class="list-group-item d-flex align-items-center justify-content-between"
+      class="list-group-item d-flex align-items-center justify-content-between px-2"
       v-for="categorialTransaction in categorialTransactions"
       :key="categorialTransaction.id"
     >
@@ -58,7 +58,7 @@ const getRatio = (amount) => {
         {{ getCategoryName(categorialTransaction.id) }}
       </span>
       <div
-        class="progress w-50 me-3"
+        class="progress w-50"
         role="progressbar"
         aria-label="Success example"
         :aria-valuenow="getRatio(categorialTransaction.amount)"
@@ -70,7 +70,7 @@ const getRatio = (amount) => {
           :style="{ width: getRatio(categorialTransaction.amount) + '%' }"
         ></div>
       </div>
-      <span class="me-0" style="width: 90px">{{
+      <span class="ms-2 me-0" style="width: 90px">{{
         categorialTransaction.amount.toLocaleString()
       }}</span>
     </li>
