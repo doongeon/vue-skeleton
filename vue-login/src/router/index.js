@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { isMatchToRoles } from '@/utils/AuthUtils'
+import { isMatchToRoles } from '../../../src/utils/AuthUtils'
 
 import HomeView from '../views/HomeView.vue'
 
@@ -17,7 +17,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('@/views/Login.vue'),
+      component: () => import('../../../src/views/Login.vue'),
     },
     {
       path: '/users',

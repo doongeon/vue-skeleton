@@ -1,9 +1,15 @@
 <script setup>
+import { getUserInfo, logoutProcess } from '@/utils/AuthUtils';
+import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { useTransactionCategoryStore } from '@/stores/transactionCategoryStore'
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive } from 'vue'
+
+
+const router = useRouter();
+const data = reactive({userInfo:getUserInfo()})
 
 // categoryId가 숫자가 아닌 문자열로 선언되었으므로 문자열로 filter해야함
 // 날짜기준 오름차순 정렬
@@ -38,6 +44,13 @@ function formatToMonthDay(dateString) {
   const day = date.getDate()
   return `${month}월 ${day}일`
 }
+
+const logout = ()=>{
+  logoutProcess(()=> {
+    data.userInfo = {};
+    router.push({name: 'home'})
+  })
+}
 </script>
 
 <template>
@@ -51,7 +64,7 @@ function formatToMonthDay(dateString) {
       <div class="article">
         <button>비밀번호 변경</button>
         <button>계정 탈퇴</button>
-        <button>로그아웃</button>
+        <button @click="logout" type="button">로그아웃</button>
       </div>
     </div>
     <div class="container">

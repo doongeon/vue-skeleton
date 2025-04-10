@@ -16,13 +16,13 @@ function toggleDatePicker() {
 </script>
 
 <template>
-  <div class="header">
-    <div class="header-title">유전자's 가계부</div>
+  <div class="header welcome-banner">
+    <div class="header-title text-white">유전자's 가계부</div>
 
     <div class="header-menu">
       <span class="menu-button" @click="toggleDatePicker">날짜</span>
       <input v-if="showDatePicker" type="date" v-model="selectedDate" class="date-picker" />
-      <RouterLink to="/profile" class="menu-button">프로필</RouterLink>
+      <RouterLink to="/main/profile" class="menu-button">프로필</RouterLink>
 
       <div class="setting-wrapper">
         <span class="menu-button setting-btn" @click="toggleSetting">설정</span>
@@ -36,4 +36,16 @@ function toggleDatePicker() {
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.welcome-banner {
+  background: linear-gradient(
+    135deg,
+    rgb(255, 188, 0),
+    rgb(255, 204, 0),
+    rgb(96, 88, 76),
+    rgb(84, 80, 69)
+  );
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+</style>

@@ -1,9 +1,11 @@
 <script setup>
 import Header from '@/views/Header.vue'
 import Sidebar from '@/views/Sidebar.vue'
+import QuickAdd from './QuickAdd.vue'
 </script>
 
 <template>
+  <QuickAdd />
   <div class="container py-5">
     <div class="row">
       <div class="col-xl-2 d-none d-xl-block">
@@ -23,7 +25,7 @@ import Sidebar from '@/views/Sidebar.vue'
 </template>
 
 <style scoped>
-*{
+* {
   margin: 0;
   /* padding: 0; */
 }
@@ -32,7 +34,7 @@ import Sidebar from '@/views/Sidebar.vue'
   /* max-width: 1200px; */
   max-width: 1920px;
 }
-.section{
+.section {
   max-width: 1200px;
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-import { getUserInfo, logoutProcess } from '@/utils/AuthUtils';
+import { getUserInfo, logoutProcess } from '../../../src/utils/AuthUtils';
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 

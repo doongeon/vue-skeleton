@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { loginProcess } from '@/utils/AuthUtils';
+import { loginProcess } from '../utils/AuthUtils';
 
 
 const router = useRouter()
