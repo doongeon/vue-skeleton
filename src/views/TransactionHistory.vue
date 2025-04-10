@@ -91,7 +91,7 @@ const goToEdit = (id) => router.push({ name: 'editHistory', params: { id } })
 const deleteTransaction = async (id) => {
   const confirmation = window.confirm('삭제하시겠습니까?')
   if (confirmation) {
-    await transactionStore.deleteTransaction(id)
+    await transactionStore.actions.deleteTransaction(id)
     alert('삭제되었습니다.')
   }
 }
