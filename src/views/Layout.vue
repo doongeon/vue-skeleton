@@ -6,7 +6,6 @@ import QuickAdd from '@/views/QuickAdd.vue'
 </script>
 
 <template>
-  <QuickAdd />
   <div class="container py-5">
     <div class="row">
       <div class="col-xl-2 d-none d-xl-block">
@@ -35,6 +34,7 @@ import QuickAdd from '@/views/QuickAdd.vue'
   /* width: 100%; */
   /* max-width: 1200px; */
   max-width: 1920px;
+  margin: 0 auto;
 }
 .section {
   max-width: 1200px;
