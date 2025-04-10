@@ -25,8 +25,8 @@ const props = defineProps({
       :key="item.id"
       @click="$emit('click', item.id)"
     >
-      <span><strong class="label">날짜:</strong> {{ item.date }}</span>
-      <span><strong class="label">구별:</strong> {{ item.type }}</span>
+      <span><strong class="label">날짜:</strong> {{ new Date(item.date) }}</span>
+      <span><strong class="label">구별:</strong> {{ item.typeId }}</span>
       <span><strong class="label">카테고리:</strong> {{ item.category }}</span>
       <span><strong class="label">금액:</strong> {{ item.amount.toLocaleString() }}원</span>
       <span><strong class="label">메모:</strong> {{ item.memo }}</span>
