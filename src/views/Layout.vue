@@ -2,7 +2,6 @@
 import Header from '@/views/Header.vue'
 import Sidebar from '@/views/Sidebar.vue'
 import QuickAdd from '@/views/QuickAdd.vue'
-
 </script>
 
 <template>
@@ -12,7 +11,7 @@ import QuickAdd from '@/views/QuickAdd.vue'
         <Sidebar />
       </div>
       <div class="section col-xl-10 px-0 px-sm-2">
-        <div class="mb-5">
+        <div class="mb-lg-5 mb-1">
           <Header />
         </div>
         <div class="d-xl-none">
