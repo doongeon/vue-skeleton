@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTransactionCategoryStore } from '../stores/transactionCategoryStore'
 
@@ -18,7 +18,7 @@ const transactionId = ref('')
 const transactionCategoryStore = useTransactionCategoryStore()
 
 // 카테고리 리스트는 store에서 가져오기
-const categories = computed(() => transactionCategoryStore.states.transactionCategories)
+const categories = transactionCategoryStore.states.transactionCategories
 
 // 거래 데이터 불러오기
 onMounted(async () => {
@@ -33,44 +33,9 @@ onMounted(async () => {
   type.value = data.typeId === 1 || data.typeId === '1' ? '지출' : '수입'
 
   // 카테고리 찾아서 선택
-  const category = categories.value.find((cat) => cat.id === String(data.categoryId))
+  const category = categories.find((cat) => cat.id === String(data.categoryId))
   selectedCategory.value = category ? category.name : ''
 })
-
-// 거래 수정
-const updateTransaction = async () => {
-  const updatedData = {
-    id: transactionId.value,
-    userId: '1',
-    typeId: type.value === '수입' ? 2 : 1,
-    categoryId: categories.value.find((cat) => cat.name === selectedCategory.value)?.id || '',
-    amount: amount.value,
-    memo: content.value,
-    date: new Date(date.value).toISOString(),
-    updatedAt: new Date().toISOString(),
-  }
-
-  await fetch(`http://localhost:3000/transactions/${transactionId.value}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedData),
-  })
-
-  alert('수정 완료!')
-}
-
-// 거래 삭제
-const deleteTransaction = async () => {
-  const confirmed = confirm('삭제하시겠습니까?')
-  if (!confirmed) return
-
-  await fetch(`http://localhost:3000/transactions/${transactionId.value}`, {
-    method: 'DELETE',
-  })
-
-  alert('삭제 완료!')
-  router.push('/main/history')
-}
 
 // 목록으로 이동
 const goBack = () => {
@@ -83,40 +48,22 @@ const goBack = () => {
     <h2>상세 내용</h2>
     <div class="detail-form">
       <label>제목</label>
-      <input type="text" v-model="title" />
+      <p>{{ title }}</p>
 
       <label>날짜</label>
-      <input type="date" v-model="date" />
+      <p>{{ date }}</p>
 
       <label>금액</label>
-      <input type="number" v-model="amount" />
+      <p>{{ amount }}</p>
 
       <label>내용</label>
-      <textarea v-model="content" rows="3" />
+      <p>{{ content }}</p>
 
       <label>유형</label>
-      <div class="type-toggle">
-        <button :class="{ active: type === '수입' }" @click="type = '수입'">수입</button>
-        <button :class="{ active: type === '지출' }" @click="type = '지출'">지출</button>
-      </div>
+      <p>{{ type }}</p>
 
       <label>카테고리</label>
-      <div class="category-list">
-        <button
-          v-for="cat in categories"
-          :key="cat.id"
-          :class="{ selected: selectedCategory === cat.name }"
-          @click="selectedCategory = cat.name"
-        >
-          <span class="icon">{{ cat.icon }}</span>
-          {{ cat.name }}
-        </button>
-      </div>
-
-      <div class="edit-delete-buttons">
-        <button class="edit" @click="updateTransaction">수정</button>
-        <button class="delete" @click="deleteTransaction">삭제</button>
-      </div>
+      <p>{{ selectedCategory }}</p>
 
       <div class="back-button-wrapper">
         <button class="back" @click="goBack">목록으로</button>
@@ -145,96 +92,28 @@ h2 {
   margin-top: 16px;
 }
 
-input,
-textarea {
-  width: 100%;
-  padding: 10px;
+p {
   margin-top: 6px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-sizing: border-box;
-}
-
-.type-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 20px 0;
-  flex-wrap: wrap;
-}
-
-.type-toggle button {
-  padding: 8px 20px;
-  border-radius: 10px;
-  border: none;
-  background-color: #eee;
-  cursor: pointer;
-  font-weight: bold;
-}
-.type-toggle .active {
-  background-color: #545045;
-  color: white;
-}
-
-.category-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.category-list button {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
   background-color: #fafafa;
-  cursor: pointer;
-  text-align: center;
-}
-.category-list .selected {
-  background-color: #545045;
-  color: white;
-}
-
-.icon {
-  margin-right: 4px;
-}
-
-.edit-delete-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 24px;
-  flex-wrap: wrap;
+  font-weight: 500;
 }
 
 .back-button-wrapper {
+  margin-top: 24px;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
+  justify-content: center;
 }
 
-.edit-delete-buttons button,
-.back-button-wrapper .back {
+.back {
   padding: 10px 16px;
   font-size: 14px;
   font-weight: bold;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-}
-
-.edit {
-  background-color: #ffcc00;
-  color: black;
-}
-
-.delete {
-  background-color: #60584c;
-  color: white;
-}
-
-.back {
   background-color: #9e9e9e;
   color: white;
 }
@@ -249,34 +128,12 @@ textarea {
     font-size: 22px;
   }
 
-  .type-toggle button {
-    flex: 1 1 45%;
-  }
-
-  .edit-delete-buttons {
-    flex-direction: column;
-    gap: 8px;
-  }
-
   .back-button-wrapper {
-    justify-content: center;
     margin-top: 20px;
   }
 
-  .edit-delete-buttons button,
-  .back-button-wrapper .back {
+  .back {
     width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .category-list {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  }
-
-  .icon {
-    display: block;
-    margin-bottom: 4px;
   }
 }
 </style>
