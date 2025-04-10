@@ -47,8 +47,8 @@ function formatToDay(dateString) {
 <template>
   <div class="layout">
     <div class="profile" v-if="users">
-      <p>이름 {{ users.userName }}</p>
-      <p>이메일 {{ users.email }}</p>
+      <p>{{ users.userName }}</p>
+      <p>{{ users.email }}</p>
     </div>
     <div class="container account">
       <p class="containerTitle">계정 관리</p>
@@ -104,7 +104,7 @@ function formatToDay(dateString) {
 
 .layout .profile {
   padding: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   grid-column: span 12;
   display: flex;
