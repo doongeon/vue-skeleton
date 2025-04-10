@@ -2,37 +2,37 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useTransactionCategoryStore } from '../stores/transactionCategoryStore'
 
-// Pinia store 가져오기
+// 카테고리 스토어 사용
 const store = useTransactionCategoryStore()
 
-// 부모 컴포넌트로 필터 정보 전달
+// 부모 컴포넌트로 emit할 이벤트 정의
 const emit = defineEmits([
-  'filter-type',
-  'filter-day',
-  'filter-category',
-  'filter-search',
-  'filter-date-order',
-  'close',
+  'filter-type', // 수입/지출/전체 필터
+  'filter-day', // 요일 필터
+  'filter-category', // 카테고리 필터
+  'filter-search', // 검색어 필터
+  'filter-date-order', // 정렬 기준 (최신순/오래된순)
+  'close', // 외부 클릭 시 필터 창 닫기
 ])
 
 // 상태 정의
-const selectedCategories = ref([])
-const selectedType = ref('all')
-const selectedDay = ref(null)
-const searchQuery = ref('')
-const newCategory = ref({ name: '', icon: '' })
-const dateOrder = ref('desc')
+const selectedCategoryIds = ref([]) // 선택된 카테고리 id 리스트
+const selectedType = ref('all') // 선택된 타입 (all, 수입, 지출)
+const selectedDay = ref(null) // 선택된 요일 (1~7, 일요일은 0)
+const searchQuery = ref('') // 검색어
+const newCategory = ref({ name: '', icon: '' }) // 새 카테고리 입력값
+const dateOrder = ref('desc') // 정렬순서 (desc: 최신순, asc: 오래된순)
 
-// 카테고리 목록은 computed로 Pinia store의 데이터 반영
+// 카테고리 목록 가져오기
 const categories = computed(() => store.states.transactionCategories)
 
-// 수입/지출/전체 필터
+// 수입/지출/전체 필터 설정
 const setFilter = (type) => {
   selectedType.value = type
   emit('filter-type', type)
 }
 
-// 요일 필터 (두 번 클릭 시 해제)
+// 요일 필터 설정 (같은 요일 누르면 해제)
 const setDayFilter = (day) => {
   if (selectedDay.value === day) {
     selectedDay.value = null
@@ -43,40 +43,43 @@ const setDayFilter = (day) => {
   }
 }
 
-// 카테고리 선택/해제 (두 번 클릭 시 해제 포함)
-const selectCategory = (categoryName) => {
-  const idx = selectedCategories.value.indexOf(categoryName)
-  const categoryObj = categories.value.find((c) => c.name === categoryName)
+// 카테고리 선택/해제
+const selectCategory = (categoryId) => {
+  const idx = selectedCategoryIds.value.indexOf(categoryId)
+  const categoryObj = categories.value.find((c) => c.id === categoryId)
 
   if (idx === -1) {
-    selectedCategories.value.push(categoryName)
-    emit('filter-category', categoryObj)
+    selectedCategoryIds.value.push(categoryId)
+    emit('filter-category', categoryObj) // 선택됨
   } else {
-    selectedCategories.value.splice(idx, 1)
-    emit('filter-category', { ...categoryObj, removed: true })
+    selectedCategoryIds.value.splice(idx, 1)
+    emit('filter-category', { ...categoryObj, removed: true }) // 해제됨
   }
 }
 
-// 카테고리 제거
-const removeCategory = async (categoryName) => {
+// 카테고리 삭제 (스토어에서 제거 + 선택에서도 제거)
+const removeCategory = async (categoryId) => {
+  const category = categories.value.find((c) => c.id === categoryId)
+  if (!category) return
+
   if (confirm('삭제하시겠습니까?')) {
-    await store.actions.deleteTransactionCategory(categoryName)
-    selectedCategories.value = selectedCategories.value.filter((name) => name !== categoryName)
+    await store.actions.deleteTransactionCategory(categoryId)
+    selectedCategoryIds.value = selectedCategoryIds.value.filter((id) => id !== categoryId)
     alert('삭제되었습니다.')
   }
 }
 
-// 카테고리 추가
+// 새 카테고리 추가
 const addCategory = async () => {
   const name = newCategory.value.name.trim()
   const icon = newCategory.value.icon.trim()
   if (name && icon && !categories.value.some((c) => c.name === name)) {
-    await store.actions.addTransactionCategory({ name, icon, accountTypeId: '1' }) // 예시로 '1' 사용
+    await store.actions.addTransactionCategory({ name, icon, accountTypeId: '1' }) // accountTypeId는 임시로 '1'
     newCategory.value = { name: '', icon: '' }
   }
 }
 
-// 검색
+// 검색 실행
 const handleSearch = () => {
   emit('filter-search', searchQuery.value.trim())
 }
@@ -87,19 +90,22 @@ const toggleDateOrder = () => {
   emit('filter-date-order', dateOrder.value)
 }
 
-// 외부 클릭 감지
+// 외부 클릭 감지를 위한 ref
 const filterContentRef = ref(null)
 
+// 외부 클릭 시 닫기 이벤트
 const handleClickOutside = (event) => {
   if (filterContentRef.value && !filterContentRef.value.contains(event.target)) {
     emit('close')
   }
 }
 
+// 컴포넌트 마운트 시 이벤트 등록
 onMounted(() => {
   document.addEventListener('mousedown', handleClickOutside)
 })
 
+// 컴포넌트 언마운트 시 이벤트 제거
 onBeforeUnmount(() => {
   document.removeEventListener('mousedown', handleClickOutside)
 })
@@ -107,14 +113,12 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="filter-bar" ref="filterContentRef">
-    <!-- 수입/지출 필터 -->
     <div class="type-filter">
       <button @click="setFilter('all')" :class="{ active: selectedType === 'all' }">전체</button>
       <button @click="setFilter('수입')" :class="{ active: selectedType === '수입' }">수입</button>
       <button @click="setFilter('지출')" :class="{ active: selectedType === '지출' }">지출</button>
     </div>
 
-    <!-- 요일 필터 -->
     <div class="day-filter">
       <button
         v-for="(day, idx) in ['월', '화', '수', '목', '금', '토', '일']"
@@ -126,28 +130,25 @@ onBeforeUnmount(() => {
       </button>
     </div>
 
-    <!-- 카테고리 필터 -->
     <div class="category-chips">
       <div
         v-for="category in categories"
-        :key="category.name"
-        :class="['chip', { active: selectedCategories.includes(category.name) }]"
-        @click="selectCategory(category.name)"
+        :key="category.id"
+        :class="['chip', { active: selectedCategoryIds.includes(category.id) }]"
+        @click="selectCategory(category.id)"
       >
         <span class="icon">{{ category.icon }}</span>
         <span class="label">{{ category.name }}</span>
-        <span class="close" @click.stop="removeCategory(category.name)">×</span>
+        <span class="close" @click.stop="removeCategory(category.id)">×</span>
       </div>
     </div>
 
-    <!-- 새 카테고리 추가 -->
     <div class="add-category">
       <input v-model="newCategory.name" type="text" placeholder="새 카테고리 이름" />
       <input v-model="newCategory.icon" type="text" placeholder="아이콘 (예: 🍽️)" />
       <button @click="addCategory">추가</button>
     </div>
 
-    <!-- 검색창 + 날짜 정렬 -->
     <div class="bottom-bar">
       <div class="search-bar">
         <input v-model="searchQuery" @keydown.enter="handleSearch" placeholder="내용 검색" />
@@ -163,6 +164,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+/* 스타일은 그대로 유지됨 */
 .filter-bar {
   display: flex;
   flex-direction: column;
@@ -196,7 +198,6 @@ input {
   border-radius: 4px;
 }
 
-/* 카테고리 스타일 */
 .category-chips {
   display: flex;
   flex-wrap: wrap;
@@ -228,13 +229,11 @@ input {
   cursor: pointer;
 }
 
-/* 카테고리 추가 */
 .add-category {
   display: flex;
   gap: 6px;
 }
 
-/* 검색 + 정렬 */
 .bottom-bar {
   display: flex;
   justify-content: space-between;
@@ -276,7 +275,6 @@ input {
   background-color: #bbb;
 }
 
-/* 반응형 */
 @media (max-width: 768px) {
   .filter-bar {
     align-items: stretch;
