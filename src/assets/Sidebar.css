@@ -1,0 +1,163 @@
+/* 사이드바 */
+.sidebar {
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  padding-top: 160px;
+}
+
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 50px;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+/* 홈화면, 거래상세내역, 수입/지출분석/ 캘린더 */
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  width: 100%;
+  padding: 10px 8px;
+  margin-bottom: 15px;
+  margin-left: 10px;
+  background-color: #fdc400;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #000000;
+  transition: background-color 0.2s ease;
+  font-weight: bold;
+}
+
+.menu-item:hover {
+  background-color: #ffffff;
+}
+
+/* ===== 화면 축소될때 반응형 ===== */
+@media screen and (max-width: 1200px) {
+.sidebar {
+  position: relative;
+  top: 0px;
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+  background: transparent;
+  border-right: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: none;
+}
+
+.title {
+  display: none;
+}
+
+.menu {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.menu-item {
+  padding: clamp(14px, 2vw, 24px);
+  margin: 5px;
+  margin-left: 0;
+  width: auto;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: clamp(8px, 2.5vw, 20px);
+}
+.home-section {
+  margin-top: 120px;
+}
+
+@media screen and (max-width: 760px) {
+  .sidebar {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    background: transparent;
+    border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    display: none;
+  }
+
+  .menu {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+
+  .menu-item {
+    padding: 8px 20px;
+    margin: 4px;
+    font-size: 12px;
+    border-radius: 8px;
+     white-space: nowrap;
+
+  .home-section {
+    margin-top: 120px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    background: transparent;
+    border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    display: none;
+  }
+
+  .menu {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+
+  .menu-item {
+    padding: 8px 20px;
+    margin: 4px;
+    font-size: 5px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  .home-section {
+    margin-top: 120px;
+  }
+}
