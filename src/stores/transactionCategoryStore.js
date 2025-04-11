@@ -35,7 +35,7 @@ export const useTransactionCategoryStore = defineStore('transactionCategoryStore
    */
   const addTransactionCategory = async ({ name, icon, accountTypeId }) => {
     const newTransactionCategory = {
-      id: String(states.transactionCategories.length + 1),
+      id: String(new Date().getTime()),
       name,
       icon,
       accountTypeId,

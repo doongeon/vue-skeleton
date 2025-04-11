@@ -1,7 +1,7 @@
 import { TRANSACTION_CATEGORY, TRANSACTION_TYPE } from '../types'
 import transactionRequest from '../apis/transaction'
 import { defineStore } from 'pinia'
-import {  reactive } from 'vue'
+import { reactive } from 'vue'
 
 export const useTransactionStore = defineStore('transactionStore', () => {
   const states = reactive({ transactions: [] })
@@ -37,7 +37,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
 
     const currentTime = new Date().toISOString()
     const newTransaction = {
-      id: String(states.transactions.length + 1),
+      id: String(new Date().getTime()),
       userId: String(1),
       typeId: String(typeId),
       categoryId: String(categoryId),
@@ -107,8 +107,6 @@ export const useTransactionStore = defineStore('transactionStore', () => {
       return newTransaction
     }
   }
-
-  
 
   // 스토어가 생성되자마자 transactions 데이터를 서버에서 한 번 불러와 초기화
   // 로그인 별 관리를 위해선 외부로 빼고, 컴포넌트에서 onMounted(명시적 호출) 권장
