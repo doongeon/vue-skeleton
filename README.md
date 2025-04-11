@@ -37,7 +37,7 @@ npm run dev
 ![image](https://github.com/user-attachments/assets/e440d64a-a8d6-4321-ae4a-697fc5735ebf)
 
 - 홈 화면
-![image](https://github.com/user-attachments/assets/7757d71d-3d35-4e0e-8003-717f487579b3)
+![image](https://github.com/user-attachments/assets/cfb3841d-1220-4658-82ad-fa5ad1331e89)
 
 - 거래 상세 내역
 ![image](https://github.com/user-attachments/assets/7a4ea877-681e-449c-8193-116d69dcca38)
@@ -45,9 +45,11 @@ npm run dev
 - 수입/지출 분석 차트
 ![image](https://github.com/user-attachments/assets/0367e3ed-392c-4497-a51b-dc13d88441c6)
 
-
 - 재정 요약 캘린더
 ![image](https://github.com/user-attachments/assets/dab3bcd5-83d3-40f5-a767-3f2cd161c4d2)
+
+- 프로필 및 빠른 추가
+![image](https://github.com/user-attachments/assets/f139ec53-4847-42d9-bbeb-bad6522598d7)
 
 
 ### 6. 팀 소개
