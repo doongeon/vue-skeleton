@@ -1,6 +1,71 @@
-# 가계부
+# 유전자's 가계부
+![image](https://github.com/user-attachments/assets/423d5bb3-91d9-4d8a-a28d-25cfccebd141)
 
-## 코드 작성 규칙
+### 1. 프로젝트 소개
+```
+Vue 3, Pinia 를 활용해 만든 가계부 웹 애플리케이션입니다.
+수입/지출 등록, 월별 요약, 시각화 그래프, 캘린더를 통해
+사용자가 자신의 재정 상태를 쉽게 파악할 수 있도록 설계하였습니다.
+```
+
+>개발 기간: 2025.04.07. ~ 2025.04.11.
+
+
+### 2. 주요 기능
+- 수입/지출 기록 : 날짜, 금액, 카테고리, 메도 등의 세부 정보 입력하여 기록
+- 거래 내역 조회 : 필터 기능을 통해 특정 조건에 맞는 거래 내역 조회
+- 월별 재정 요약 : 각 월의 수입, 지출, 순이익을 시각화하여 요약 표시 (차트, 캘린더)
+
+### 3. 사용 기술
+- Frontend : Vue 3, Composition API, vue-router, axios, components, pinia
+- Backend : json server (db)
+- 상태 관리 : Pinia
+- 스타일 : CSS
+- 기획 : google sheets, figma
+- 협업 : discord, google, zep
+
+
+### 4. 실행 방법
+```
+npm i
+npx json-server db.json
+npm run dev
+```
+
+### 5. 화면
+- 로그인
+![image](https://github.com/user-attachments/assets/e440d64a-a8d6-4321-ae4a-697fc5735ebf)
+
+- 홈 화면
+![image](https://github.com/user-attachments/assets/cfb3841d-1220-4658-82ad-fa5ad1331e89)
+
+- 거래 상세 내역
+![image](https://github.com/user-attachments/assets/7a4ea877-681e-449c-8193-116d69dcca38)
+
+- 수입/지출 분석 차트
+![image](https://github.com/user-attachments/assets/0367e3ed-392c-4497-a51b-dc13d88441c6)
+
+- 재정 요약 캘린더
+![image](https://github.com/user-attachments/assets/dab3bcd5-83d3-40f5-a767-3f2cd161c4d2)
+
+- 프로필 및 빠른 추가
+![image](https://github.com/user-attachments/assets/f139ec53-4847-42d9-bbeb-bad6522598d7)
+
+
+### 6. 팀 소개
+  #### 팀명: 유전자
+
+  |팀원이름|구현기능|역할|깃허브ID|
+  |----|-----|-----|-----|
+  |나동건| 수입/지출 분석 차트  |팀장| [@doongeon](https://github.com/doongeon) |
+  |김은민| 거래 내역 CRUD |팀원| [@07-augst](https://github.com/07-augst) |
+  |박세연| 홈화면(요약카드) |팀원| [@se-3-yeon](https://github.com/se-3-yeon) |
+  |정혜인| 월별 재정 요약 캘린더, 로그인 |팀원| [@Ahranah](https://github.com/Ahranah) |
+  |하수연| 상단바, 사이드바  |팀원| [@suyeon-0203](https://github.com/suyeon-0203) |
+  |한충훈| 프로필 화면, 빠른추가 버튼|팀원| [@Euangeliov](https://github.com/Euangeliov) |
+  
+---
+## 💻 코드 작성 규칙 
 
 1. 파일 이름
 
